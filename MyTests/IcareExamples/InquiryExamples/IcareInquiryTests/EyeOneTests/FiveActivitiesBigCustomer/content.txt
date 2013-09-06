@@ -1,0 +1,21 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {MSPBHE2}
+!define acctNbr {76208}
+!define appid {iCare}
+!define password {got2know}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/${client}|
+|GET|/${acctNbr}/?stopPosition=5&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=6&stopPosition=10&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=11&stopPosition=15&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=16&stopPosition=20&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=21&stopPosition=25&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=26&stopPosition=30&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=31&stopPosition=35&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=36&stopPosition=40&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=41&stopPosition=45&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=46&stopPosition=50&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?startPosition=51&stopPosition=55&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+##|GET|/${acctNbr}/?stopPosition=5&start=111000000000000&stop=111300000000000&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

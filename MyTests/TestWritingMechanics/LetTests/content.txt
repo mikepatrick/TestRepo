@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/MSP|
+|GET|/246593370/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml| //isSuccess[text()='true'] and //accountNumber[text()='246593370'] |
+|let |acctNbr|body|//accountNumber/text()|
+|GET|/${acctNbr}/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml| //isSuccess[text()='true'] and //accountNumber[text()='246593370'] |
+##|let |$acctNbr|body|//accountNumber/text()|
+##|smartrics.rest.fitnesse.fixture.CdsRestFixture|

@@ -1,0 +1,21 @@
+!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|ActionFixture|
+|start|com.cds.fitnesse.fixture.CmdCallFixture|
+|enter|runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST23.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+
+!|CmdCallFixture|
+|runcmd|CRTLIB TESTDD|is|Library TESTDD created.|
+
+!|CmdCallFixture|
+|runcmd|DLTLIB TESTDD|is|Library TESTDD deleted.|
+
+##!|CommandCallFixture|
+##|runcmd|RMVM FILE(SERVPFPROD/XOFLTRNS0) MBR(YAMS*)|is| |
+##|runcmd|RMVM FILE(SERVPFPROD/XOFLTRNS0) MBR(YAM1*)|is| |
+
+##!|CommandCallFixture|
+##|runcmd|CRTLIB TESTDD|is|Library TESTDD created.|
+
+##!|CommandCallFixture|
+##|runcmd|DLTLIB TESTDD|is|Library TESTDD deleted.|

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<properties>
+	<Edit>true</Edit>
+	<Files>true</Files>
+	<LastModifyingUser>mpatrick</LastModifyingUser>
+	<Properties>true</Properties>
+	<RecentChanges>true</RecentChanges>
+	<Refactor>true</Refactor>
+	<Search>true</Search>
+	<Versions>true</Versions>
+	<WhereUsed>true</WhereUsed>
+	<WikiImport>
+		<Source>http://172.26.66.172:8080/OrderTests</Source>
+		<IsRoot/>
+		<AutoUpdate/>
+	</WikiImport>
+</properties>

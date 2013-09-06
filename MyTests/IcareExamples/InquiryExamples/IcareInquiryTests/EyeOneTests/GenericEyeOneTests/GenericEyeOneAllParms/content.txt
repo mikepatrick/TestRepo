@@ -1,0 +1,15 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {MSPBHE2}
+!define acctNbr {76208}
+!define appid {iCare}
+!define password {got2know}
+!define startTrans {112000000000000}
+!define endTrans {112100000000000}
+!define startRow {12}
+!define endRow {16}
+!define actvType {29}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/${client}|
+|GET|/${acctNbr}/?start=${startTrans}&stop=${endTrans}&startPosition=${startRow}&stopPosition=${endRow}&activityType=${actvType}&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

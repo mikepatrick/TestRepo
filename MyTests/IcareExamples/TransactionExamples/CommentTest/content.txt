@@ -1,0 +1,6 @@
+!contents
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/D2X_CKI2|
+|PUT|/22400352?appId=AutomatedTesting&pwd=cds1001&xml=<request><transactionSource><operatorId>302</operatorId></transactionSource><customer><comment1>Comment Number 1</comment1><comment2>Comment Number 2</comment2><comment3>Comment Number 3</comment3><comment4>Comment Number 4</comment4><comment5>Comment Number 5</comment5><comment6>Comment Number 6</comment6><comment7>Comment Number 7</comment7><comment8>Comment Number 8</comment8><comment9>Comment Number 9</comment9><comment10>Comment Number 10</comment10><comment11>Comment Number 11</comment11><comment12>Comment Number 12</comment12><comment13>Comment Number 13</comment13><comment14>Comment Number 14</comment14></customer></request>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.CommentsTests.CommentInAllFourteenLines|

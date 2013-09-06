@@ -1,0 +1,12 @@
+!|ActionFixture|
+##|start|com.cds.fitnesse.fixture.CmdCallFixture|
+##|enter|runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST23.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+
+!3 CommandCallFixture - issue arbitrary CL commands via FitNesse:
+
+!4 A command with bad syntax:
+!|com.cds.fitnesse.fixture.CmdCallFixture|
+|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+|login||user|WWWAUTOT|password|cds999|
+|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+|runcmd|CRTLIB TESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|

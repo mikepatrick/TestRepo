@@ -1,0 +1,61 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {MSPBHE2}
+!define acctNbr {76208}
+!define appid {iCare}
+!define password {got2know}
+!define actvType {03}
+!define numRecs {5}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/${client}|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=01&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=02&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=03&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=04&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=05&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=06&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=07&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=08&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=09&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=10&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=11&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=12&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=13&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=14&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=15&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=16&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=17&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=18&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=19&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=20&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=21&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=22&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=23&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=24&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=25&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=26&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=27&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=28&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=29&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=30&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=31&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=32&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=33&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=34&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=35&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=36&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=37&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=38&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=39&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=40&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=41&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=42&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=43&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=44&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=45&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=46&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=47&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=48&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=49&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=50&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

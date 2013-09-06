@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+!define acctNbr {76208}
+!define appid {iCare}
+!define pwd {got2know}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/MSP|
+|GET|/${acctNbr}/?stopPosition=5&numberOfActivities=10&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=10&numberOfActivities=10&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=10&numberOfActivities=25&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=20&numberOfActivities=20&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=25&numberOfActivities=50&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=50&numberOfActivities=50&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=50&numberOfActivities=100&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=100&numberOfActivities=100&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=100&numberOfActivities=200&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=200&numberOfActivities=200&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|/${acctNbr}/?stopPosition=5&numberOfActivities=999&pwd=${pwd}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

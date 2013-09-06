@@ -1,0 +1,39 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {MSPBHE}
+!define acctNbr {76208}
+!define appid {iCare}
+!define password {got2know}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/${client}|
+|GET|?accountNumber=${acctNbr}&stopPosition=20&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=21&stopPosition=40&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=41&stopPosition=60&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=61&stopPosition=80&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=81&stopPosition=100&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=101&stopPosition=120&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=121&stopPosition=140&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=141&stopPosition=160&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=161&stopPosition=180&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=181&stopPosition=200&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=201&stopPosition=220&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=221&stopPosition=240&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=241&stopPosition=260&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=261&stopPosition=280&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=281&stopPosition=300&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=301&stopPosition=320&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=321&stopPosition=340&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=341&stopPosition=360&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=361&stopPosition=380&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=381&stopPosition=400&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=401&stopPosition=420&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=421&stopPosition=440&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=441&stopPosition=460&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=461&stopPosition=480&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=481&stopPosition=500&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=501&stopPosition=520&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=521&stopPosition=540&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=541&stopPosition=560&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=561&stopPosition=580&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+|GET|?accountNumber=${acctNbr}&startPosition=581&stopPosition=600&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

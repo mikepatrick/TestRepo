@@ -1,0 +1,22 @@
+!lastmodified ----
+
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1045 -cp %p %m}
+
+##!|Import|
+##|com.cds.fitnesse.fixture.PgmCallFixture|
+
+##!|ActionFixture|
+
+
+##!|com.cds.fitnesse.fixture.PgmCallFixture|
+##|runpgm|is|No parms|
+
+##!|com.cds.fitnesse.fixture.PgmCallFixture|ABC|123|
+##|runpgm|is|Low parms|
+
+##!|com.cds.fitnesse.fixture.PgmCallFixture|2|ABC|123|
+##|runpgm|is|arrayoutofbounds- catch this guy and return a proper usage message|
+
+!|com.cds.fitnesse.fixture.PgmCallFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|runpgm|is||

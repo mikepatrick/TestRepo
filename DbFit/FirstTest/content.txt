@@ -1,0 +1,81 @@
+!lastmodified -----
+##!contents -R2 -g -p -f -h
+##!path lib/*.jar
+##!path c:\Users\mpatrick\Downloads\fitnesseWiki\FitnesseRoot\files\lib\jt400.jar
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!3 Show a simple hard coded SELECT statement
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitnesseRoot\files\lib\connect.properties|
+##!|Connect|//serv.cdsfulfillment.com|USERNAME|PASSWORD|TEST400|
+!|set option|fixed length string parsing|true|
+
+!|Query| select ACCTNBR, TRANSNBR, OPERID, TRANSTYPE, CAST(ACTMISC AS GRAPHIC) AS MISC from CLTLIBMSP.XACTIVITY0 where transnbr > 113150000000000|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|MISC?|
+|       |        |        |         |'E          A ±A                      '|
+|       |        |        |         |       | 
+|       |        |        |         |       |
+|       |        |        |         |  	E          B¬A                       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+|       |        |        |         |       |
+
+##|ACCTNBR|TRANSNBR|OPRIDNBR|TRANSTYPE|ACTMISC|
+##|       |        |        |         |       |
+##|       |        |        |         |       |
+##|       |        |        |         |       |
+##|       |        |        |         |       |
+##|       |        |        |         |       |
+
+!|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 76208|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|38216248|'DEBBIEDAVIADOFF              '|'750 HALLBROOK CT              '|113037|199365|N|
+
+!3 Show a query where we capture the customer's name to a parameter
+!|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 10025|
+|ACCTNBR|NAME?|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|38216248|>>nameReturned|'750 HALLBROOK CT              '|113037|199365|N|
+
+!3 Query on order number, save off account number returned for use in next query
+!|Query| select ACCTNBR, ORDERNBR, TOTORDVAL from CLTLIBMSP.XORDERSUM0 where ORDERNBR = 113151130636001|
+|ACCTNBR?|ORDERNBR|TOTORDVAL|
+|>>acctReturned|113151130636001|15.87|
+
+!3 Use the account number returned above to get a name record
+!|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = :acctReturned|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|<<acctReturned|'HOMER DBRAVE                 '|'2938 12TH                     '|113148|199365|N|
+
+!3 Show a query that returns multiple records
+!|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 20361903|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|20361903|'MARIAIANNELLI                '|'1997 CHEVROLET ST             '|109357|199365|N|
+|20361903|'MARIAIANNELLI                '|'1997 CHEVROLET ST             '|109347|109356|N|
+
+
+
+
+
+
+
+
+
+
+##!include .ServPfTests.DefaultSettings
+
+##!|dbfit.DB2Test|
+##|Connect|data source=//serv.cdsfulfillment.com;user id=MPATRICK;password=EKILATAP-0;|
+##!|Query| select 'test' as x|
+##|x|
+##|test|
+
+##!|Connect|//serv.cdsfulfillment.com|MPATRICK|EKILATAP-0|
+##!|Connect|data source=jdbc:as400://serv.cdsfulfillment.com;user id=MPATRICK;password=EKILATAP-0;|

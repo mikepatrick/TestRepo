@@ -1,0 +1,36 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+
+!2 Test 1 - Place new order for customer, then lookup the customer, the order, and (if necessary) the series.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><internetNumber>TEST43</internetNumber><promotionKey>R1G45BA001</promotionKey><customer><name>OCTAVIOUS MCFARLIN</name><address1>179 BASTROP ST</address1><city>SMITHVILLE</city><state>TX</state><zipCode>78957</zipCode></customer><payment><paymentType>Bill Me</paymentType></payment><orderItem><productNumber>400008425D</productNumber><quantity>1</quantity><value>59.96</value></orderItem><shippingAndHandlingAmt>7.99</shippingAndHandlingAmt></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+| let | errorMessage | body | //message/text() | |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]||
+| let | name | body | //name/text() | OCTAVIOUS MCFARLIN |
+| let | customerBalance | body | //customerBalance/text() | $73.56- |
+| let | amountDue | body | //amountDue/text() | 73.56 |
+| let | orderNbr | body |//orderNumber[1]/text() |  |
+| let | planCode | body |//orderSummary[1]/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $73.56 |
+| let | orderTax | body |//totalOrderTax/text() | 5.61 |
+| let | prodDesc | body |//productDesc/text() | LEAVIN' ON A JET PLANE |
+| let | orderStatus | body |//orderItem/orderStatus/text() | In Process |

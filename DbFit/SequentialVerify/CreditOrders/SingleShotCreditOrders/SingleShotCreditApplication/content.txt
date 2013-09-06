@@ -1,0 +1,10 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!define client {AMSCKI}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!1 Do not run this test alone. It is meant to be executed in a suite, with its soulmate verify test.
+
+!4 Place the order
+|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|POST|/001?pwd=cds1001&appId=AutomatedTesting&method=POST&xml=<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CCW0704B3</promotionKey><sourceCode>10</sourceCode><internetNumber>INET81113</internetNumber><customer><accountNumber></accountNumber><name>Kris Kross</name><address1>111 538th Rd</address1><address2>Apartment 4</address2><address3>Downstairs</address3> <city>Des Moines</city> <state>IA</state><zipCode>50315</zipCode> <email>mackdaddy@krossedout.net</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Bill Me</paymentType> </payment><orderItem><productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> </orderItem><orderItem> <productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Mr Elf!</giftMessage> <recipient><name>Kris Muss</name> <address1>1515 Forest Ave</address1> <address2/> <address3/> <city>Des Moines</city> <state>IA</state><zipCode>50314</zipCode> <email>daddymack@krossedout.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|

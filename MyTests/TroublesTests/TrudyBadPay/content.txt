@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+##!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+##|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/77549525?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>CW</reasonCode><transactionNbr>113212112625001</transactionNbr><badPayAmount>51.56</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']| |
+##|PUT|/D9X_TLU2/10221760?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1002</invoice><reasonCode>AY</reasonCode><transactionNbr>106154008012858</transactionNbr><badPayAmount>abczz</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0760-Payment not found for transaction number and invoice.')]| |
+##|PUT|/D9X_TLU2/77364891?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AR</reasonCode><transactionNbr>111115114456004</transactionNbr><badPayAmount>219.92</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0799-xxxx')]| |

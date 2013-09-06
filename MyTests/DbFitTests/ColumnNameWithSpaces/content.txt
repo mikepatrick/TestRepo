@@ -1,0 +1,20 @@
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|dbfit.DB2iTest|
+!|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+!4 DB2 syntax requires double quotes for identifiers containing a space:
+!|Execute|Create table testtbl(n1 REAL, n2 INTEGER, "BROKEN COL" INTEGER)|
+
+!|Inspect Query| Select * from testtbl|
+
+!|Insert|testtbl|
+|n1|n2|BROKEN COL|
+|1.5|3|4|
+
+##|Inspect Query|Select * from testtbl|
+!|Query|Select * from testtbl|
+| N1| N2| BROKEN COL|
+| 1.5| 3| 4|
+
+|Execute|drop table testtbl|

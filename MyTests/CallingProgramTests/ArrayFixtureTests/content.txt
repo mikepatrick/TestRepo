@@ -1,0 +1,7 @@
+|Import|
+|com.cds.fitnesse.fixture|
+
+!|PgmCallArrayFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|dataName|dataType|dataLength|dataValue|
+|firstparm|CHAR|12|HELLO, WORLD|
+|secondparm|NUM|15|108150856489001|

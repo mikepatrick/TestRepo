@@ -1,0 +1,44 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Place new order for customer, then lookup the customer and the order.
+
+!2 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><sourceCode>10</sourceCode><internetNumber>TEST15</internetNumber><promotionKey>1SF6O1A017</promotionKey><customer><name>RYAN HELD</name><address1>9879 BLUE VALLEY DR</address1><city>OVERLAND PARK</city><state>KS</state><zipCode>66203</zipCode></customer><payment><paymentType>Bill Me</paymentType></payment><orderItem><productNumber>250201332S</productNumber><quantity>1</quantity></orderItem><orderItem><productNumber>250201332S</productNumber><quantity>1</quantity><recipient><name>CHRIS HERRON</name><address1>9441 SCOTT LN</address1><city>COZAD</city><state>NE</state><zipCode>69130</zipCode></recipient></orderItem><orderItem><productNumber>250201332S</productNumber><quantity>1</quantity><recipient><name>JOSH HESKEW</name><address1>3317 ROCKY RD</address1><city>YUKON</city><state>OK</state><zipCode>73085</zipCode></recipient></orderItem></order> |
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!2 Lookup the customer using the account number recieved above and perform SQL tests
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCreditOrderPurchDonor2RecipsEnrollInPlan|
+| let | name | body | //name/text() | RYAN HELD |
+| let | installAmt | body | //installmentDue/text() | 0.00 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!2 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $0.00 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 250201332S |
+| let | recipAcctNbr1 | body | //recipient/accountNumber ||
+| let | recipAcctNbr2 | body | //orderItem[2]/recipient/accountNumber ||
+
+!2 Lookup the both recip series using the account numbers and plan returned above
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupSeriesService}${client}|
+|GET|/%planCode%?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%&shipToAccountNumber=%recipAcctNbr1%&planCode=%planCode%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|
+| let | planStatus | body |//planStatus/text() | A |
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupSeriesService}${client}|
+|GET|/%planCode%?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%&shipToAccountNumber=%recipAcctNbr2%&planCode=%planCode%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|
+| let | planStatus | body |//planStatus/text() | A |

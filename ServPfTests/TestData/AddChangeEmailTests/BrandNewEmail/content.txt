@@ -1,0 +1,2 @@
+select * from CLTLIBD2X.XEMAILINF0 where ACCTNBR='2368926' and USERID='kkahn' and PASSWORD='kirstine' and EMAILADDR='kkahn@yahoo.com' and EMAILACTV='Y' and OPERID='602' and TRANSPERSW='Y' and EBILLPERSW='N'  and OUTHOUSESW='Y' and INHOUSESW='N':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='2368926' and OPERID='602' and TRANSTYPE='48' and ACTMISC like 'A%' and ACTMISC like '% %':1

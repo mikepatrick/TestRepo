@@ -1,0 +1,2 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='37043130' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'Missing lines%01%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='37043130' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'Missing lines%03%':1

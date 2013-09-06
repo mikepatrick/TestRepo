@@ -1,0 +1,34 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>R1E91BY002</promotionKey><shippingAndHandlingAmt>15.98</shippingAndHandlingAmt><sourceCode>10</sourceCode><internetNumber>TEST3</internetNumber><customer><accountNumber></accountNumber><name>Jay Forman</name><address1>8955 DEER RIDGE RD</address1><address2/><address3/> <city>COZAD</city> <state>NE</state><zipCode>69130</zipCode> <email/> <phoneNumber/> <phoneNumber2/> </customer><payment><paymentType>Credit</paymentType> <creditCardType/> <creditCardNumber/> <creditCardExpire/> <authorizationCode/> <authorizationDate/> </payment><orderItem><productNumber>400008425D</productNumber> <quantity>1</quantity> <value>59.96</value></orderItem><orderItem><productNumber>400008425D</productNumber> <quantity>1</quantity> <value>59.96</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage/><recipient><name>Tommie Frazier</name><address1>9754 STATE ST</address1><address2/><address3/><city>Bradenton</city><state>FL</state><zipCode>34203</zipCode><county/><country>United States</country><email/><phoneNumber/><phoneNumber2/></recipient></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCreditOrderPurchDonor|
+| let | name | body | //name/text() | JAY FORMAN |
+| let | recipAcctNbr | body | //recipient/accountNumber/text() | |
+| let | customerBalance | body | //customerBalance/text() | $145.08- |
+| let | amountDue | body | //orderSummary[1]/amountDue/text() | 145.08 |
+| let | orderNbr | body |//orderSummary[1]/orderNumber/text() |  |
+| let | planCode | body |//orderSummary[1]/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $145.08 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 400008425D |

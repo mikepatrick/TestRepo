@@ -1,0 +1,59 @@
+!contents -R2 -g -p -f -h
+
+!lastmodified -----
+
+!define client {MSP}
+!define accountNumber {1611829}
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+!3 Which account has the most orders for this client?
+!|Inspect Query|!-  select ACCTNBR from CLTLIBMSP.XORDERSUM0                    
+                           group by ACCTNBR                                            
+                           having count(*) =                                           
+                       (select count(*) from CLTLIBMSP.XORDERSUM0 
+                               group by ACCTNBR 
+                                     order by count(*) desc 
+                        FETCH FIRST 1 ROWS ONLY)  -!|
+
+!|Query|!-  select ACCTNBR from CLTLIBMSP.XORDERSUM0                    
+                           group by ACCTNBR                                            
+                           having count(*) =                                           
+                       (select count(*) from CLTLIBMSP.XORDERSUM0 
+                               group by ACCTNBR 
+                                     order by count(*) desc 
+                        FETCH FIRST 1 ROWS ONLY)  -!|
+|ACCTNBR?|
+|>>acctNbr|
+
+!3 How many orders is it? 
+|Inspect Query|!- select count(distinct(ORDERNBR)) from CLTLIBMSP.XORDERSUM0 
+              where ACCTNBR = :acctNbr   -!|
+!1 //TODO
+!3 Who is the most popular recipient?
+
+!3 What is the most popular promotion key?
+
+!3 What percentage of orders are from the web?
+
+!3 How many GETFIND exceptions do they have?
+!note Probably requires a new fixture.
+
+!3 How many offline members are there for this client?
+
+!3 How many product lines do they have?
+
+!3 How many active promotion keys?
+
+!3 What percentage of orders are credit card orders? Credit? Cash?
+
+!3 Various policy queries, i.e. Does this client use ECC?  Do they have any plancodes that do Pick'em?
+
+ 
+
+
+       
+##|ConnectUsingFile|FitnesseRoot/files/lib/connect.properties|

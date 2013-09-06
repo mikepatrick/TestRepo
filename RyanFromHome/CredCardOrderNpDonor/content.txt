@@ -1,0 +1,32 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>1HA11FU000</promotionKey><sourceCode>10</sourceCode><internetNumber>TEST5</internetNumber><customer><accountNumber></accountNumber><name>Russell Froehlich</name><address1>95435 Carver St</address1><address2/><address3/> <city>Bradenton</city> <state>FL</state><zipCode>34203</zipCode> <email/> <phoneNumber/> <phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>VI</creditCardType> <creditCardNumber>4000000000000002</creditCardNumber> <creditCardExpire>1124</creditCardExpire> <authorizationCode/> <authorizationDate/> </payment><orderItem><productNumber>PR00000880</productNumber> <quantity>1</quantity> <value>19.98</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage/><recipient><name>Nate Froeschl</name><address1>98777 Aspen Rd</address1><address2/><address3/><city>Cozad</city><state>NE</state><zipCode>69130</zipCode><county/><country>United States</country><email/><phoneNumber/><phoneNumber2/></recipient></orderItem></order> |
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCredCardOrderNpDonor|
+| let | name | body | //name/text() | RUSSELL FROEHLICH |
+| let | installAmt | body | //installmentDue/text() | 21.38 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $21.38 |
+| let | prodNbr | body |//orderItem/productNumber/text() | PR00000880 |

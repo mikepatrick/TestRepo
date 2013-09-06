@@ -1,0 +1,121 @@
+##!|Import|
+##|!-dbfit.fixture-!|
+##|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|
+
+##!define TEST_RUNNER {fitlibrary.suite.FitLibraryServer}
+
+!define client {AMSCKI}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+
+!lastmodified -----
+##!include .ServPfTests.DefaultSettings
+
+##!|dbfit.fixture.DatabaseEnvironment|DB2|
+##|Connect|SERV|MPATRICK|EKILATAP-0|TEST400|
+
+##!define TEST_RUNNER {FitLibrary.lib.FitLibraryServer}
+
+##!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+##!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+##!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+##|''add''|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|''as''|restFixture|
+##|''add''|!-dbfit.DB2Test-!|''as''|dbFixture|
+##|FitLibrary.lib.SuiteFixture|
+##|''add''|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|''as''|restFixture|
+##|''add''|!-dbfit.DB2Test-!|''as''|dbFixture|
+
+!3 Place the order
+##|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+##|''select''|restFixture|
+##|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}|
+##|''select''|restFixture|
+
+##|!-smartrics.rest.fitnesse.fixture.RestFixtureConfig-!|
+##|http.client.connection.timeout |60000|
+
+##!|CdsRestFixture|${sendOrderService}|
+##|POST|/${client}/001?pwd=cds1001&appId=AutomatedTesting&method=POST&xml=<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CCW0704B3</promotionKey><sourceCode>10</sourceCode><internetNumber>INET81113</internetNumber><customer><accountNumber></accountNumber><name>Kris Kross</name><address1>111 538th Rd</address1><address2>Apartment 4</address2><address3>Downstairs</address3> <city>Des Moines</city> <state>IA</state><zipCode>50315</zipCode> <email>mackdaddy@krossedout.net</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>MC</creditCardType><creditCardNumber>5444444444444445</creditCardNumber> <creditCardExpire>0721</creditCardExpire><authorizationCode/><authorizationDate/></payment><orderItem><productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> </orderItem><orderItem> <productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Mr Elf!</giftMessage> <recipient><name>Kris Muss</name> <address1>1515 Forest Ave</address1> <address2/> <address3/> <city>Des Moines</city> <state>IA</state><zipCode>50314</zipCode> <email>daddymack@krossedout.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+##!|dbfit.fixture.DatabaseEnvironment|DB2|
+##|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+## removed order
+##|!-smartrics.rest.fitnesse.fixture.RestFixtureConfig-!|
+##|http.client.connection.timeout |60000|
+
+##|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|${sendOrderService}|
+##|POST|/${client}/001?pwd=cds1001&appId=AutomatedTesting&method=POST&xml=<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CCW0704B3</promotionKey><sourceCode>10</sourceCode><internetNumber>INET81113</internetNumber><customer><accountNumber></accountNumber><name>Kris Kross</name><address1>111 538th Rd</address1><address2>Apartment 4</address2><address3>Downstairs</address3> <city>Des Moines</city> <state>IA</state><zipCode>50315</zipCode> <email>mackdaddy@krossedout.net</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>MC</creditCardType><creditCardNumber>5444444444444445</creditCardNumber> <creditCardExpire>0721</creditCardExpire><authorizationCode/><authorizationDate/></payment><orderItem><productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> </orderItem><orderItem> <productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Mr Elf!</giftMessage> <recipient><name>Kris Muss</name> <address1>1515 Forest Ave</address1> <address2/> <address3/> <city>Des Moines</city> <state>IA</state><zipCode>50314</zipCode> <email>daddymack@krossedout.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+##|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|${sendOrderService}|
+##|restFixture|${sendOrderService}|
+##|POST|/${client}/001?pwd=cds1001&appId=AutomatedTesting&method=POST&xml=<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CCW0704B3</promotionKey><sourceCode>10</sourceCode><internetNumber>INET81113</internetNumber><customer><accountNumber></accountNumber><name>Kris Kross</name><address1>111 538th Rd</address1><address2>Apartment 4</address2><address3>Downstairs</address3> <city>Des Moines</city> <state>IA</state><zipCode>50315</zipCode> <email>mackdaddy@krossedout.net</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>MC</creditCardType><creditCardNumber>5444444444444445</creditCardNumber> <creditCardExpire>0721</creditCardExpire><authorizationCode/><authorizationDate/></payment><orderItem><productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> </orderItem><orderItem> <productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Mr Elf!</giftMessage> <recipient><name>Kris Muss</name> <address1>1515 Forest Ave</address1> <address2/> <address3/> <city>Des Moines</city> <state>IA</state><zipCode>50314</zipCode> <email>daddymack@krossedout.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+
+##|!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!||!-smartrics.rest.fitnesse.fixture.CdsRestFixture-!|
+
+##|POST|/001?pwd=cds1001&appId=AutomatedTesting&method=POST&xml=<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CCW0704B3</promotionKey><sourceCode>10</sourceCode><internetNumber>INET81113</internetNumber><customer><accountNumber></accountNumber><name>Kris Kross</name><address1>111 538th Rd</address1><address2>Apartment 4</address2><address3>Downstairs</address3> <city>Des Moines</city> <state>IA</state><zipCode>50315</zipCode> <email>mackdaddy@krossedout.net</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>MC</creditCardType><creditCardNumber>5444444444444445</creditCardNumber> <creditCardExpire>0721</creditCardExpire><authorizationCode/><authorizationDate/></payment><orderItem><productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> </orderItem><orderItem> <productNumber>CH39Q</productNumber> <quantity>1</quantity> <value>24.50</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Mr Elf!</giftMessage> <recipient><name>Kris Muss</name> <address1>1515 Forest Ave</address1> <address2/> <address3/> <city>Des Moines</city> <state>IA</state><zipCode>50314</zipCode> <email>daddymack@krossedout.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|
+##| let |acctNbr| body |//customer/accountNumber/text()| |
+##
+## Query last two order summary records here
+##
+##!3 Show a simple hard coded SELECT statement
+
+##|dbfit.DB2Test|
+##|''select''|dbFixture|
+##!|Connect|//serv.cdsfulfillment.com|USERNAME|PASSWORD|TEST400|
+
+New Table Here
+
+##|dbfit.DB2Test|
+##|''select''|dbFixture|
+
+##|import|
+##|dbfit.fixture|
+
+## Appears to work
+##!|dbfit.fixture.DatabaseEnvironment|DB2|
+##|Connect|SERV|MPATRICK|EKILATAP-0|TEST400|
+
+## Also works
+##!|dbfit.fixture.DatabaseEnvironment|DB2|
+##|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+##!|dbfit.DB2Test|
+##!|!-dbfit.DB2Test-!|
+##|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+!|dbfit.DB2Test|
+!|set option|fixed length string parsing|true|
+|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 38216248|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|38216248|'DEBBIEDAVIADOFF              '|'750 HALLBROOK CT              '|113037|199365|N|
+
+!3 Show a query where we capture the customer's name to a parameter
+!|!-dbfit.DB2Test-!|
+|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 38216248|
+|ACCTNBR|NAME?|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|38216248|>>nameReturned|'750 HALLBROOK CT              '|113037|199365|N|
+!3 Query on order number, save off account number returned for use in next query
+
+
+|dbfit.DB2Test|
+|Query| select ACCTNBR, ORDERNBR, TOTORDVAL from CLTLIBMSP.XORDERSUM0 where ORDERNBR = 113151130636001|
+|ACCTNBR?|ORDERNBR|TOTORDVAL|
+|>>acctReturned|113151130636001|15.87|
+
+!3 Use the account number returned above to get a name record
+|dbfit.DB2Test|
+|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = :acctReturned|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|<<acctReturned|'HOMER DBRAVE                 '|'2938 12TH                     '|113148|199365|N|
+
+!3 Show a query that returns multiple records
+|dbfit.DB2Test|
+|Query| select ACCTNBR, NAME, ADDRLINE1, ADDRFROMDT, ADDRTHRUDT, CUSTSTS from CLTLIBMSP.XNAME0 where ACCTNBR = 20361903|
+|ACCTNBR|NAME|ADDRLINE1|ADDRFROMDT|ADDRTHRUDT|CUSTSTS|
+|20361903|'MARIAIANNELLI                '|'1997 CHEVROLET ST             '|109357|199365|N|
+|20361903|'MARIAIANNELLI                '|'1997 CHEVROLET ST             '|109347|109356|N|

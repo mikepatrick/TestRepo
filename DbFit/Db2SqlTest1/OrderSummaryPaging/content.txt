@@ -1,0 +1,130 @@
+!lastmodified -----
+
+!define client {FCX}
+!define accountNumber {76208}
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+##|Set parameter|threshold|5|
+
+##!|Query|select TO_CHAR(SYSTIMESTAMP, 'SSSSS.SS') AS start_time FROM DUAL|
+##|start_time?                                                            |
+##|>>start_time                                                           |
+
+!3 XORDERSUM0
+
+!3 Get the first (most recent) ten order summary records
+!|set option|fixed length string parsing|true|
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBFCX.XORDERSUM1 where ACCTNBR = 76208)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM > 0                                      
+       AND pagedOrders.ROW_NUM <= 10  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+| | | | | | | | | | | | | | | | | | | | | | | | | | |
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+
+!3 Get the next 10 records
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBFCX.XORDERSUM1 where ACCTNBR = 76208)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM > 10                                      
+       AND pagedOrders.ROW_NUM <= 20  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+| | | | | | | | | | | | | | | | | | | | | | | | | | |
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+
+!3 Get the next ten records
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBFCX.XORDERSUM1 where ACCTNBR = 76208)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM > 20                                      
+       AND pagedOrders.ROW_NUM <= 30  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+| | | | | | | | | | | | | | | | | | | | | | | | | | |
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+
+!3 Get bigger range
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBFCX.XORDERSUM1 where ACCTNBR = 76208)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM > 7                                      
+       AND pagedOrders.ROW_NUM <= 37  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+| | | | | | | | | | | | | | | | | | | | | | | | | | |
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+| |>>acctDonorReturned|||||||||||||||||||||||||
+
+##!|Query|SELECT (TO_CHAR(SYSTIMESTAMP, 'SSSSS.SS') - :start_time) AS duration FROM DUAL|
+##|duration?                                                                            |
+##|>>duration                                                                           |
+
+##!|query stats                               |
+##|table name|where                 |is empty?|
+##|DUAL      |:duration > :threshold|yes      |
+
+##|>>acctDonorReturned|BHE|>>orderDonorReturned|1HA11FU000|C|N|A|A|21.63|19.98|1.65|0.00|0.00|0.00|' '|1000|N|0000000000|N|21.63|F|'   '|'TEST4            '|'  '|0.00|
+
+##|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS|ORDSTATUS|ORDSETCODE|TOTORDVAL|TOTPRODVAL|TOTTAXES|TOTPOSTHAN|AMTDUE|TOTPAID|DLVRYMETH|INVOICENBR|CONTSW|FASTSHPNBR|INSTALLSW|INSTALLAMD|OSSHMETH|PLANCODE|INETORDNBR|PRESETTYP|PRESETAMT|

@@ -1,0 +1,43 @@
+!lastmodified -----
+
+!define client {MSP}
+!define accountNumber {76208}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+##|Set parameter|threshold|5|
+
+!3 XORDERSUM0
+
+!3 Get the first (most recent) ten order summary records
+!|set option|fixed length string parsing|true|
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBMSP.XORDERSUM1 where ACCTNBR = 76208)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM > 0                                      
+       AND pagedOrders.ROW_NUM <= 10  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+| | | | | | | | | | | | | | | | | | | | | | | | | | |
+|2 |>>acctDonorReturned|||||||||||||||||||||||||
+|3 |>>acctDonorReturned|||||||||||||||||||||||||
+|4 |>>acctDonorReturned|||||||||||||||||||||||||
+|5 |>>acctDonorReturned|||||||||||||||||||||||||
+|6 |>>acctDonorReturned|||||||||||||||||||||||||
+|7 |>>acctDonorReturned|||||||||||||||||||||||||
+|8 |>>acctDonorReturned|||||||||||||||||||||||||
+|9 |>>acctDonorReturned|||||||||||||||||||||||||
+|10 |>>acctDonorReturned|||||||||||||||||||||||||
+
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/MSP|
+|GET|/10025/?pwd=got2know&appId=iCare&stopPosition=5&numberOfActivities=10&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10025']|
+|GET|/76208/?pwd=got2know&appId=iCare&stopPosition=5&numberOfActivities=10&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|

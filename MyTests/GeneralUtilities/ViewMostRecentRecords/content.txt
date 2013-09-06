@@ -1,0 +1,11 @@
+!contents -R2 -g -p -f -h
+
+!define cltlib {CLTLIBMSP}
+!define file {XPOXREF0}
+!define numRecs {15}
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitnesseRoot\files\lib\connect.properties|
+
+|Inspect Query|select * from ${cltlib}.${file} tbl order by rrn(tbl) desc fetch first ${numRecs} rows only|
+

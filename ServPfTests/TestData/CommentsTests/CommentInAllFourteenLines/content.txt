@@ -1,0 +1,14 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 1%01%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 2%02%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 3%03%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 4%04%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 5%05%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 6%06%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 7%07%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 8%08%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 9%09%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 10%10%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 11%11%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 12%12%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 13%13%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22400352' and OPERID='302' and  TRANSTYPE='11' and ACTMISC like 'Comment Number 14%14%':1

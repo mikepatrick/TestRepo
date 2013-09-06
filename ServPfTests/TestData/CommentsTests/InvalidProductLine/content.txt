@@ -1,0 +1,1 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='13279245' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'Invalid product line%01%':1

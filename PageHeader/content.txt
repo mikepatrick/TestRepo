@@ -1,0 +1,2 @@
+#page header
+!style_code(Today is !today.) ----- ''Fitnesse is running on port ${FITNESSE_PORT}'' -----

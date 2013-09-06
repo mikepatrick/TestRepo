@@ -1,0 +1,11 @@
+!lastmodified -----
+!1 Run this suite to execute the application and verify steps for all orders.
+
+!4 This set of suites takes an approach that involves running two tests per order:
+
+!5 * 1. Use Cds_RestFixture to test the RESTful service and perform XPath and other necessary verifications on the HTTP response.
+!5 * 2. Use the DB2Test fixture from Db_Fit to perform SQL verifications against the client database.
+
+!4 Each test is implemented as a suite because each pair of tests for an order is intended to be run in sequence (apply, then verify).  Use the [Suite] button, not the [Test] button for this collection of tests.
+
+!contents -R4 -g -p -f -h

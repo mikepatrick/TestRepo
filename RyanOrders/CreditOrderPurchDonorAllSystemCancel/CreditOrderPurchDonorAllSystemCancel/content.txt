@@ -1,0 +1,33 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>R1G45BA001</promotionKey><internetNumber>TEST21</internetNumber><customer><name>MATT HUNTING</name><address1>9551 NORTHEAST CT</address1><city>MORSON</city><state>ON</state><zipCode>P0W1J0</zipCode></customer><payment><paymentType>Bill Me</paymentType></payment><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value></orderItem><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value><recipient><name>JAI JACKSON</name><address1>914 SOUTHWEST 1ST</address1><city>MORSON</city><state>ON</state><zipCode>P0W1J0</zipCode></recipient></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCredCardOrderPurchDonorAllSystemCancel|
+| let | name | body | //name/text() | MATT HUNTING |
+| let | installAmt | body | //installmentDue/text() | 0.00 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $63.18 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 249900003H |
+| let | orderStatus | body |//orderItem[1]/orderStatus/text() |Cancelled   Unavailable for shipment|

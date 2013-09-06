@@ -1,0 +1,11 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {MSP}
+!define acctNbr {246593370}
+!define appid {AutomatedTesting}
+!define password {cds1001}
+!define plancode {1S6}
+!define dsacct {0}
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/${client}/|
+|PUT|/${plancode}?pwd=${password}&appId=${appid}&method=PUT&frequency=0&accountNumber=${acctNbr}&pwd=*&shipToAccountNumber=${dsacct}| 201 |Content-Type : text/xml|//isSuccess[text()='true']|

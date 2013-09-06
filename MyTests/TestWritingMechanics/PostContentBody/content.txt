@@ -1,0 +1,7 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/MSP/|
+|setBody|<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>TESTKEY</promotionKey><sourceCode>10</sourceCode><internetNumber>INET82939823</internetNumber><customer><accountNumber></accountNumber><name>Joe Smith</name><address1>18 21th St</address1> <address2/> <address3/> <city>Lenox</city> <state>IA</state><zipCode>50851X</zipCode> <email>mandyjo@yahoo.com</email> <phoneNumber/><phoneNumber2/> </customer><payment><paymentType>Credit Card</paymentType> <creditCardType>MC</creditCardType><creditCardNumber>5444444444444445</creditCardNumber> <creditCardExpire>0721</creditCardExpire><authorizationCode/><authorizationDate/></payment><orderItem><productNumber>250019199H</productNumber> <quantity>1</quantity> <value>19.99</value> </orderItem><orderItem> <productNumber>250019199H</productNumber> <quantity>1</quantity> <value>19.99</value> <orderType/><previewItem/> <previewAmt/> <previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Sally!</giftMessage> <recipient><name>Billy Smith</name> <address1>1205 W Washington</address1> <address2/> <address3/> <city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>joseuribe@cds-global.com</email><phoneNumber/> <phoneNumber2/> </recipient></orderItem></order>|
+|POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|

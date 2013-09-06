@@ -1,0 +1,7 @@
+!lastmodified ----
+
+!|ActionFixture|
+
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|
+|runcmd|DLTF MPATRICK/DDMTEST1|is|Object DDMTEST1 in MPATRICK type *FILE deleted.|

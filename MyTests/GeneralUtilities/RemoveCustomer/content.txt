@@ -1,0 +1,25 @@
+!lastmodified ----
+!define acct {567890827}
+!define cltlib {CLTLIBMSP}
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitnesseRoot\files\lib\connect.properties|
+
+|Execute|delete from ${cltlib}.XORDERSUM0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XORDERDTL0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XACTIVITY0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCUSTSUM0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCUSTGEN0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XNAME0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XEMAILINF0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XPOXREF0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCRDTCARD0 where acctnbr = ${acct}|
+
+|Commit|

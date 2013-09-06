@@ -1,0 +1,26 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+!define prodID {FCXFCR}
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/${prodID}|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=88062| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='88062']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=10025| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10025']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=37499| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='37499']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=37515| 404 |Content-Type : text/xml|//isSuccess[text()='false']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=81794| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='81794']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=81810| 404 |Content-Type : text/xml|//isSuccess[text()='false']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=86389| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='86389']|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=86397| 404 |Content-Type : text/xml|//isSuccess[text()='false']|
+
+##1 Foreign non gift
+##2 US non gift
+##3 US gift donor
+##4 US gift recipient
+##5 Swiss gift donor
+##6 Swiss gift recipient
+##7 Canadian gift donor
+##8 Canadian gift recipient
+
+## Recipients do not have customer generation records.

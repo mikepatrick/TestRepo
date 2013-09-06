@@ -1,0 +1,32 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>R1G45BA001</promotionKey><internetNumber>TEST24</internetNumber><customer><name>JASON JENKINS</name><address1>1616 BELEVUE AVE</address1><city>KEARNEY</city><state>NE</state><zipCode>68845</zipCode></customer><payment><paymentType>Bill Me</paymentType></payment><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value></orderItem><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value><recipient><name>CLESTER JOHNSON</name><address1>7166 DODGE ST</address1><city>SMITHVILLE</city><state>TX</state><zipCode>78957</zipCode></recipient></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCreditOrderInstallment|
+| let | name | body | //name/text() | JASON JENKINS |
+| let | installAmt | body | //installmentDue/text() | 0.00 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 60.19 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $29.92 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 249900003H |

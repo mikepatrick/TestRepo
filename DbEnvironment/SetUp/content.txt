@@ -1,0 +1,8 @@
+##!|dbfit.DB2Test|
+##|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+##!define storedlib {MPATRICK}
+
+##!define fitnessePath {c:/users/mpatrick/downloads/fitnessewiki/fitnesseroot}
+
+##!|ConnectUsingFile|${fitnessePath}/files/lib/connect.properties|

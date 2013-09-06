@@ -1,0 +1,53 @@
+!lastmodified -----
+!1 Do not run this test alone. It is meant to be executed in a suite, with its soulmate application test.
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!|dbfit.DB2Test|
+##!|Connect|//serv.cdsfulfillment.com|MPATRICK|EKILATAP-0|TEST400|
+!|ConnectUsingFile|c:\Users\mpatrick\Downloads\FitnesseWiki\FitnesseRoot\files\lib\connect.properties|
+
+!3 Start with order summary - get the last order on the database :: XORDERSUM0
+!|set option|fixed length string parsing|true|
+!|Query| select ACCTNBR, ORDERNBR, ORDSETCODE from CLTLIBAMS.XORDERSUM0 order by ORDERNBR desc FETCH FIRST 2 ROWS ONLY|
+|ACCTNBR?|ORDERNBR?|ORDSETCODE|
+|>>acctDoneeReturned|>>orderDoneeReturned|C|
+|>>acctDonorReturned|>>orderDonorReturned|B|
+
+##!3 Start with order summary - get the last order on the database :: XORDERSUM0
+##!|set option|fixed length string parsing|true|
+##!|Query| select ACCTNBR, ORDERNBR, ORDSETCODE from CLTLIBAMS.XORDERSUM0 order by ORDERNBR desc FETCH FIRST 2 ROWS ONLY|
+##|ACCTNBR?|ORDERNBR?|ORDSETCODE|
+##|<<acctDonorReturned|<<orderDonorReturned|C|
+##|<<acctDoneeReturned|<<orderDoneeReturned|B|
+
+!3 Peep dem deets :: XORDERDTL0
+!|OrderedQuery| select ACCTNBR, ORDERNBR, DSACCTNBR, PRODNBR, ORDDETSTAT, SERVICECDE, PRODVALUE from CLTLIBAMS.XORDERDTL0 where ORDERNBR = :orderDonorReturned and ACCTNBR = :acctDonorReturned order by ITMSEQNUM|
+|ACCTNBR|ORDERNBR|DSACCTNBR|PRODNBR|ORDDETSTAT|SERVICECDE|PRODVALUE|
+|>>acctDonorReturned|<<orderDoneeReturned|0|'CH39Q       '|D|'C '|24.50|
+|>>acctDonorReturned|<<orderDonorReturned|<<acctDoneeReturned|'CH39Q       '|D|'C '|24.50|
+
+!3 The name game :: XNAME0
+!|Query| select ACCTNBR, NAME, ADDRLINE1, CUSTSTS from CLTLIBAMS.XNAME0 where ACCTNBR = :acctDonorReturned|
+|ACCTNBR|NAME|ADDRLINE1|CUSTSTS|
+|<<acctDonorReturned|'KRISKROSS                    '|'111 538TH RD                  '|N|
+
+!|Query| select ACCTNBR, NAME, ADDRLINE1, CUSTSTS from CLTLIBAMS.XNAME0 where ACCTNBR = :acctDoneeReturned|
+|ACCTNBR|NAME|ADDRLINE1|CUSTSTS|
+|<<acctDoneeReturned|'KRISMUSS                     '|'1515 FOREST AVE               '|N|
+
+##!3 One for the auditors :: XCRDTCARD0
+##!|Query| select ACCTNBR, ORDERNBR, CRCARDTYPE, CRCARD4, CRCARDEXP from CLTLIBAMS.XCRDTCARD0 where ACCTNBR = :acctDonorReturned and ORDERNBR = :orderDonorReturned|
+##|ACCTNBR|ORDERNBR|CRCARDTYPE|CRCARD4|CRCARDEXP|
+##|<<acctDonorReturned|<<orderDonorReturned|MC|4445|0721|
+##| | |MC|4445|0721|
+##|<<acctDonorReturned|<<orderDonorReturned|MC|4445|0721|
+
+!3 In the end, it's all about the customer ::XCUSTSUM0
+!|Query| select ACCTNBR, PRODABBR, STRPROMKEY, BALANCE from CLTLIBAMS.XCUSTSUM0 where ACCTNBR = :acctDonorReturned|
+|ACCTNBR|PRODABBR|STRPROMKEY|BALANCE|
+|<<acctDonorReturned|CKI|'CCW0704B3 '|-103.88|
+
+!|Query| select ACCTNBR, PRODABBR, STRPROMKEY, BALANCE from CLTLIBAMS.XCUSTSUM0 where ACCTNBR = :acctDoneeReturned|
+|ACCTNBR|PRODABBR|STRPROMKEY|BALANCE|
+|<<acctDoneeReturned|CKI|'CCW0704B3 '|0.00|
+
+!5 So that's the big ideer...

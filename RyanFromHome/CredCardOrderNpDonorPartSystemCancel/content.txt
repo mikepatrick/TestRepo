@@ -1,0 +1,33 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>R1G45BA001</promotionKey><internetNumber>TEST18</internetNumber><customer><name>JON HESSE</name><address1>8621 SOUTHEAST CT</address1><city>BRADENTON</city><state>FL</state><zipCode>34203</zipCode></customer><payment><paymentType>Credit Card</paymentType><creditCardNumber>5555544443332213</creditCardNumber><creditCardExpire>1124</creditCardExpire><creditCardType>MC</creditCardType></payment><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value><recipient><name>MICHAEL HOFFMAN</name><address1>78655 NAPER RD</address1><city>MORSON</city><state>ON</state><zipCode>P0W1J0</zipCode></recipient></orderItem><orderItem><productNumber>249900003H</productNumber><quantity>1</quantity><value>27.96</value><recipient><name>QUINT HOGREFE</name><address1>9711 AUBURN ST</address1><city>OCEANSIDE</city><state>CA</state><zipCode>92055</zipCode></recipient></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCredCardOrderNpDonorPartSystemCancel|
+| let | name | body | //name/text() | JON HESSE |
+| let | installAmt | body | //installmentDue/text() | 61.79 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $61.79 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 249900003H |
+| let | orderStatus | body |//orderItem[1]/orderStatus/text() |Cancelled   Unavailable for shipment|

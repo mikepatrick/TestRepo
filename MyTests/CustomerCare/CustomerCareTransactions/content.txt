@@ -1,0 +1,9 @@
+!lastmodified ----
+!3 WSG setup
+
+In order to test inquiries through WEBPFS4, select the following services:
+ 
+
+And use the following appId/password:
+
+!contents -R2 -g -p -f -h

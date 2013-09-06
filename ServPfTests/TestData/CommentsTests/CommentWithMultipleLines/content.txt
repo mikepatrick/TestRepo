@@ -1,0 +1,4 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='23484827' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'Multiple line comments for this account.%01%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='23484827' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'This is the 2nd line.%02%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='23484827' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'This is the 3rd line.%03%':1
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='23484827' and OPERID='302' and TRANSTYPE='11' and ACTMISC like 'Acct has multiple product lines.%04%':1

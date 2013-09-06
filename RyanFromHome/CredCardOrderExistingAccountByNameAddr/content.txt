@@ -1,0 +1,32 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Test 2 - Place new order for customer, then lookup the customer and the order.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><internetNumber>TEST30</internetNumber><promotionKey>R1E91BY002</promotionKey><customer><name>DORIS GILES</name><address1>648 MAAYAN PL</address1><city>BRENTWOOD</city><state>CA</state><zipCode>94513</zipCode></customer><payment><paymentType>Credit Card</paymentType><creditCardType>MC</creditCardType><creditCardNumber>5555544443332213</creditCardNumber><creditCardExpire>1124</creditCardExpire></payment><orderItem><productNumber>400008105D</productNumber><quantity>1</quantity><itemValue>49.96</itemValue></orderItem></order> |
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]||
+| let | name | body | //name/text() | DORIS GILES |
+| let | installAmt | body | //installmentDue/text() | 0.00 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 6.48 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $6.48 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 250201522S |

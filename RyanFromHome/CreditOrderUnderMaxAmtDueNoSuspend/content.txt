@@ -1,0 +1,37 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+
+!2 Test 1 - Place new order for customer, then lookup the customer, the order, and (if necessary) the series.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><internetNumber>TEST53</internetNumber><promotionKey>C2G1T4A057</promotionKey><customer><name>CHRISTIAN PETER</name><address1>1700 LOCUST ST</address1><city>KEARNEY</city><state>NE</state><zipCode>68845</zipCode></customer><payment><paymentType>Bill Me</paymentType></payment><orderItem><productNumber>200102740Z</productNumber><quantity>1</quantity><value>34.96</value></orderItem><shippingAndHandlingAmt>7.99</shippingAndHandlingAmt></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+| let | errorMessage | body | //message/text() |  |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]||
+| let | name | body | //name/text() | CHRISTIAN PETER |
+| let | customerBalance | body | //customerBalance/text() | $45.96- |
+| let | amountDue | body | //amountDue/text() | 45.96 |
+| let | orderNbr | body |//orderNumber[1]/text() |  |
+| let | planCode | body |//orderSummary[1]/planCode/text() | |
+| let | installmentsAllowed | body |//installmentAllowed/text() | 00 |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $45.96 |
+| let | orderTax | body |//totalOrderTax/text() | 3.01 |
+| let | prodDesc | body |//productDesc/text() | 18 PIECE BARBECUE SET |
+| let | orderStatus | body |//orderItem/orderStatus/text() | In Process |

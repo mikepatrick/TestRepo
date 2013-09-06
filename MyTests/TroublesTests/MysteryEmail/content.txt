@@ -1,0 +1,6 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/MSP/|
+|PUT|/567902531?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><email>lovelyday@cds-global.com</email><username>lovely</username><password>qajofea</password><emailFromDate>2012-03-21</emailFromDate><emailThruDate>2013-03-21</emailThruDate><permissions><chgEmailTransSwitch>Y</chgEmailTransSwitch><chgEmailEbillSwitch>N</chgEmailEbillSwitch><chgEmailInHouseSwitch>Y</chgEmailInHouseSwitch><chgEmailOutHouseSwitch>N</chgEmailOutHouseSwitch><chgEmailActive>Y</chgEmailActive></permissions></customer></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|

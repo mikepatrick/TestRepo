@@ -1,0 +1,33 @@
+!lastmodified ----- 
+!1 Test verified by CredCardOrderNpDonorFastshipVerify
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!2 Place new order for customer, then lookup the customer and the order.
+
+!2 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><promotionKey>R1E91BY002</promotionKey><deliveryMethod>D</deliveryMethod><internetNumber>TEST8</internetNumber><customer><name>LONNIE FULTON</name><address1>8766 ISLAND RIVER RD</address1><city>BRADENTON</city><state>FL</state><zipCode>34203</zipCode></customer><payment><paymentType>Credit Card</paymentType><creditCardType>MC</creditCardType><creditCardNumber>5555544443332213</creditCardNumber><creditCardExpire>1124</creditCardExpire></payment><orderItem><productNumber>400008105D</productNumber><quantity>1</quantity><value>49.96</value><recipient><name>SEAN GARD</name><address1>7765 LINCOLN ST</address1><city>OCEANSIDE</city><state>CA</state><zipCode>92055</zipCode></recipient></orderItem></order> |
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+
+!2 Lookup the customer using the account number recieved above and perform SQL tests
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|sql:OrderTests.TestData.VerifyCredCardOrderNpDonorFashship|
+| let | name | body | //name/text() | ANDY BILANZICH |
+| let | installAmt | body | //installmentDue/text() | 52.96 |
+| let | amountDue | body | //orderSummary/amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderSummary/orderNumber/text() |  |
+| let | planCode | body |//orderSummary/planCode/text() | |
+
+!2 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $52.96 |
+| let | prodNbr | body |//orderItem/productNumber/text() | 400008105D |

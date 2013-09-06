@@ -1,0 +1,14 @@
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1045 -cp %p %m}
+
+| Import |
+| com.cds.fitnesse.fixture |
+
+!| PgmCallRowFixture |36 | MPATRICK | XTAXLKUPW | clr | CHAR | 10 | XTAXLKUP | fsi | CHAR | 2 | IA | tsi | CHAR | 2 | FL | fzi | CHAR | 6 | 50310 | fci | CHAR | 28 | Des Moines | tci | CHAR | 28 | Tampa | fcn | CHAR | 28 | | tcn | CHAR | 28 | | min | NUM | 2 | 08 | din | NUM | 2 | 27 | yin | Num | 2 | 13 | pva | NUM | 12 | 7665 | sha | NUM | 12 | 0 | pfa | NUM | 12 | 0 | qti | NUM | 3 | 2 | tti | CHAR | 1 | S | esi | CHAR | 1 |  | cci | CHAR | 3 | MSP | pci | CHAR | 3 | FCX | pcn | CHAR | 1 | | nti | CHAR | 1 | | rtnCodeOut | CHAR | 2 | | desc | CHAR | 50 | | gco | NUM | 9 |0| tro | CHAR | 2 | | tao | NUM | 12 |0| rso | NUM | 6 |0| rcno | NUM | 6 |0| rcio | NUM | 6 |0| cro | NUM | 6 |0| eao | NUM | 12 |0| eao2 | NUM | 12 |0| eao3 | NUM | 13 |0| eao4 | NUM | 13 |0| eao5 | NUM | 13 |0| eao6 | NUM | 13 |0| eao7 | NUM | 13 |0|
+|dataName|dataType|dataLength|dataValue|
+
+##!| PgmCallArrayFixture |37 | SERVPFPROD | XTAXLKUPW | clr | CHAR | 10 | XTAXLKUP | fsi | CHAR | 2 | IA | tsi | CHAR | 2 | FL | fzi | CHAR | 6 | 50310 | fci | CHAR | 28 | Des Moines | tci | CHAR | 28 | Tampa | fcn | CHAR | 28 | | tcn | CHAR | 28 | | min | NUM | 2 | 08 | din | NUM | 2 | 27 | yin | Num | 2 | 76 | pva | NUM | 12 | 7665 | sha | NUM | 12 | 0 | pfa | NUM | 12 | 0 | qti | NUM | 3 | 2 | tti | CHAR | 1 | S | esi | CHAR | 1 | N | cci | CHAR | 3 | MSP | pci | CHAR | 3 | FCX | pcn | CHAR | 1 | | nti | CHAR | 1 | | rtnCodeOut | CHAR | 2 | | desc | CHAR | 50 |0| gco | NUM | 9 |0| tro | CHAR | 2 | | tao | NUM | 12 |0| rso | NUM | 6 |0| rcno | NUM | 6 |0| rcio | NUM | 6 |0| cro | NUM | 6 |0| eao | NUM | 12 |0| eao2 | NUM | 12 |0| eao3 | NUM | 13 |0| eao4 | NUM | 13 |0| eao5 | NUM | 13 |0| eao6 | NUM | 13 |0| eao7 | NUM | 13 |0|
+##|dataName|dataType|dataLength|dataValue|
+
+
+##!| PgmCallRowFixture | 2 | SERVPFPROD | XTAXLKUPW | clr | CHAR | 10 | XTAXLKUP | fsi | CHAR | 2 | IA | tsi | CHAR | 2 | FL | fzi | CHAR | 6 | 50310 | fci | CHAR | 2 | Des Moines | tci | CHAR | 2 | Tampa | fcn | CHAR | 28 | | tcn | CHAR | 28 | | min | NUM | 2 | 08 | din | NUM | 2 | 27 | yin | Num | 2 | 76 | pva | NUM | 12 | 7665 | sha | NUM | 12 | 0 | pfa | NUM | 12 | 0 | qti | NUM | 3 | 2 | tti | CHAR | 1 | S | esi | CHAR | 1 | N | cci | CHAR | 3 | MSP | pci | CHAR | 3 | FCX | pcn | CHAR | 1 | | nti | CHAR | 1 | | rtnCodeOut | CHAR | 2 | | desc | CHAR | 50 | | gco | NUM | 9 | | tro | CHAR | 2 | | tao | NUM | 12 | | rso | NUM | 6 | | rcno | NUM | 6 | | rcio | NUM | 6 | | cro | NUM | 6 | | eao | NUM | 12 | | eao2 | NUM | 12 | | eao3 | NUM | 13 | | eao4 | NUM | 13 | | eao5 | NUM | 13 | | eao6 | NUM | 13 | | eao7 | NUM | 13 | |
+##|clr|fsi|tsi|fzi|fci|tci|fcn|tcn|min|din|yin|pva|sha|pfa|qti|tti|esi|cci|pci|pcn|nti|rtnCodeOut|desc|gco|tro|tao|rso|rcno|rcio|cro|eao|eao2|eao3|eao4|eao5|eao6|eao7|

@@ -1,0 +1,5 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh/D7X_REFRESH|
+|GET| | 200 |Content-Type : text/xml|//isSuccess[text()='true']|

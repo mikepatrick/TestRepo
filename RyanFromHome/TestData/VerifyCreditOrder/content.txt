@@ -1,0 +1,2 @@
+select * from CLTLIBD0X.XORDERSUM0 where ACCTNBR='%acctNbr%' and ORDERENTRY='B' and CREDITSTS='A' and ORDSTATUS='A' and ORDSETCODE='A' and AMTDUE='9.57' and CONTSW='N' and INSTALLSW='N' and INSTALLALW='00':1
+select * from CLTLIBD0X.XORDERDTL0 where ACCTNBR='%acctNbr%' and ORDDETSTAT='A' and SERVICECDE='C':1

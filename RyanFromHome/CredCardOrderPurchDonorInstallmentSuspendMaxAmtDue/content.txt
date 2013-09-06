@@ -1,0 +1,37 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {D0X_BHE1}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+
+!2 Test 1 - Place new order for customer, then lookup the customer, the order, and (if necessary) the series.
+
+!3 Place the order
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><internetNumber>TEST36</internetNumber><promotionKey>R1G45BA001</promotionKey><customer><name>TROY LANGAN</name><address1>1196 LAKE RD</address1><city>BRADENTON</city><state>FL</state><zipCode>34203</zipCode></customer><payment><paymentType>Credit Card</paymentType><creditCardType>MC</creditCardType><creditCardNumber>5555544443332213</creditCardNumber><creditCardExpire>1114</creditCardExpire></payment><orderItem><productNumber>400008425D</productNumber><quantity>1</quantity><value>59.96</value></orderItem><orderItem><productNumber>400008425D</productNumber><quantity>1</quantity><value>59.96</value><recipient><name>CHARLIE LEECE</name><address1>1818 ISLAND DR</address1><city>ROSELLE</city><state>GA</state><zipCode>07203</zipCode></recipient></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |
+| let | errorMessage | body | //message/text() | Customer exceeds maximum amount due policy |
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]||
+| let | name | body | //name/text() | TROY LANGAN |
+| let | customerBalance | body | //customerBalance/text() | $.00+ |
+| let | amountDue | body | //amountDue/text() | 0.00 |
+| let | orderNbr | body |//orderNumber[1]/text() |  |
+| let | planCode | body |//orderSummary[1]/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $128.02 |
+| let | orderTax | body |//totalOrderTax/text() | 8.10 |
+| let | prodDesc | body |//productDesc/text() | LEAVIN' ON A JET PLANE |
+| let | orderStatus | body |//orderItem/orderStatus/text() | Suspended   Contact Customer Service |
+| let | orderStatus | body |//orderItem[2]/orderStatus/text() | Suspended   Contact Customer Service |
