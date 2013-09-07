@@ -1,0 +1,328 @@
+!lastmodified -----
+!2 Currently, this page will pass on localhost, but not on test-mag3.
+!2 Variable resolution in the let() statements at the end of the page is not functioning properly.
+!3 Feel free to copy it to your local instance and run it, to see how it works.
+
+!4 Define some variables. 
+!define client {FCXFCR}
+!define clt {FCX}
+!define acctNbr {76208}
+!define appid {iCare}
+!define password {got2know}
+!define startTrans {0}
+!define endTrans {0}
+!define startRow {0}
+!define endRow {10}
+!4 They are referred to later using a dollar sign: ${clt}
+## To query different orders, change startRow and endRow above, and ROW.NUM in the query below.
+
+##Uncomment the following line to debug remotely.
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!4 Connect to the iSeries using the DB2Test fixure.  Connect Using File is one of the methods belonging to this fixture.
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+!4 These parameters are referred to later using a colon - :acctNbr
+|Set Parameter|account|${acctNbr}|
+|Set Parameter|fromRow|${startRow}|
+|Set Parameter|thruRow|${endRow}|
+|Set Parameter|clientAbbr|${clt}|
+
+!4 Get the first (most recent) ten order summary records. Capture the field values in variables.  These variables will be referred to later using % - i.e. %order1%
+!|set option|fixed length string parsing|true|
+!|Query|!- SELECT * FROM (                                                
+    SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC) AS ROW_NUM, Orders.*
+    FROM (SELECT ACCTNBR, PRODABBR, ORDERNBR, PROMKEY, ORDERENTRY, CREDITSTS, ORDSTATUS, ORDSETCODE, TOTORDVAL, TOTPRODVAL, TOTTAXES, TOTPOSTHAN, AMTDUE, TOTPAID, DLVRYMETH, INVOICENBR, CONTSW, FASTSHPNBR, INSTALLSW, INSTALLAMD, OSSHMETH, PLANCODE, INETORDNBR, PRESETTYP, PRESETAMT                                                     
+ FROM CLTLIBFCX.XORDERSUM1 where ACCTNBR = :account)             
+         AS Orders) AS pagedOrders                                  
+ WHERE pagedOrders.ROW_NUM >= :fromRow                                      
+       AND pagedOrders.ROW_NUM <= :thruRow  -!|
+|ROW_NUM?|ACCTNBR?|PRODABBR?|ORDERNBR?|PROMKEY?|ORDERENTRY?|CREDITSTS?|ORDSTATUS?|ORDSETCODE?|TOTORDVAL?|TOTPRODVAL?|TOTTAXES?|TOTPOSTHAN?|AMTDUE?|TOTPAID?|DLVRYMETH?|INVOICENBR?|CONTSW?|FASTSHPNBR?|INSTALLSW?|INSTALLAMD?|OSSHMETH?|PLANCODE?|INETORDNBR?|PRESETTYP?|PRESETAMT?|
+|>>row1 |>>acctDonorReturned||>>order1 |>>promkey1|>>ordEntry1|>>credSts1|>>ordSts1|>>setCode1|>>totOrdVal1|>>totProdVal1|>>tax1|>>post1|>>amtDue1|>>totPd1|>>delmeth1|>>invoice1|>>contsw1|>>fship1|>>instsw1|>>instamd1|>>ossh1|>>plancode1|>>inet1|>>ptyp1|>>pamt1|
+|>>row2 |>>acctDonorReturned||>>order2 |>>promkey2|>>ordEntry2|>>credSts2|>>ordSts2|>>setCode2|>>totOrdVal2|>>totProdVal2|>>tax2|>>post2|>>amtDue2|>>totPd2|>>delmeth2|>>invoice2|>>contsw2|>>fship2|>>instsw2|>>instamd2|>>ossh2|>>plancode2|>>inet2|>>ptyp2|>>pamt2|
+|>>row3 |>>acctDonorReturned||>>order3 |>>promkey3|>>ordEntry3|>>credSts3|>>ordSts3|>>setCode3|>>totOrdVal3|>>totProdVal3|>>tax3|>>post3|>>amtDue3|>>totPd3|>>delmeth3|>>invoice3|>>contsw3|>>fship3|>>instsw3|>>instamd3|>>ossh3|>>plancode3|>>inet3|>>ptyp3|>>pamt3|
+|>>row4 |>>acctDonorReturned||>>order4 |>>promkey4|>>ordEntry4|>>credSts4|>>ordSts4|>>setCode4|>>totOrdVal4|>>totProdVal4|>>tax4|>>post4|>>amtDue4|>>totPd4|>>delmeth4|>>invoice4|>>contsw4|>>fship4|>>instsw4|>>instamd4|>>ossh4|>>plancode4|>>inet4|>>ptyp4|>>pamt4|
+|>>row5 |>>acctDonorReturned||>>order5 |>>promkey5|>>ordEntry5|>>credSts5|>>ordSts5|>>setCode5|>>totOrdVal5|>>totProdVal5|>>tax5|>>post5|>>amtDue5|>>totPd5|>>delmeth5|>>invoice5|>>contsw5|>>fship5|>>instsw5|>>instamd5|>>ossh5|>>plancode5|>>inet5|>>ptyp5|>>pamt5|
+|>>row6 |>>acctDonorReturned||>>order6 |>>promkey6|>>ordEntry6|>>credSts6|>>ordSts6|>>setCode6|>>totOrdVal6|>>totProdVal6|>>tax6|>>post6|>>amtDue6|>>totPd6|>>delmeth6|>>invoice6|>>contsw6|>>fship6|>>instsw6|>>instamd6|>>ossh6|>>plancode6|>>inet6|>>ptyp6|>>pamt6|
+|>>row7 |>>acctDonorReturned||>>order7 |>>promkey7|>>ordEntry7|>>credSts7|>>ordSts7|>>setCode7|>>totOrdVal7|>>totProdVal7|>>tax7|>>post7|>>amtDue7|>>totPd7|>>delmeth7|>>invoice7|>>contsw7|>>fship7|>>instsw7|>>instamd7|>>ossh7|>>plancode7|>>inet7|>>ptyp7|>>pamt7|
+|>>row8 |>>acctDonorReturned||>>order8 |>>promkey8|>>ordEntry8|>>credSts8|>>ordSts8|>>setCode8|>>totOrdVal8|>>totProdVal8|>>tax8|>>post8|>>amtDue8|>>totPd8|>>delmeth8|>>invoice8|>>contsw8|>>fship8|>>instsw8|>>instamd8|>>ossh8|>>plancode8|>>inet8|>>ptyp8|>>pamt8|
+|>>row9 |>>acctDonorReturned||>>order9 |>>promkey9|>>ordEntry9|>>credSts9|>>ordSts9|>>setCode9|>>totOrdVal9|>>totProdVal9|>>tax9|>>post9|>>amtDue9|>>totPd9|>>delmeth9|>>invoice9|>>contsw9|>>fship9|>>instsw9|>>instamd9|>>ossh9|>>plancode9|>>inet9|>>ptyp9|>>pamt9|
+|>>row10 |>>acctDonorReturned||>>order10|>>promkey10|>>ordEntry10|>>credSts10|>>ordSts10|>>setCode10|>>totOrdVal10|>>totProdVal10|>>tax10|>>post10|>>amtDue10|>>totPd10|>>delmeth10|>>invoice10|>>contsw10|>>fship10|>>instsw10|>>instamd10|>>ossh10|>>plancode10|>>inet10|>>ptyp10|>>pamt10|
+
+!4 Get the first order detail record for each of these ten orders.  Store the product number, the quantity, and the value in variables.
+!|OrderedQuery|!- SELECT * FROM (
+SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC, ITMSEQNUM ASC) AS ROW_NUM, Deets.* FROM(
+Select ACCTNBR, ORDERNBR, PRODNBR, ORDDETSTAT, SERVICECDE, ORDERTYPE, PAYTYPE, QTYORDERED, PRODVALUE, DSACCTNBR, SHIPIND, CDSTRKNUM, ITMSHVAL, ITMSEQNUM, ITMQTYCAN, QTYTORSHP, PROMKEY, PRODTAXES 
+from CLTLIBFCX.XORDERDTL0 where ACCTNBR = :account and ITMSEQNUM = 1 and ORDERNBR >= :order10 and ORDERNBR <= :order1 ) as Deets) as pagedDeets
+ -!|
+|ROW_NUM?|ACCTNBR?|ORDERNBR?|PRODNBR?|ORDDETSTAT?|SERVICECDE?|ORDERTYPE?|PAYTYPE?|QTYORDERED?|PRODVALUE?|DSACCTNBR?|SHIPIND?|CDSTRKNUM?|ITMSHVAL?|ITMSEQNUM?|ITMQTYCAN?|QTYTORSHP?|PROMKEY?|PRODTAXES?|
+||||>>prod1|||||>>qty1|>>dtlval1||||||||||
+||||>>prod2|||||>>qty2|>>dtlval2||||||||||
+||||>>prod3|||||>>qty3|>>dtlval3||||||||||
+||||>>prod4|||||>>qty4|>>dtlval4||||||||||
+||||>>prod5|||||>>qty5|>>dtlval5||||||||||
+||||>>prod6|||||>>qty6|>>dtlval6||||||||||
+||||>>prod7|||||>>qty7|>>dtlval7||||||||||
+||||>>prod8|||||>>qty8|>>dtlval8||||||||||
+||||>>prod9|||||>>qty9|>>dtlval9||||||||||
+||||>>prod10|||||>>qty10|>>dtlval10||||||||||
+
+!4 Set up to use CdsRestFixture
+!include .ServPfTests.DefaultSettings
+
+!4 Issue the REST request to get this customer's information back in XML format.
+!4 The let() statements compare what the XML contains to what the SQL returned.
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/${client}|
+|GET|?accountNumber=${acctNbr}&startPosition=${startRow}&stopPosition=${endRow}&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+| let | orderNbr1 | body |//transaction/customer/order[1]/orderNumber/text() |%order1%  |
+| let | orderNbr2 | body |//transaction/customer/order[2]/orderNumber/text() |%order2%  |
+| let | orderNbr3 | body |//transaction/customer/order[3]/orderNumber/text() |%order3%  |
+| let | orderNbr4 | body |//transaction/customer/order[4]/orderNumber/text() |%order4%  |
+| let | orderNbr5 | body |//transaction/customer/order[5]/orderNumber/text() |%order5%  |
+| let | orderNbr6 | body |//transaction/customer/order[6]/orderNumber/text() |%order6%  |
+| let | orderNbr7 | body |//transaction/customer/order[7]/orderNumber/text() |%order7%  |
+| let | orderNbr8 | body |//transaction/customer/order[8]/orderNumber/text() |%order8%  |
+| let | orderNbr9 | body |//transaction/customer/order[9]/orderNumber/text() |%order9%  |
+| let | orderNbr10 | body |//transaction/customer/order[10]/orderNumber/text() |%order10%  |
+| let | pk1 | body |//transaction/customer/order[1]/promotionKey/text() |%promkey1%  |
+| let | pk2 | body |//transaction/customer/order[2]/promotionKey/text() |%promkey2%  |
+| let | pk3 | body |//transaction/customer/order[3]/promotionKey/text() |%promkey3%  |
+| let | pk4 | body |//transaction/customer/order[4]/promotionKey/text() |%promkey4%  |
+| let | pk5 | body |//transaction/customer/order[5]/promotionKey/text() |%promkey5%  |
+| let | pk6 | body |//transaction/customer/order[6]/promotionKey/text() |%promkey6%  |
+| let | pk7 | body |//transaction/customer/order[7]/promotionKey/text() |%promkey7%  |
+| let | pk8 | body |//transaction/customer/order[8]/promotionKey/text() |%promkey8%  |
+| let | pk9 | body |//transaction/customer/order[9]/promotionKey/text() |%promkey9%  |
+| let | pk10 | body |//transaction/customer/order[10]/promotionKey/text() |%promkey10%  |
+| let | oe1 | body |//transaction/customer/order[1]/orderEntry/text() |%ordEntry1%  |
+| let | oe2 | body |//transaction/customer/order[2]/orderEntry/text() |%ordEntry2%  |
+| let | oe3 | body |//transaction/customer/order[3]/orderEntry/text() |%ordEntry3%  |
+| let | oe4 | body |//transaction/customer/order[4]/orderEntry/text() |%ordEntry4%  |
+| let | oe5 | body |//transaction/customer/order[5]/orderEntry/text() |%ordEntry5%  |
+| let | oe6 | body |//transaction/customer/order[6]/orderEntry/text() |%ordEntry6%  |
+| let | oe7 | body |//transaction/customer/order[7]/orderEntry/text() |%ordEntry7%  |
+| let | oe8 | body |//transaction/customer/order[8]/orderEntry/text() |%ordEntry8%  |
+| let | oe9 | body |//transaction/customer/order[9]/orderEntry/text() |%ordEntry9%  |
+| let | oe10 | body |//transaction/customer/order[10]/orderEntry/text() |%ordEntry10%  |
+| let | cs1 | body |//transaction/customer/order[1]/creditStatus/text() |%credSts1%  |
+| let | cs2 | body |//transaction/customer/order[2]/creditStatus/text() |%credSts2%  |
+| let | cs3 | body |//transaction/customer/order[3]/creditStatus/text() |%credSts3%  |
+| let | cs4 | body |//transaction/customer/order[4]/creditStatus/text() |%credSts4%  |
+| let | cs5 | body |//transaction/customer/order[5]/creditStatus/text() |%credSts5%  |
+| let | cs6 | body |//transaction/customer/order[6]/creditStatus/text() |%credSts6%  |
+| let | cs7 | body |//transaction/customer/order[7]/creditStatus/text() |%credSts7%  |
+| let | cs8 | body |//transaction/customer/order[8]/creditStatus/text() |%credSts8%  |
+| let | cs9 | body |//transaction/customer/order[9]/creditStatus/text() |%credSts9%  |
+| let | cs10 | body |//transaction/customer/order[10]/creditStatus/text() |%credSts10%  |
+| let | os1 | body |//transaction/customer/order[1]/orderStatus/text() |%ordSts1%  |
+| let | os2 | body |//transaction/customer/order[2]/orderStatus/text() |%ordSts2%  |
+| let | os3 | body |//transaction/customer/order[3]/orderStatus/text() |%ordSts3%  |
+| let | os4 | body |//transaction/customer/order[4]/orderStatus/text() |%ordSts4%  |
+| let | os5 | body |//transaction/customer/order[5]/orderStatus/text() |%ordSts5%  |
+| let | os6 | body |//transaction/customer/order[6]/orderStatus/text() |%ordSts6%  |
+| let | os7 | body |//transaction/customer/order[7]/orderStatus/text() |%ordSts7%  |
+| let | os8 | body |//transaction/customer/order[8]/orderStatus/text() |%ordSts8%  |
+| let | os9 | body |//transaction/customer/order[9]/orderStatus/text() |%ordSts9%  |
+| let | os10 | body |//transaction/customer/order[10]/orderStatus/text() |%ordSts10%  |
+| let | osc1 | body |//transaction/customer/order[1]/setCode/text() |%setCode1%  |
+| let | osc2 | body |//transaction/customer/order[2]/setCode/text() |%setCode2%  |
+| let | osc3 | body |//transaction/customer/order[3]/setCode/text() |%setCode3%  |
+| let | osc4 | body |//transaction/customer/order[4]/setCode/text() |%setCode4%  |
+| let | osc5 | body |//transaction/customer/order[5]/setCode/text() |%setCode5%  |
+| let | osc6 | body |//transaction/customer/order[6]/setCode/text() |%setCode6%  |
+| let | osc7 | body |//transaction/customer/order[7]/setCode/text() |%setCode7%  |
+| let | osc8 | body |//transaction/customer/order[8]/setCode/text() |%setCode8%  |
+| let | osc9 | body |//transaction/customer/order[9]/setCode/text() |%setCode9%  |
+| let | osc10 | body |//transaction/customer/order[10]/setCode/text() |%setCode10%  |
+| let | tov1 | body |//transaction/customer/order[1]/totalOrderValue/text() |%totOrdVal1%  |
+| let | tov2 | body |//transaction/customer/order[2]/totalOrderValue/text() |%totOrdVal2%  |
+| let | tov3 | body |//transaction/customer/order[3]/totalOrderValue/text() |%totOrdVal3%  |
+| let | tov4 | body |//transaction/customer/order[4]/totalOrderValue/text() |%totOrdVal4%  |
+| let | tov5 | body |//transaction/customer/order[5]/totalOrderValue/text() |%totOrdVal5%  |
+| let | tov6 | body |//transaction/customer/order[6]/totalOrderValue/text() |%totOrdVal6%  |
+| let | tov7 | body |//transaction/customer/order[7]/totalOrderValue/text() |%totOrdVal7%  |
+| let | tov8 | body |//transaction/customer/order[8]/totalOrderValue/text() |%totOrdVal8%  |
+| let | tov9 | body |//transaction/customer/order[9]/totalOrderValue/text() |%totOrdVal9%  |
+| let | tov10 | body |//transaction/customer/order[10]/totalOrderValue/text() |%totOrdVal10%  |
+| let | tpv1 | body |//transaction/customer/order[1]/totalProductValue/text() |%totProdVal1%  |
+| let | tpv2 | body |//transaction/customer/order[2]/totalProductValue/text() |%totProdVal2%  |
+| let | tpv3 | body |//transaction/customer/order[3]/totalProductValue/text() |%totProdVal3%  |
+| let | tpv4 | body |//transaction/customer/order[4]/totalProductValue/text() |%totProdVal4%  |
+| let | tpv5 | body |//transaction/customer/order[5]/totalProductValue/text() |%totProdVal5%  |
+| let | tpv6 | body |//transaction/customer/order[6]/totalProductValue/text() |%totProdVal6%  |
+| let | tpv7 | body |//transaction/customer/order[7]/totalProductValue/text() |%totProdVal7%  |
+| let | tpv8 | body |//transaction/customer/order[8]/totalProductValue/text() |%totProdVal8%  |
+| let | tpv9 | body |//transaction/customer/order[9]/totalProductValue/text() |%totProdVal9%  |
+| let | tpv10 | body |//transaction/customer/order[10]/totalProductValue/text() |%totProdVal10%  |
+| let | tx1 | body |//transaction/customer/order[1]/totalOrderTax/text() |%tax1% |
+| let | tx2 | body |//transaction/customer/order[2]/totalOrderTax/text() |%tax2% |
+| let | tx3 | body |//transaction/customer/order[3]/totalOrderTax/text() |%tax3% |
+| let | tx4 | body |//transaction/customer/order[4]/totalOrderTax/text() |%tax4% |
+| let | tx5 | body |//transaction/customer/order[5]/totalOrderTax/text() |%tax5% |
+| let | tx6 | body |//transaction/customer/order[6]/totalOrderTax/text() |%tax6% |
+| let | tx7 | body |//transaction/customer/order[7]/totalOrderTax/text() |%tax7% |
+| let | tx8 | body |//transaction/customer/order[8]/totalOrderTax/text() |%tax8% |
+| let | tx9 | body |//transaction/customer/order[9]/totalOrderTax/text() |%tax9% |
+| let | tx10 | body |//transaction/customer/order[10]/totalOrderTax/text() |%tax10%  |
+| let | pst1 | body |//transaction/customer/order[1]/totalOrderPostageHandling/text() |%post1% |
+| let | pst2 | body |//transaction/customer/order[2]/totalOrderPostageHandling/text() |%post2% |
+| let | pst3 | body |//transaction/customer/order[3]/totalOrderPostageHandling/text() |%post3% |
+| let | pst4 | body |//transaction/customer/order[4]/totalOrderPostageHandling/text() |%post4% |
+| let | pst5 | body |//transaction/customer/order[5]/totalOrderPostageHandling/text() |%post5% |
+| let | pst6 | body |//transaction/customer/order[6]/totalOrderPostageHandling/text() |%post6% |
+| let | pst7 | body |//transaction/customer/order[7]/totalOrderPostageHandling/text() |%post7% |
+| let | pst8 | body |//transaction/customer/order[8]/totalOrderPostageHandling/text() |%post8% |
+| let | pst9 | body |//transaction/customer/order[9]/totalOrderPostageHandling/text() |%post9% |
+| let | pst10 | body |//transaction/customer/order[10]/totalOrderPostageHandling/text() |%post10%  |
+| let | amd1 | body |//transaction/customer/order[1]/amountDue/text() |%amtDue1% |
+| let | amd2 | body |//transaction/customer/order[2]/amountDue/text() |%amtDue2% |
+| let | amd3 | body |//transaction/customer/order[3]/amountDue/text() |%amtDue3% |
+| let | amd4 | body |//transaction/customer/order[4]/amountDue/text() |%amtDue4% |
+| let | amd5 | body |//transaction/customer/order[5]/amountDue/text() |%amtDue5% |
+| let | amd6 | body |//transaction/customer/order[6]/amountDue/text() |%amtDue6% |
+| let | amd7 | body |//transaction/customer/order[7]/amountDue/text() |%amtDue7% |
+| let | amd8 | body |//transaction/customer/order[8]/amountDue/text() |%amtDue8% |
+| let | amd9 | body |//transaction/customer/order[9]/amountDue/text() |%amtDue9% |
+| let | amd10 | body |//transaction/customer/order[10]/amountDue/text() |%amtDue10%  |
+| let | apd1 | body |//transaction/customer/order[1]/amountPaid/text() |%totPd1% |
+| let | apd2 | body |//transaction/customer/order[2]/amountPaid/text() |%totPd2% |
+| let | apd3 | body |//transaction/customer/order[3]/amountPaid/text() |%totPd3% |
+| let | apd4 | body |//transaction/customer/order[4]/amountPaid/text() |%totPd4% |
+| let | apd5 | body |//transaction/customer/order[5]/amountPaid/text() |%totPd5% |
+| let | apd6 | body |//transaction/customer/order[6]/amountPaid/text() |%totPd6% |
+| let | apd7 | body |//transaction/customer/order[7]/amountPaid/text() |%totPd7% |
+| let | apd8 | body |//transaction/customer/order[8]/amountPaid/text() |%totPd8% |
+| let | apd9 | body |//transaction/customer/order[9]/amountPaid/text() |%totPd9% |
+| let | apd10 | body |//transaction/customer/order[10]/amountPaid/text() |%totPd10%  |
+| let | dm1 | body |//transaction/customer/order[1]/deliveryMethod/text() |%delmeth1% |
+| let | dm2 | body |//transaction/customer/order[2]/deliveryMethod/text() |%delmeth2% |
+| let | dm3 | body |//transaction/customer/order[3]/deliveryMethod/text() |%delmeth3% |
+| let | dm4 | body |//transaction/customer/order[4]/deliveryMethod/text() |%delmeth4% |
+| let | dm5 | body |//transaction/customer/order[5]/deliveryMethod/text() |%delmeth5% |
+| let | dm6 | body |//transaction/customer/order[6]/deliveryMethod/text() |%delmeth6% |
+| let | dm7 | body |//transaction/customer/order[7]/deliveryMethod/text() |%delmeth7% |
+| let | dm8 | body |//transaction/customer/order[8]/deliveryMethod/text() |%delmeth8% |
+| let | dm9 | body |//transaction/customer/order[9]/deliveryMethod/text() |%delmeth9% |
+| let | dm10 | body |//transaction/customer/order[10]/deliveryMethod/text() |%delmeth10%  |
+| let | inv1 | body |//transaction/customer/order[1]/invoiceNumber/text() |%invoice1% |
+| let | inv2 | body |//transaction/customer/order[2]/invoiceNumber/text() |%invoice2% |
+| let | inv3 | body |//transaction/customer/order[3]/invoiceNumber/text() |%invoice3% |
+| let | inv4 | body |//transaction/customer/order[4]/invoiceNumber/text() |%invoice4% |
+| let | inv5 | body |//transaction/customer/order[5]/invoiceNumber/text() |%invoice5% |
+| let | inv6 | body |//transaction/customer/order[6]/invoiceNumber/text() |%invoice6% |
+| let | inv7 | body |//transaction/customer/order[7]/invoiceNumber/text() |%invoice7% |
+| let | inv8 | body |//transaction/customer/order[8]/invoiceNumber/text() |%invoice8% |
+| let | inv9 | body |//transaction/customer/order[9]/invoiceNumber/text() |%invoice9% |
+| let | inv10 | body |//transaction/customer/order[10]/invoiceNumber/text() |%invoice10%  |
+| let | csw1 | body |//transaction/customer/order[1]/continuitySwitch/text() |%contsw1% |
+| let | csw2 | body |//transaction/customer/order[2]/continuitySwitch/text() |%contsw2% |
+| let | csw3 | body |//transaction/customer/order[3]/continuitySwitch/text() |%contsw3% |
+| let | csw4 | body |//transaction/customer/order[4]/continuitySwitch/text() |%contsw4% |
+| let | csw5 | body |//transaction/customer/order[5]/continuitySwitch/text() |%contsw5% |
+| let | csw6 | body |//transaction/customer/order[6]/continuitySwitch/text() |%contsw6% |
+| let | csw7 | body |//transaction/customer/order[7]/continuitySwitch/text() |%contsw7% |
+| let | csw8 | body |//transaction/customer/order[8]/continuitySwitch/text() |%contsw8% |
+| let | csw9 | body |//transaction/customer/order[9]/continuitySwitch/text() |%contsw9% |
+| let | csw10 | body |//transaction/customer/order[10]/continuitySwitch/text() |%contsw10%  |
+| let | fshp1 | body |//transaction/customer/order[1]/fastShipNumber/text() |%fship1% |
+| let | fshp2 | body |//transaction/customer/order[2]/fastShipNumber/text() |%fship2% |
+| let | fshp3 | body |//transaction/customer/order[3]/fastShipNumber/text() |%fship3% |
+| let | fshp4 | body |//transaction/customer/order[4]/fastShipNumber/text() |%fship4% |
+| let | fshp5 | body |//transaction/customer/order[5]/fastShipNumber/text() |%fship5% |
+| let | fshp6 | body |//transaction/customer/order[6]/fastShipNumber/text() |%fship6% |
+| let | fshp7 | body |//transaction/customer/order[7]/fastShipNumber/text() |%fship7% |
+| let | fshp8 | body |//transaction/customer/order[8]/fastShipNumber/text() |%fship8% |
+| let | fshp9 | body |//transaction/customer/order[9]/fastShipNumber/text() |%fship9% |
+| let | fshp10 | body |//transaction/customer/order[10]/fastShipNumber/text() |%fship10%  |
+| let | iad1 | body |//transaction/customer/order[1]/installmentDue/text() |%instamd1% |
+| let | iad2 | body |//transaction/customer/order[2]/installmentDue/text() |%instamd2% |
+| let | iad3 | body |//transaction/customer/order[3]/installmentDue/text() |%instamd3% |
+| let | iad4 | body |//transaction/customer/order[4]/installmentDue/text() |%instamd4% |
+| let | iad5 | body |//transaction/customer/order[5]/installmentDue/text() |%instamd5% |
+| let | iad6 | body |//transaction/customer/order[6]/installmentDue/text() |%instamd6% |
+| let | iad7 | body |//transaction/customer/order[7]/installmentDue/text() |%instamd7% |
+| let | iad8 | body |//transaction/customer/order[8]/installmentDue/text() |%instamd8% |
+| let | iad9 | body |//transaction/customer/order[9]/installmentDue/text() |%instamd9% |
+| let | iad10 | body |//transaction/customer/order[10]/installmentDue/text() |%instamd10%  |
+| let | osh1 | body |//transaction/customer/order[1]/shipMethod/text() |%ossh1% |
+| let | osh2 | body |//transaction/customer/order[2]/shipMethod/text() |%ossh2% |
+| let | osh3 | body |//transaction/customer/order[3]/shipMethod/text() |%ossh3% |
+| let | osh4 | body |//transaction/customer/order[4]/shipMethod/text() |%ossh4% |
+| let | osh5 | body |//transaction/customer/order[5]/shipMethod/text() |%ossh5% |
+| let | osh6 | body |//transaction/customer/order[6]/shipMethod/text() |%ossh6% |
+| let | osh7 | body |//transaction/customer/order[7]/shipMethod/text() |%ossh7% |
+| let | osh8 | body |//transaction/customer/order[8]/shipMethod/text() |%ossh8% |
+| let | osh9 | body |//transaction/customer/order[9]/shipMethod/text() |%ossh9% |
+| let | osh10 | body |//transaction/customer/order[10]/shipMethod/text() |%ossh10%  |
+| let | pc1 | body |//transaction/customer/order[1]/planCode/text() |%plancode1% |
+| let | pc2 | body |//transaction/customer/order[2]/planCode/text() |%plancode2% |
+| let | pc3 | body |//transaction/customer/order[3]/planCode/text() |%plancode3% |
+| let | pc4 | body |//transaction/customer/order[4]/planCode/text() |%plancode4% |
+| let | pc5 | body |//transaction/customer/order[5]/planCode/text() |%plancode5% |
+| let | pc6 | body |//transaction/customer/order[6]/planCode/text() |%plancode6% |
+| let | pc7 | body |//transaction/customer/order[7]/planCode/text() |%plancode7% |
+| let | pc8 | body |//transaction/customer/order[8]/planCode/text() |%plancode8% |
+| let | pc9 | body |//transaction/customer/order[9]/planCode/text() |%plancode9% |
+| let | pc10 | body |//transaction/customer/order[10]/planCode/text() |%plancode10%  |
+| let | in1 | body |//transaction/customer/order[1]/internetNumber/text() |%inet1% |
+| let | in2 | body |//transaction/customer/order[2]/internetNumber/text() |%inet2% |
+| let | in3 | body |//transaction/customer/order[3]/internetNumber/text() |%inet3% |
+| let | in4 | body |//transaction/customer/order[4]/internetNumber/text() |%inet4% |
+| let | in5 | body |//transaction/customer/order[5]/internetNumber/text() |%inet5% |
+| let | in6 | body |//transaction/customer/order[6]/internetNumber/text() |%inet6% |
+| let | in7 | body |//transaction/customer/order[7]/internetNumber/text() |%inet7% |
+| let | in8 | body |//transaction/customer/order[8]/internetNumber/text() |%inet8% |
+| let | in9 | body |//transaction/customer/order[9]/internetNumber/text() |%inet9% |
+| let | in10 | body |//transaction/customer/order[10]/internetNumber/text() |%inet10%  |
+| let | q1 | body |//transaction/customer/order[1]/orderItem[1]/quantity/text()|%qty1%|
+| let | q2 | body |//transaction/customer/order[2]/orderItem[1]/quantity/text()|%qty2%|
+| let | q3 | body |//transaction/customer/order[3]/orderItem[1]/quantity/text()|%qty3%|
+| let | q4 | body |//transaction/customer/order[4]/orderItem[1]/quantity/text()|%qty4%|
+| let | q5 | body |//transaction/customer/order[5]/orderItem[1]/quantity/text()|%qty5%|
+| let | q6 | body |//transaction/customer/order[6]/orderItem[1]/quantity/text()|%qty6%|
+| let | q7 | body |//transaction/customer/order[7]/orderItem[1]/quantity/text()|%qty7%|
+| let | q8 | body |//transaction/customer/order[8]/orderItem[1]/quantity/text()|%qty8%|
+| let | q9 | body |//transaction/customer/order[9]/orderItem[1]/quantity/text()|%qty9%|
+| let | q10 | body |//transaction/customer/order[10]/orderItem[1]/quantity/text()|%qty10%|
+| let | prd1 | body |//transaction/customer/order[1]/orderItem[1]/productNumber/text()|%prod1%|
+| let | prd2 | body |//transaction/customer/order[2]/orderItem[1]/productNumber/text()|%prod2%|
+| let | prd3 | body |//transaction/customer/order[3]/orderItem[1]/productNumber/text()|%prod3%|
+| let | prd4 | body |//transaction/customer/order[4]/orderItem[1]/productNumber/text()|%prod4%|
+| let | prd5 | body |//transaction/customer/order[5]/orderItem[1]/productNumber/text()|%prod5%|
+| let | prd6 | body |//transaction/customer/order[6]/orderItem[1]/productNumber/text()|%prod6%|
+| let | prd7 | body |//transaction/customer/order[7]/orderItem[1]/productNumber/text()|%prod7%|
+| let | prd8 | body |//transaction/customer/order[8]/orderItem[1]/productNumber/text()|%prod8%|
+| let | prd9 | body |//transaction/customer/order[9]/orderItem[1]/productNumber/text()|%prod9%|
+| let | prd10 | body |//transaction/customer/order[10]/orderItem[1]/productNumber/text()|%prod10%|
+| let | dv1 | body |//transaction/customer/order[1]/orderItem[1]/value/text()|%dtlval1%|
+| let | dv2 | body |//transaction/customer/order[2]/orderItem[1]/value/text()|%dtlval2%|
+| let | dv3 | body |//transaction/customer/order[3]/orderItem[1]/value/text()|%dtlval3%|
+| let | dv4 | body |//transaction/customer/order[4]/orderItem[1]/value/text()|%dtlval4%|
+| let | dv5 | body |//transaction/customer/order[5]/orderItem[1]/value/text()|%dtlval5%|
+| let | dv6 | body |//transaction/customer/order[6]/orderItem[1]/value/text()|%dtlval6%|
+| let | dv7 | body |//transaction/customer/order[7]/orderItem[1]/value/text()|%dtlval7%|
+| let | dv8 | body |//transaction/customer/order[8]/orderItem[1]/value/text()|%dtlval8%|
+| let | dv9 | body |//transaction/customer/order[9]/orderItem[1]/value/text()|%dtlval9%|
+| let | dv10 | body |//transaction/customer/order[10]/orderItem[1]/value/text()|%dtlval10%|
+
+## presettled card type/amount:
+##| let | pt1 | body |//transaction/customer/order[1]/internetNumber/text() |%ptyp1% |
+##| let | pt2 | body |//transaction/customer/order[2]/internetNumber/text() |%ptyp2% |
+##| let | pt3 | body |//transaction/customer/order[3]/internetNumber/text() |%ptyp3% |
+##| let | pt4 | body |//transaction/customer/order[4]/internetNumber/text() |%ptyp4% |
+##| let | pt5 | body |//transaction/customer/order[5]/internetNumber/text() |%ptyp5% |
+##| let | pt6 | body |//transaction/customer/order[6]/internetNumber/text() |%ptyp6% |
+##| let | pt7 | body |//transaction/customer/order[7]/internetNumber/text() |%ptyp7% |
+##| let | pt8 | body |//transaction/customer/order[8]/internetNumber/text() |%ptyp8% |
+##| let | pt9 | body |//transaction/customer/order[9]/internetNumber/text() |%ptyp9% |
+##| let | pt10 | body |//transaction/customer/order[10]/internetNumber/text() |%ptyp10%  |
+##| let | pam1 | body |//transaction/customer/order[1]/internetNumber/text() |%pamt1% |
+##| let | pam2 | body |//transaction/customer/order[2]/internetNumber/text() |%pamt2% |
+##| let | pam3 | body |//transaction/customer/order[3]/internetNumber/text() |%pamt3% |
+##| let | pam4 | body |//transaction/customer/order[4]/internetNumber/text() |%pamt4% |
+##| let | pam5 | body |//transaction/customer/order[5]/internetNumber/text() |%pamt5% |
+##| let | pam6 | body |//transaction/customer/order[6]/internetNumber/text() |%pamt6% |
+##| let | pam7 | body |//transaction/customer/order[7]/internetNumber/text() |%pamt7% |
+##| let | pam8 | body |//transaction/customer/order[8]/internetNumber/text() |%pamt8% |
+##| let | pam9 | body |//transaction/customer/order[9]/internetNumber/text() |%pamt9% |
+##| let | pam10 | body |//transaction/customer/order[10]/internetNumber/text() |%pamt10%  |

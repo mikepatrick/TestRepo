@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/112110145819001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37045614</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>CM</reasonCode><moneyInd>R</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest10Sql|
+
+
+## Test:CC non-installment, multiple shipments, mulit cc charges.  
+## CCAR at $49.90.  CC at 'A' $27.95 (partially voided), CC at 'B' $49.90.

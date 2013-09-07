@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543286/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543286']|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |7.30|
+| let | creditCardType| body |//order[1]/payment/creditCardType/text() |MC|
+| let | lastBadPayTransactionNumber| body |//order[1]/payment/lastBadPayTransactionNumber/text() |113161153537001|
+| let | lastCancelDate| body |//order[1]/orderItem/lastCancelDate/text() |2013-06-10|
+
+
+
+#Verifying last cancel date and last bad pay transnbr

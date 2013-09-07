@@ -1,0 +1,42 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/326823663/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='326823663']|
+| let |planCode| body |//customer/seriesSummary[1]/planCode/text() |PBZ|
+| let |planDescription| body |//customer/seriesSummary[1]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let |accountNumber| body |//customer/seriesSummary[1]/recipient/accountNumber/text() |326823689|
+| let |planCode| body |//customer/seriesSummary[2]/planCode/text() |MAT|
+| let |planDescription| body |//customer/seriesSummary[2]/planDescription/text() |MATHMANIA|
+| let |accountNumber| body |//customer/seriesSummary[2]/recipient/accountNumber/text() |326823689|
+| let |planCode| body |//customer/seriesSummary[3]/planCode/text() |WWU|
+| let |planDescription| body |//customer/seriesSummary[3]/planDescription/text() |WHICH WAY USA|
+| let |accountNumber| body |//customer/seriesSummary[3]/recipient/accountNumber/text() |null|
+| let |planCode| body |//customer/seriesSummary[4]/planCode/text() |HPP|
+| let |planDescription| body |//customer/seriesSummary[4]/planDescription/text() |HIDDEN PICTURES PLAYGROUND|
+| let |accountNumber| body |//customer/seriesSummary[4]/recipient/accountNumber/text() |344768379|
+| let |planCode| body |//customer/seriesSummary[5]/planCode/text() |PZU|
+| let |planDescription| body |//customer/seriesSummary[5]/planDescription/text() |PUZZLEMANIA US|
+| let |accountNumber| body |//customer/seriesSummary[5]/recipient/accountNumber/text() |255602989|
+| let |planCode| body |//customer/seriesSummary[6]/planCode/text() |MAT|
+| let |planDescription| body |//customer/seriesSummary[6]/planDescription/text() |MATHMANIA|
+| let |accountNumber| body |//customer/seriesSummary[6]/recipient/accountNumber/text() |344768379|
+| let |planCode| body |//customer/seriesSummary[7]/planCode/text() |WWU|
+| let |planDescription| body |//customer/seriesSummary[7]/planDescription/text() |WHICH WAY USA|
+| let |accountNumber| body |//customer/seriesSummary[7]/recipient/accountNumber/text() |344768379|
+| let |planCode| body |//customer/seriesSummary[8]/planCode/text() |PBZ|
+| let |planDescription| body |//customer/seriesSummary[8]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let |accountNumber| body |//customer/seriesSummary[8]/recipient/accountNumber/text() |null|
+| let |planCode| body |//customer/seriesSummary[9]/planCode/text() |HPP|
+| let |planDescription| body |//customer/seriesSummary[9]/planDescription/text() |HIDDEN PICTURES PLAYGROUND|
+| let |accountNumber| body |//customer/seriesSummary[9]/recipient/accountNumber/text() |255602989|
+| let |planCode| body |//customer/seriesSummary[10]/planCode/text() |PBZ|
+| let |planDescription| body |//customer/seriesSummary[10]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let |accountNumber| body |//customer/seriesSummary[10]/recipient/accountNumber/text() |255602989|
+| let |planCode| body |//customer/seriesSummary[11]/planCode/text() |MAT|
+| let |planDescription| body |//customer/seriesSummary[11]/planDescription/text() |MATHMANIA|
+| let |accountNumber| body |//customer/seriesSummary[11]/recipient/accountNumber/text() |255602989|
+| let |planCode| body |//customer/seriesSummary[12]/planCode/text() |TSA|
+| let |planDescription| body |//customer/seriesSummary[12]/planDescription/text() |TOP SECRET ADVENTURES|
+| let |accountNumber| body |//customer/seriesSummary[12]/recipient/accountNumber/text() |255602989|

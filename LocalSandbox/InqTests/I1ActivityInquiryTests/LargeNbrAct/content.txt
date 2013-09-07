@@ -1,0 +1,55 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/10025/?startPosition=1&stopPosition=25&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10025']|
+| let | activityType| body | //activity[1]/activityType/text() |01|
+| let | extentOfChange| body | //activity[1]/extentOfChange/text() |Bypass switch only|
+| let | activityType| body | //activity[2]/activityType/text() |41|
+| let | invoice| body | //activity[2]/invoice/text() |1059|
+| let | activityType| body | //activity[4]/activityType/text() |26|
+| let | newContinuityType| body | //activity[4]/newContinuityType/text() |Discontinued|
+| let | activityType| body | //activity[6]/activityType/text() |21|
+| let | writeOffIndicator| body | //activity[6]/writeOffIndicator/text() |BALANCE|
+| let | activityType| body | //activity[8]/activityType/text() |03|
+| let | amountPaid| body | //activity[8]/amountPaid/text() |2.25|
+| let | activityType| body | //activity[25]/activityType/text() |04|
+| let | transactionNumber| body | //activity[25]/transactionNumber/text() |110125092251001|
+
+#most recent 1st - 25th
+#01-coa
+#41-suspend billing
+#26-chg cont status
+#21-write off
+#03-payment
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/10025/?startPosition=26&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10025']|
+| let | activityType| body | //activity[1]/activityType/text() |03|
+| let | transactionNumber| body | //activity[1]/transactionNumber/text() |110125092251001|
+| let | activityType| body | //activity[25]/activityType/text() |29|
+| let | transactionNumber| body | //activity[25]/transactionNumber/text() |110096102736001|
+
+#most recent 26th - 50th
+#checks only first and last trans and transnbr returned
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/10025/?startPosition=51&stopPosition=100&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10025']|
+| let | activityType| body | //activity[1]/activityType/text() |29|
+| let | transactionNumber| body | //activity[1]/transactionNumber/text() |110089083413001|
+| let | activityType| body | //activity[4]/activityType/text() |10|
+| let | letterCode| body | //activity[4]/letterCode/text() |CA01|
+| let | activityType| body | //activity[13]/activityType/text() |09|
+| let | productValue| body | //activity[13]/productValue/text() |14.90|
+| let | activityType| body | //activity[19]/activityType/text() |02|
+| let | cancelReason| body | //activity[19]/cancelReason/text() |System cancel, discontinued|
+| let | activityType| body | //activity[25]/activityType/text() |15|
+| let | transactionNumber| body | //activity[50]/transactionNumber/text() |109323155110001|
+| let | orderNumber| body | //activity[50]/orderNumber/text() |109194161720001|
+
+#51st - 100th
+#10-correspondence
+#09-delete order
+#02-cancel
+#15-pay app

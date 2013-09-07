@@ -1,0 +1,18 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/30106/?stopPosition=10&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='30106']|
+| let | name | body | //name/text() | CUSTOMER CONTACT CENTER |
+| let | email | body | //email/text() | taylore@csps.com |
+| let | orderNumber | body |//order[1]/orderNumber/text() |111347102146001|
+| let | productNumber| body |//order[1]/orderItem[1]/productNumber/text() |G925B50690EN|
+| let | productNumber| body |//order[1]/orderItem[3]/productNumber/text() |G475B51801EN|
+| let | serviceDate| body |//order[1]/orderItem[4]/serviceDate/text() |2011-12-14|
+| let | trackingNumber| body |//order[1]/orderItem[2]/trackingNumber/text() |1Z0434690304013044|
+
+##Acct 30106
+##Returning 10 orders, 10 activites
+##Customer has 28 orders
+##Verifying order detail order numbers

@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=376543443&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543443']|
+| let | totalOrderValue| body |//order[1]/totalOrderValue/text() |37.43|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |15.00|
+| let | amountPaid| body |//order[1]/amountPaid/text() |15.00|
+

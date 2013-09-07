@@ -1,0 +1,46 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the LATE FEE activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+  SUBSTR(HEX(ACTMISC),17,7) AS LFAMT,                
+  SUBSTR(HEX(ACTMISC),25,7) AS LFAVAIL,              
+  SUBSTR(ACTMISC,17,1) AS LFINDIC,                   
+  SUBSTR(ACTMISC,18,1) AS HOWCRTD,                   
+  SUBSTR(ACTMISC,19,1) AS MTHD,                     
+  SUBSTR(ACTMISC,20,6) AS BILLGRP,                   
+  SUBSTR(HEX(ACTMISC),51,5) AS INVOICE,              
+  SUBSTR(ACTMISC,29,10) AS BILLKEY                   
+         FROM CLTLIBd9x.XACTIVITY0 WHERE TRANSTYPE = 40
+         AND ACCTNBR =  31470388
+         AND TRANSNBR > 113211000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|LFAMT?|LFAVAIL?|LFINDIC?|HOWCRTD?|MTHD?|BILLGRP?|INVOICE?|BILLKEY?|
+|        |         |       |          |       |    |         |    |        |        |       |           |           |
+|        |         |       |          |       |    |         |    |        |        |       |           |           |
+
+
+
+!3 Now verify the 40 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+  SUBSTR(HEX(ACTMISC),17,7) AS LFAMT,                
+  SUBSTR(HEX(ACTMISC),25,7) AS LFAVAIL,              
+  SUBSTR(ACTMISC,17,1) AS LFINDIC,                   
+  SUBSTR(ACTMISC,18,1) AS HOWCRTD,                   
+  SUBSTR(ACTMISC,19,1) AS MTHD,                     
+  SUBSTR(ACTMISC,20,6) AS BILLGRP,                   
+  SUBSTR(HEX(ACTMISC),51,5) AS INVOICE,              
+  SUBSTR(ACTMISC,29,10) AS BILLKEY                   
+      FROM CLTLIBD9X.XACTIVITY0 WHERE TRANSTYPE = 40
+         AND ACCTNBR = 31470388
+         AND TRANSNBR > 113211000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|LFAMT|LFAVAIL|LFINDIC|HOWCRTD|MTHD|BILLGRP|INVOICE|BILLKEY|
+|31470388||594| 40| 111046101730001| 0000200| 0000200| C| C| B| 'DSA111'| 01002| '1103X3DDG '|
+|31470388||594| 40| 111046101730001| 0000050| 0000050| F| C| B| 'DSA111'| 01002| '1103X3DDG '|
+

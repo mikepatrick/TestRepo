@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/298525650/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='298525650']|
+| let |sourceCode| body |//order[4]/sourceCode/text() |0|
+| let |sourceCodeDescription| body |//order[4]/sourceCodeDescription/text() |UNKNOWN|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/367174810/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='367174810']|
+| let |sourceCode| body |//order[3]/sourceCode/text() |1|
+| let |sourceCodeDescription| body |//order[3]/sourceCodeDescription/text() |IMAGE|
+

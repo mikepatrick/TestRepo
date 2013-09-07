@@ -1,0 +1,7 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/113115123914011?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37047925</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AM</reasonCode><moneyInd>R</moneyInd><errorSwitch>O</errorSwitch></orderItem><orderItem><sequenceNumber>3</sequenceNumber><quantity>1</quantity><reasonCode>AM</reasonCode><moneyInd>R</moneyInd><errorSwitch>O</errorSwitch></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest22Sql|
+
+##Test:Split shipment, cc installment (1-chrg at B and 1-chrg at H)

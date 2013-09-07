@@ -1,0 +1,61 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CHANGE CUST GEN INFO activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,7,3) AS PLANCODE,
+  SUBSTR(ACTMISC,10,1) AS QTY,
+  SUBSTR(ACTMISC,11,1) AS ORDENTTYPE,
+  SUBSTR(ACTMISC,12,1) AS CCINFO,
+  SUBSTR(ACTMISC,13,1)AS NEGPOSOPT,
+  SUBSTR(ACTMISC,14,1)AS SHPFREQ,
+  SUBSTR(ACTMISC,15,1)AS SUSPEND,
+  SUBSTR(ACTMISC,16,1)AS RESUMEDATE,
+  SUBSTR(ACTMISC,17,1)AS FUTUREDATE,
+  SUBSTR(ACTMISC,18,1)AS LOADUP,
+  SUBSTR(ACTMISC,19,1)AS INTERESTCD,
+  SUBSTR(ACTMISC,20,2)AS OLDINTRSTCD,
+  SUBSTR(ACTMISC,22,2)AS NEWINTRSTCD,
+  SUBSTR(ACTMISC,24,1)AS PRODPRICE,
+  SUBSTR(ACTMISC,25,1)AS SHCHG
+          FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 29
+         AND ACCTNBR = 21983242
+         AND TRANSNBR > 112323000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|DSACCTNBR?|PLANCODE?|QTY?|ORDENTTYPE?|CCINFO?|NEGPOSOPT?|SHPFREQ?|SUSPEND?|RESUMEDATE?|FUTUREDATE?|LOADUP?|INTERESTCD?|OLDINTRSTCD?|NEWINTRSTCD?|PRODPRICE?|SHCHG?|
+|        |         |       |          |          |         |    |           |       |          |        |        |           |           |       |           |            |            |          |      |        
+|        |         |       |          |          |         |    |           |       |          |        |        |           |           |       |           |            |            |          |      |      
+
+
+
+!3 Now verify the 29 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,7,3) AS PLANCODE,
+  SUBSTR(ACTMISC,10,1) AS QTY,
+  SUBSTR(ACTMISC,11,1) AS ORDENTTYPE,
+  SUBSTR(ACTMISC,12,1) AS CCINFO,
+  SUBSTR(ACTMISC,13,1)AS NEGPOSOPT,
+  SUBSTR(ACTMISC,14,1)AS SHPFREQ,
+  SUBSTR(ACTMISC,15,1)AS SUSPEND,
+  SUBSTR(ACTMISC,16,1)AS RESUMEDATE,
+  SUBSTR(ACTMISC,17,1)AS FUTUREDATE,
+  SUBSTR(ACTMISC,18,1)AS LOADUP,
+  SUBSTR(ACTMISC,19,1)AS INTERESTCD,
+  SUBSTR(ACTMISC,20,2)AS OLDINTRSTCD,
+  SUBSTR(ACTMISC,22,2)AS NEWINTRSTCD,
+  SUBSTR(ACTMISC,24,1)AS PRODPRICE,
+  SUBSTR(ACTMISC,25,1)AS SHCHG
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 29
+         AND ACCTNBR =21983242
+         AND TRANSNBR > 112323000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|DSACCTNBR|PLANCODE|QTY|ORDENTTYPE|CCINFO|NEGPOSOPT|SHPFREQ|SUSPEND|RESUMEDATE|FUTUREDATE|LOADUP|INTERESTCD|OLDINTRSTCD|NEWINTRSTCD|PRODPRICE|SHCHG|
+|21983242| | 594| 29| 00021983374| 005| N| Y| Y| N| N| N| N| N| N| N| '  '| '  '| N| N|
+|21983242| | 594| 29| 00021983697| 005| N| Y| Y| N| N| N| N| N| N| N| '  '| '  '| N| N|
+
+

@@ -1,0 +1,2 @@
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitNesseRoot/files/lib/connect.properties|

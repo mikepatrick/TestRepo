@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/258892538/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='258892538']|
+| let |setCode| body |//customer/order[1]/orderItem[1]/setCode/text() |C|
+| let |setCode| body |//customer/order[1]/orderItem[2]/setCode/text() |C|
+| let |setCode| body |//customer/order[1]/orderItem[3]/setCode/text() |C|
+| let |setCode| body |//customer/order[1]/orderItem[4]/setCode/text() |C|
+| let |setCode| body |//customer/order[1]/orderItem[5]/setCode/text() |C|
+| let |setCode| body |//customer/order[1]/orderItem[6]/setCode/text() |C|
+| let |setCode| body |//customer/order[2]/setCode/text() |F|
+| let |setCode| body |//customer/order[2]/orderItem[1]/setCode/text() |null|

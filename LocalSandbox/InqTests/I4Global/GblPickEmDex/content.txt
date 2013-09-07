@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/76208/?stopPosition=5&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let |planCode| body |//seriesSummary[24]/planCode/text() |STL|
+| let |productNbr| body |//seriesSummary[24]/pickem/pickemEntries[1]/productNbr/text() |HCS1203C|
+| let |productNbr| body |//seriesSummary[24]/pickem/pickemEntries[2]/productNbr/text() |HSE1203C|
+
+#pickem - HCS1203C
+#pickem - HSE1203C

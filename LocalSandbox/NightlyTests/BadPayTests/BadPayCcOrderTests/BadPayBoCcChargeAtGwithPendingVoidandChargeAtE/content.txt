@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300015153?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AX</reasonCode><transactionNbr>110159115408000</transactionNbr><badPayAmount>62.04</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest41 |
+
+
+##CC Charge at 'G' (156.85) with pending voids & other cc at 'E' (181.15) for same ordernbr, but not on ECCSPFSPF.
+##BP cc chrg at 'G' $62.04 -08JUN10 115408 000.  BP amt = pending void amt $62.04 on charge. Amtdue is $181.15, void cncl'd $62.04.  *Known issue with TOTPDVALUE and accepted voids. 

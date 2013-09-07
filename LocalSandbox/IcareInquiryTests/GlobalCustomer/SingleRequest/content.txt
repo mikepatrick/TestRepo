@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+!include .ServPfTests.DefaultSettings
+!define client {FCXFCR}
+!define acctNbr {10025}
+!define appid {iCare}
+!define password {got2know}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/${client}|
+|GET|/${acctNbr}/?stopPosition=2&numberOfActivities=300&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

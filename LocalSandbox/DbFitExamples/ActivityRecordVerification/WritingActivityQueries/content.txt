@@ -1,0 +1,96 @@
+!contents -R2 -g -p -f -h
+
+Writing queries like the one in PaymentExamples is relatively easy, and does not necessarily require a developer.
+
+I have copied all of the DDS for the XACTTxxx files to MPATRICK/QDDSPFSRC, appending an X, i.e. XACTT030X for payments.
+
+I deleted the account number, operator id, transaction number, product line, and transtype, leaving only the miscellaneous area (in XACTT030X).
+
+I compiled this file: 
+{{{
+CRTPF SRCFILE(MPATRICK/QDDSPFSRC) SRCMBR(XACTT010X) OPTION(*EVENTF)  FILE(MPATRICK/XACTT010X)
+}}}
+
+Now DSPFFD will tell me all the offsets for my query.  Here is the payments query:
+{{{
+SELECT * FROM (                                              
+SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,                    
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                      
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                        
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                       
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,                    
+    SUBSTR((ACTMISC),27,1) AS APPIND,                        
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                     
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,                     
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                        
+    SUBSTR((ACTMISC),48,2) AS PRETYP                         
+         FROM CLTLIBMSP/XACTIVITY0 WHERE TRANSTYPE = 3       
+               ) AS PMTS WHERE PMTS.ORDNBR = 113149170700001 
+}}}
+{{{
+DSPFFD FILE(MPATRICK/XACTT030X) OUTPUT(*OUTFILE) OUTFILE(MPATRICK/XACTT030FD)
+}}}
+!3 Create a useful view:
+
+|Inspect Query|!- SELECT
+  ALL       WHFILE, WHLIB, WHFLDI, WHFLDE, WHFOBO, WHIBO, WHFLDB, WHFLDD,
+            WHFLDP, WHFLDT, WHFTXT
+  FROM      MPATRICK/XACTT030FD T01  -!|
+
+The data:        
+{{{
+....+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8....+....9....+...10....+...11....+...12....
+File        Library     Internal    External    Output    Input     Field     Number  Decimal    Field  Field Text          
+                        Field Name  Field Name  Buffer    Buffer    Length    Of      Positions  Type   Description         
+                                                Position  Position  In Bytes  Digits                                        
+XACTT030X   MPATRICK    A03PON      A03PON            1         1         8     15         0       P    PR-Order-Number     
+XACTT030X   MPATRICK    A03PAP      A03PAP            9         9         4      7         2       P    PR-AMOUNT-PAID      
+XACTT030X   MPATRICK    A03PPM      A03PPM           13        13         1      0         0       A    PR-Payment-Method   
+XACTT030X   MPATRICK    A03PBK      A03PBK           14        14        10      0         0       A    PR-BILLING-KEY      
+XACTT030X   MPATRICK    A03PIN      A03PIN           24        24         3      5         0       P    PR-INVOICE          
+XACTT030X   MPATRICK    A03PAI      A03PAI           27        27         1      0         0       A    PR-APPLICATION-IND  
+XACTT030X   MPATRICK    A03PDD      A03PDD           28        28         4      7         0       P    PR-DEPOSIT-DATE     
+XACTT030X   MPATRICK    A03PBN      A03PBN           32        32         3      5         0       P    PR-PAY-BATCH-NUMBER 
+XACTT030X   MPATRICK    A03HOW      A03HOW           35        35         1      0         0       A    HOW-CREATED         
+XACTT030X   MPATRICK    A03OBN      A03OBN           36        36         3      5         0       P    ORIG BATCH NBR      
+XACTT030X   MPATRICK    A03CHK      A03CHK           39        39         9      0         0       A    PR-CHECKNBR         
+XACTT030X   MPATRICK    A03PRS      A03PRS           48        48         2      0         0       A    PRESETTLED TYPE     
+XACTT030X   MPATRICK    A03FIL      A03FIL           50        50        11      0         0       A                        
+********  End of report  ********                                                                                           
+}}}
+Field Type indicates whether the field is packed or not.  P = Packed, A = Alphanumeric, S = Unpacked.
+
+For alphanumeric fields, use SUBSTR((ACTMISC), Buffer Position, Field Length in Bytes)).  For example:
+{{{
+File        Library     Internal    External    Output    Input     Field     Number  Decimal    Field  Field Text          
+                        Field Name  Field Name  Buffer    Buffer    Length    Of      Positions  Type   Description         
+                                                Position  Position  In Bytes  Digits                                 
+XACTT030X   MPATRICK    A03CHK      A03CHK           39        39      9        0         0       A    PR-CHECKNBR
+                                                               /\      /\
+                                                               ||      || 
+}}}
+Equates to the following field in the query     
+{{{
+SUBSTR((ACTMISC),39,9) AS CHKNBR,
+                 /\ /\
+                 || ||    
+}}}
+For packed fields, use SUBSTR(HEX(ACTMISC), (Buffer Position * 2) - 1, Number Of Digits))
+
+For example:
+{{{
+File        Library     Internal    External    Output    Input     Field     Number  Decimal    Field  Field Text          
+                        Field Name  Field Name  Buffer    Buffer    Length    Of      Positions  Type   Description         
+                                                Position  Position  In Bytes  Digits  
+XACTT030X   MPATRICK    A03PIN      A03PIN           24        24         3      5         0       P    PR-INVOICE 
+                                                               /\                /\
+                                                               ||                || 
+}}}
+Is translated into SQL like so:
+{{{
+SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,   
+                    /\ /\
+                    || ||             
+}}}
+Because the (buffer position * 2) - 1 = (24 * 2) - 1 = 47.

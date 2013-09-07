@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/375624004/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='375624004']|
+| let | lastCancelDate| body |//order[2]/orderItem/lastCancelDate/text() |2012-09-24|
+| let | lastCancelDate| body |//order[3]/orderItem/lastCancelDate/text() |2012-09-24|
+| let | lastCancelDate| body |//order[4]/orderItem[1]/lastCancelDate/text() |2012-09-24|
+| let | lastCancelDate| body |//order[4]/orderItem[2]/lastCancelDate/text() |2012-09-24|

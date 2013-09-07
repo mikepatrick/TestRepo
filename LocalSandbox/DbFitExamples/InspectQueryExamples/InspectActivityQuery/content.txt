@@ -1,0 +1,19 @@
+!contents -R2 -g -p -f -h
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Inspect Query allows you to get the layout returned by a query, as well as the data returned by the query,
+!3 to make writing tests easier.  
+
+!4 This row will return the table metadata (column names) and data rows.  
+|Inspect Query| SELECT * from CLTLIBMSP.XACTIVITY0 where TRANSTYPE = 11 and TRANSNBR > 113232000000000 and ACCTNBR = 123588|
+
+!4 Copy the gray table produced by Inspect Query, and paste it into your test page.  It will appear as a tab-delimited table.
+!4 Highlight this table and click the "Spreadsheet to Fitnesse" button.  This will replace the tabs with vertical bars.
+!4 Add the apostrophes to text fields if necessary, producing the following table.
+
+!|Query|SELECT * from CLTLIBMSP.XACTIVITY0 where TRANSTYPE = 11 and TRANSNBR > 113232000000000 and ACCTNBR = 123588|
+| ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| PRODABBR| ACTMISC|
+| 123588| | 302|11| FCR|'Comment Number 3                                       03   '|
+| 123588| | 302|11| FCR|'Comment Number 2                                       02   '|
+| 123588| | 302|11| FCR|'Comment Number 1                                       01   '|

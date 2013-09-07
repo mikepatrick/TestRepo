@@ -1,0 +1,12 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300013547?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1002</invoice><reasonCode>AU</reasonCode><transactionNbr>110154131518000</transactionNbr><badPayAmount>139.74</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest07 |
+
+
+##CC Charge at 'E' w/ pending voids for this order and pending voids for another order  (invoice 1002, 2 pending voids, 1 accepted void, CCAR is $137.13 before BP.  Invoice 1003 1 pending void.)
+##BP $139.74 on cc chrg - 03JUN10  (amt on CC is $70.58, but need to bad pay $139.74), invoice 1002.  2 pending voids were cncl'd.  Amtdue = 137.13. Balance 195.77.

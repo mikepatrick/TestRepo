@@ -1,0 +1,20 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543484/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543484']|
+| let | distributorCode | body |//order[1]/orderItem[1]/distributorCode /text() |WAR|
+| let | warehouseDescription| body |//order[1]/orderItem[1]/warehouseDescription/text() |WARREN INDUSTRIES|
+| let | distributorCode | body |//order[1]/orderItem[2]/distributorCode /text() |WIL|
+| let | warehouseDescription| body |//order[1]/orderItem[2]/warehouseDescription/text() |WILTON LETTERSHOP|
+| let | distributorCode | body |//order[1]/orderItem[3]/distributorCode /text() |NON|
+| let | warehouseDescription| body |//order[1]/orderItem[3]/warehouseDescription/text() |NO PHYSICAL PRODUCT|
+| let | distributorCode | body |//order[1]/orderItem[4]/distributorCode /text() |NSH|
+| let | warehouseDescription| body |//order[1]/orderItem[4]/warehouseDescription/text() |NORTHSHORE|
+| let | distributorCode | body |//order[1]/orderItem[5]/distributorCode /text() |RMC|
+| let | warehouseDescription| body |//order[1]/orderItem[5]/warehouseDescription/text() |RMCB|
+| let | distributorCode | body |//order[1]/orderItem[6]/distributorCode /text() |WAR|
+| let | warehouseDescription| body |//order[1]/orderItem[6]/warehouseDescription/text() |WARREN INDUSTRIES|
+| let | distributorCode | body |//order[1]/orderItem[7]/distributorCode /text() |WIL|
+| let | warehouseDescription| body |//order[1]/orderItem[7]/warehouseDescription/text() |WILTON LETTERSHOP|

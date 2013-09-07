@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<properties>
+	<Files>true</Files>
+	<Properties>true</Properties>
+	<RecentChanges>true</RecentChanges>
+	<Refactor>true</Refactor>
+	<Search>true</Search>
+	<Versions>true</Versions>
+	<WhereUsed>true</WhereUsed>
+	<WikiImport>
+		<Source>http://test-mag3.buysub.com:8090/ServPfTestDevelopment.TestData.AddChangeEmailTests.NoChangesAtAll</Source>
+		<LastRemoteModification>20130813100923</LastRemoteModification>
+		<AutoUpdate/>
+	</WikiImport>
+</properties>

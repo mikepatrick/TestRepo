@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300015153?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AY</reasonCode><transactionNbr>110159114920000</transactionNbr><badPayAmount>181.15</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest42 |
+
+##2nd BP - Multiple Bad Pays on cc orders (2nd BP $181.15 on cc at 'F')
+##Bp'd, cncl'd void, amtdue 181.15 - okay

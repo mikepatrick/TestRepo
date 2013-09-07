@@ -1,0 +1,35 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the VOID activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+  SUBSTR(HEX(ACTMISC),17,15) AS TRNSNBR,
+  SUBSTR(HEX(ACTMISC),33,7) AS VOIDDATE,
+  SUBSTR(HEX(ACTMISC),41,7) AS VOIDAMT, 
+  SUBSTR(ACTMISC,25,1) AS VOIDRSN,
+  SUBSTR(ACTMISC,26,1) AS VOIDSTS 
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 47
+         AND ACCTNBR = 37042926    
+         AND TRANSNBR > 112109000000001                -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|TRNSNBR?|VOIDDATE?|VOIDAMT?|VOIDRSN?|VOIDSTS?|
+|        |         |       |          |       |         |        |         |        |        |   
+
+!3 Now verify the 47 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+  SUBSTR(HEX(ACTMISC),17,15) AS TRNSNBR,
+  SUBSTR(HEX(ACTMISC),33,7) AS VOIDDATE,
+  SUBSTR(HEX(ACTMISC),41,7) AS VOIDAMT, 
+  SUBSTR(ACTMISC,25,1) AS VOIDRSN,
+  SUBSTR(ACTMISC,26,1) AS VOIDSTS 
+        FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 47
+         AND ACCTNBR = 37042926  
+         AND TRANSNBR > 112109000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|TRNSNBR|VOIDDATE|VOIDAMT|VOIDRSN|VOIDSTS|
+|37042926||594| 47| 112110134240007| 112111070249000| 0112111| 0003392| A| A|

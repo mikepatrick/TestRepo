@@ -1,0 +1,100 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+
+!define client {DEXFCR}
+!define clt {DEX}
+!define acctNbr {138735}
+!define name {ROBERT HOHNER}
+!define city {SPOKANE}
+!define state {WA}
+
+!define appid {AutomatedTesting}
+!define password {cds1001}
+
+
+!3 Use DBFit to load account info into tables.
+!|dbfit.DB2Test|
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+!|set option|fixed length string parsing|true|
+!|Set Parameter|account|${acctNbr}|
+!|Set Parameter|clientAbbr|${clt}|
+!|Set Parameter|name|${name}|
+!|Set Parameter|city|${city}|
+!|Set Parameter|state|${state}|
+
+!2 - Create tables
+
+!|Execute|call dbdrop (' table WWWAUTOT/Name_table')|
+!|Execute|!- Create table WWWAUTOT.Name_table(
+nameName char(30)DEFAULT ' ',
+addrLine1 char(30)DEFAULT ' ',
+addrLine2 char(30) DEFAULT ' ',
+addrLine3 char(30) DEFAULT ' ',
+cityName char(30) DEFAULT ' ',
+stateAbbr char(4) DEFAULT ' ',
+zipCode char(6) DEFAULT ' ',
+countryName char(4) DEFAULT ' ',
+phoneNumber char(11) DEFAULT '0'
+) -!|
+
+!1 - XML return table.
+!|Execute|call dbdrop (' table WWWAUTOT/Name_table_Return')|
+!|Execute|!- Create table WWWAUTOT.Name_table_Return(
+nameName char(30) default ' ',
+addrLine1 char(30)DEFAULT ' ',
+addrLine2 char(30)DEFAULT ' ',
+addrLine3 char(30)DEFAULT ' ',
+cityName char(30)DEFAULT ' ',
+stateAbbr char(4)DEFAULT ' ',
+zipCode char(6)DEFAULT ' ',
+countryName char(4)DEFAULT ' ',
+phoneNumber char(11) DEFAULT '0'
+) -!|
+
+!2 Load the customer database files.
+
+!1 Name. 
+!|Execute|!- Insert into WWWAUTOT.Name_table(addrLine1, addrLine2, addrLine3, zipCode, phoneNumber) 
+select ADDRLINE1, ADDRLINE2, ADDRLINE3, ZIPCODE, TELEPHONE
+FROM CLTLIBDEX.XNAME0 where ACCTNBR = :account and ADDRTHRUDT = 199365 -!|
+
+!|Execute|!- UPDATE Name_table SET nameName = :name, cityName = :city, stateAbbr = :state -!|
+
+!|Inspect Query|Select * from Name_table|
+
+!3 Use REST API to build return table from XML.
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/${client}|
+|GET|?accountNumber=${acctNbr}&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+| let | retname | body |//transaction/customer/name/text() | |
+| let | retadd1 | body |//transaction/customer/address1/text() | |
+| let | retadd2 | body |//transaction/customer/address2/text() | |
+| let | retadd3 | body |//transaction/customer/address3/text() | |
+| let | retzip | body |//transaction/customer/zipCode/text() | |
+| let | retcity | body |//transaction/customer/city/text() | |
+| let | retstate | body |//transaction/customer/state/text() | |
+| let | retcountry | body |//transaction/customer/country/text() | |
+| let | retphone | body |//transaction/customer/phoneNumber/text() | |
+
+!|Execute|!- Insert into WWWAUTOT.Name_table_Return(nameName, addrLine1, addrLine2, addrLine3, zipCode, cityName, stateAbbr, countryName, phoneNumber) 
+             values (:retname, :retadd1, :retadd2, :retadd3, :retzip, :retcity, :retstate, :retcountry, :retphone) -!|
+
+!|Inspect Query|Select * from WWWAUTOT.Name_table_Return|
+
+!|Execute|!- Update WWWAUTOT.Name_table_Return set
+addrLine2 = replace(addrLine2, 'null', ' '),
+addrLine3 = replace(addrLine3, 'null', ' '),
+countryName = replace(countryName, 'null', ' ')
+-!|
+
+!3 Compare the stored queries to see the changes to the database. 
+
+!|Inspect Query|Select * from WWWAUTOT.Name_table|
+!|Inspect Query|Select * from WWWAUTOT.Name_table_Return|
+!|StoreQuery|Select * from WWWAUTOT.Name_table|pfQry|
+!|StoreQuery|Select * from WWWAUTOT.Name_table_Return|xmlQry|
+
+|compare stored queries|pfQry|xmlQry|
+|nameName?|addrLine1?|addrLine2?|addrLine3?|zipCode?|phoneNumber?|cityName?|stateAbbr?|countryName?|

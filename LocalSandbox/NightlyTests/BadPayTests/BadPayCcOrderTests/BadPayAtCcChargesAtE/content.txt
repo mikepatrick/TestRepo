@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300016987?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>CW</reasonCode><transactionNbr>111159091651000</transactionNbr><badPayAmount>173.44</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest20 |
+
+##BP 1 Credit card charge. Order has 2 charges at 'E' - $173.44 & $12.99.  (CC AR $186.43 before BP).
+##BP $173.44. Chg changed to D - rejected. $12.99 chg changed to F - pending void. Void actv created, status = pending void.  Amtdue is now $186.43.
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.

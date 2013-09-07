@@ -1,0 +1,46 @@
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitNesseRoot/files/lib/connect.properties|
+
+!|set option|fixed length string parsing|true|
+
+!|execute procedure |convDate|
+|dt|jul?|
+|2010-02-15|| 
+|2012-05-22||
+|2002-11-25||
+|2004-02-29||
+|1998-12-05||
+
+
+!|execute procedure|convDate|
+|dt|jul?|
+|2010-02-15| 110046|
+|2012-05-22| 112143|
+|2002-11-25| 102329|
+|2004-02-29| 104060|
+|1998-12-05| '98339 ' |
+
+
+##!|execute procedure|convDate|
+##|dt|jul?|
+##|2010-02-15|110046| 
+
+{{{
+create procedure wwwautot/convDate (in dt CHAR(10), out jul CHAR(6))
+begin                                                               
+declare ayear CHAR(4);                                              
+declare julYear CHAR(2);                                            
+declare julDay  CHAR(3);                                            
+declare julIntDay INTEGER;                                          
+declare century CHAR(1);                                            
+declare retVal  CHAR(7);                                            
+SET ayear= char((select year(date(dt)) from sysibm/sysdummy1        
+                      AS ayear));                                   
+IF ayear > '1999' THEN SET century = '1'; 
+ELSE SET century = ' ';  END IF;                                         
+SET julYear = substr(ayear,3,2);                                    
+SET julIntDay = (dayofyear(date(dt))) + 1000;                       
+SET julDay = substr((CHAR(julIntDay)), 2, 3);                       
+SET jul = trim(concat(concat(century, julYear), julDay));           
+end                                                                                                                                
+}}}

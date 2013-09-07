@@ -1,0 +1,12 @@
+!lastmodified ----
+
+!4 When you first use Cmd Call Fixture, it logs you into the iSeries using your credentials in db.properties.
+!4 If you wish to run commands logged in as another user, you can use the login() method, as below.
+| Import |
+| com.cds.fitnesse.fixture |
+
+!|CmdCallFixture|
+|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+|login||user|WWWAUTOT|password|cds999|
+|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+|runcmd|CRTLIB TESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|

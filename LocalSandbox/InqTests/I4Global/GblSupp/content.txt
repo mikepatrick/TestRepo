@@ -1,0 +1,44 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/360424220/?stopPosition=20&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='360424220']|
+| let | name | body | //name/text() | JACKSON ALEXANDER SMYTHE |
+| let | address1| body | //address1/text() | 511 E MAIN |
+| let | customerBalance | body | //customerBalance/text() | 0.00 |
+| let | productNbr | body |//suppresionProduct[1]/productNbr/text() |BYPASS|
+| let | productNbr | body |//suppresionProduct[2]/productNbr/text() |TSA04|
+| let | productNbr | body |//suppresionProduct[3]/productNbr/text() |TSA05|
+| let | productNbr | body |//suppresionProduct[4]/productNbr/text() |TSA07|
+| let | productNbr | body |//suppresionProduct[5]/productNbr/text() |TSA08|
+| let | productNbr | body |//suppresionProduct[6]/productNbr/text() |TSA09|
+| let | productNbr | body |//suppresionProduct[7]/productNbr/text() |TSA10|
+| let | productNbr | body |//suppresionProduct[8]/productNbr/text() |TSA11|
+| let | productNbr | body |//suppresionProduct[9]/productNbr/text() |TSA12|
+| let | productNbr | body |//suppresionProduct[10]/productNbr/text() |TSA14|
+| let | productNbr | body |//suppresionProduct[11]/productNbr/text() |TSA15|
+| let | productNbr | body |//suppresionProduct[12]/productNbr/text() |TSA16|
+| let | productNbr | body |//suppresionProduct[13]/productNbr/text() |TSA17|
+| let | productNbr | body |//suppresionProduct[14]/productNbr/text() |TSA18|
+| let | productNbr | body |//suppresionProduct[15]/productNbr/text() |TSA19|
+| let | productNbr | body |//suppresionProduct[16]/productNbr/text() |TSA20|
+| let | productNbr | body |//suppresionProduct[17]/productNbr/text() |TSA22|
+| let | productNbr | body |//suppresionProduct[18]/productNbr/text() |TSA23|
+| let | productNbr | body |//suppresionProduct[19]/productNbr/text() |TSA24|
+| let | productNbr | body |//suppresionProduct[20]/productNbr/text() |TSA25|
+| let | productNbr | body |//suppresionProduct[21]/productNbr/text() |TSA26|
+| let | productNbr | body |//suppresionProduct[22]/productNbr/text() |TSA27|
+| let | productNbr | body |//suppresionProduct[23]/productNbr/text() |TS201|
+| let | productNbr | body |//suppresionProduct[24]/productNbr/text() |TS202|
+| let | productNbr | body |//suppresionProduct[25]/productNbr/text() |TS203|
+| let | productNbr | body |//suppresionProduct[26]/productNbr/text() |TS204|
+| let | productNbr | body |//suppresionProduct[27]/productNbr/text() |TS205|
+| let | productNbr | body |//suppresionProduct[28]/productNbr/text() |TS206|
+| let | productNbr | body |//suppresionProduct[29]/productNbr/text() |TS207|
+| let | productNbr | body |//suppresionProduct[30]/productNbr/text() |TS208|
+| let | productNbr | body |//suppresionProduct[31]/productNbr/text() |TS209|
+| let | productNbr | body |//suppresionProduct[32]/productNbr/text() |TS210|
+| let | productNbr | body |//suppresionProduct[33]/productNbr/text() |TS211|
+| let | productNbr | body |//suppresionProduct[34]/productNbr/text() |TS212|
+| let | productNbr | body |//suppresionProduct[35]/productNbr/text() |TS213|

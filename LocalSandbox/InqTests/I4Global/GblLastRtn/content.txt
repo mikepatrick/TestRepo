@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/374299352/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='374299352']|
+| let | amountPaid| body |//order[3]/payment/amountPaid/text() |7.40|
+| let | lastReturnDate| body |//order[2]/orderItem[1]/lastReturnDate/text() |2012-09-24|
+| let | lastReturnDate| body |//order[2]/orderItem[2]/lastReturnDate/text() |2012-09-24|
+| let | lastReturnDate| body |//order[2]/orderItem[2]/lastReturnDate/text() |2012-09-24|

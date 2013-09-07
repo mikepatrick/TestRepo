@@ -1,0 +1,25 @@
+!lastmodified
+
+|Import|
+|com.cds.fitnesse.fixture|
+
+!|PgmCallRowFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|dataName|dataType|dataLength|dataValue|
+|firstparm|CHAR|12|MPATRICKMP|
+|secondparm|NUM|15|108150856489001|
+
+!|PgmCallRowFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|dataName|dataType|dataLength|dataValue|
+|firstparm|CHAR|12|HELLO, WORLD|
+|secondparm|NUM|15|108150856489001|
+
+!|PgmCallRowFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|dataName|dataType|dataLength|dataValue|
+|firstparm|CHAR|12|HELLO, WORLD|
+|secondparm|NUM|15|113351843246887|
+
+
+
+113351843246887
+##!|PgmCallRowFixture|
+##|setParms|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|

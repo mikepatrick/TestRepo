@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300016946?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AY</reasonCode><transactionNbr>111159091653000</transactionNbr><badPayAmount>50.18</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest19 |
+
+#BP CC Charge at pending.  (Credit Card install order - 1 cc pymt at 'E' - $76.00, 1 cc charge at 'E' - $50.18.  CC AR $64.15 before BP.)
+#BP $50.18. Chg changed to D - rejected. $76 chg still E - pending. Cont BAS is suspended.  Amtdue is now $64.15.
+#Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.

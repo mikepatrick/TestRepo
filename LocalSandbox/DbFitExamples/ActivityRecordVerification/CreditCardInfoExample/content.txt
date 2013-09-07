@@ -1,0 +1,49 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CREDIT CARD INFO activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS CCTYPE,
+    SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,   
+    SUBSTR(ACTMISC,20,4) AS EXPIREDT,                 
+    SUBSTR(ACTMISC,24,10) AS AUTHCODE,
+    SUBSTR(ACTMISC,34,1) AS STS,                   
+    SUBSTR(ACTMISC,35,1) AS ORDPYMTIND,               
+    SUBSTR(ACTMISC,36,1) AS AUTHSTS,                   
+    SUBSTR(ACTMISC,37,6) AS AUTHDATE,                
+    SUBSTR(ACTMISC,43,14) AS AUTHREFNUM,
+    SUBSTR(ACTMISC,57,2) AS RECYCLENBR,
+    SUBSTR(ACTMISC,59,1) AS AUTHSW
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 06
+         AND ACCTNBR = 37046281
+         AND TRANSNBR > 113125000000001                        -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|CCTYPE?|CCNBR?|EXPIREDT?|AUTHCODE?|STS?|ORDPYMTIND?|AUTHSTS?|AUTHDATE?|AUTHREFNUM?|RECYCLENBR?|AUTHSW?|
+|        |         |       |          |       |       |      |         |         |    |           |        |         |           |           |       |
+
+
+
+!3 Now verify the 06 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS CCTYPE,
+    SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,   
+    SUBSTR(ACTMISC,20,4) AS EXPIREDT,                 
+    SUBSTR(ACTMISC,24,10) AS AUTHCODE,
+    SUBSTR(ACTMISC,34,1) AS STS,                   
+    SUBSTR(ACTMISC,35,1) AS ORDPYMTIND,               
+    SUBSTR(ACTMISC,36,1) AS AUTHSTS,                   
+    SUBSTR(ACTMISC,37,6) AS AUTHDATE,                
+    SUBSTR(ACTMISC,43,14) AS AUTHREFNUM,
+    SUBSTR(ACTMISC,57,2) AS RECYCLENBR,
+    SUBSTR(ACTMISC,59,1) AS AUTHSW
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 06
+         AND ACCTNBR =37046281
+         AND TRANSNBR > 113125000000001                        -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|CCTYPE|CCNBR|EXPIREDT|AUTHCODE|STS|ORDPYMTIND|AUTHSTS|AUTHDATE|AUTHREFNUM|RECYCLENBR|AUTHSW|
+|37046281||594| 6| 113126123558001| AE| 00000000000000047| 0118| '          '| A| A| N| 000000| '              '| 00| N|

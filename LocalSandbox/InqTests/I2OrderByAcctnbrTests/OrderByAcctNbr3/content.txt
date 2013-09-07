@@ -1,0 +1,13 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=50468&start=111304010145011&stop=111304010145011&stopPosition=1&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |14.60|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=50468&start=111000000000000&stop=112000000000000&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | amountPaid| body |//order[13]/payment/amountPaid/text() |2.30|
+| let | orderNumber| body |//order[21]/orderNumber/text() |111325100340001|
+| let | amountPaid| body |//order[21]/payment/amountPaid/text() |19.23|

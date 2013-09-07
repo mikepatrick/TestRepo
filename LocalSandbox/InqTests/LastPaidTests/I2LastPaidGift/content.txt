@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=376543419&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543419']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113161115840001|
+| let | creditCardType | body |//order[1]/payment/creditCardType/text() |MC|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |0.00|
+| let | creditCardNumber| body |//order[1]/payment/creditCardNumber/text() |2213|
+| let | creditCardExpireMonth| body |//order[1]/payment/creditCardExpireMonth/text() |09|
+| let | creditCardExpireYear| body |//order[1]/payment/creditCardExpireYear/text() |19|

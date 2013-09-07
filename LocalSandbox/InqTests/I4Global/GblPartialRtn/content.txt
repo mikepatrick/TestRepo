@@ -1,0 +1,18 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/360515001/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='360515001']|
+| let | orderNumber| body |//order[2]/orderNumber/text() |112011070709001|
+| let | orderStatus| body |//order[2]/orderStatus/text() |G|
+| let | lastReturnDate| body |//order[2]/orderItem[1]/lastReturnDate/text() |2012-02-23|
+| let | orderStatus| body |//order[2]/orderItem[1]/orderStatus/text() |C|
+| let | orderStatus| body |//order[2]/orderItem[2]/orderStatus/text() |A|
+| let | orderStatus| body |//order[2]/orderItem[3]/orderStatus/text() |A|
+| let | creditCardType| body |//order[2]/payment/creditCardType/text() |VI|
+| let | amountPaid| body |//order[2]/payment/amountPaid/text() |22.95|
+| let | lateFeesCollected| body |//order[2]/payment/lateFeesCollected/text() |1.50|
+
+
+

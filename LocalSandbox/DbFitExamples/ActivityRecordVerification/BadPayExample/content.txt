@@ -1,0 +1,46 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the BAD PAY activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS BPORDNBR,
+  SUBSTR(ACTMISC,9,1) AS BPPYMTIND,
+  SUBSTR(HEX(ACTMISC),19,7) AS BPAMT,
+  SUBSTR(ACTMISC,14,1) AS BPTYPE,
+  SUBSTR(ACTMISC,15,2) AS BPRSN,
+  SUBSTR(ACTMISC,17,10) AS BILLKEY,
+  SUBSTR(HEX(ACTMISC),53,5) AS BPINVC, 
+  SUBSTR(HEX(ACTMISC),59,15) AS BPORDER,
+  SUBSTR(HEX(ACTMISC),75,7) AS BPLATEFEE,
+  SUBSTR(HEX(ACTMISC),83,7) AS ORIGAMT
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 14
+         AND ACCTNBR = 25156126
+         AND TRANSNBR > 111307000000001                          -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|BPORDNBR?        | BPPYMTIND?|BPAMT? | BPTYPE?| BPRSN? |BILLKEY?| BPINVC? |BPORDER?|BPLATEFEE? |ORIGAMT? |
+|        |         |       |          |                 |           |       |        |        |        |         |        |           |         |   
+
+
+
+!3 Now verify the 14 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR,OPERID, TRANSTYPE,                 
+  SUBSTR(HEX(ACTMISC),1,15) AS BPORDNBR,
+  SUBSTR(ACTMISC,9,1) AS BPPYMTIND,
+  SUBSTR(HEX(ACTMISC),19,7) AS BPAMT,
+  SUBSTR(ACTMISC,14,1) AS BPTYPE,
+  SUBSTR(ACTMISC,15,2) AS BPRSN,
+  SUBSTR(ACTMISC,17,10) AS BILLKEY,
+  SUBSTR(HEX(ACTMISC),53,5) AS BPINVC, 
+  SUBSTR(HEX(ACTMISC),59,15) AS BPORDER,
+  SUBSTR(HEX(ACTMISC),75,7) AS BPLATEFEE,
+  SUBSTR(HEX(ACTMISC),83,7) AS ORIGAMT
+    FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 14
+         AND ACCTNBR = 25156126        
+         AND TRANSNBR > 111307000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|BPORDNBR|BPPYMTIND|BPAMT|BPTYPE|BPRSN|BILLKEY|BPINVC|BPORDER|BPLATEFEE|ORIGAMT|
+|25156126| |73700| 14| 111277135408001| B|0002998| A| AQ| '1134X1CH0 '| 01001| 111241083450001| 0000000| 0000000|

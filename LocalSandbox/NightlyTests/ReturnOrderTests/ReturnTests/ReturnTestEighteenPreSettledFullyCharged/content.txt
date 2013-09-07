@@ -1,0 +1,8 @@
+!contents !contents 
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/113115123913001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37047693</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AB</reasonCode><moneyInd>R</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest18Sql|
+
+##Test:Pre-settled cc order - fully charged

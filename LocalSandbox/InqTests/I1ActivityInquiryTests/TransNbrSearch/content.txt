@@ -1,0 +1,26 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/128983/?start=111000000000000&stop=112000000000000&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='128983']|
+| let |transactionNumber| body | //activity[1]/transactionNumber/text() |111356090035000|
+| let |transactionNumber| body | //activity[18]/transactionNumber/text() |111074070244001|
+
+#2011-2012 most recent 50 activities
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/128983/?start=112000000000000&stop=113000000000000&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='128983']|
+| let |transactionNumber| body | //activity[1]/transactionNumber/text() |112016083953791|
+| let |activityType| body | //activity[1]/activityType/text() |01|
+
+#2012-2013 most recent 50 activities
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/128983/?start=110000000000000&stop=111000000000000&stopPosition=5&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='128983']|
+| let |transactionNumber| body | //activity[1]/transactionNumber/text() |110273095340001|
+| let |activityType| body | //activity[1]/activityType/text() |10|
+| let |transactionNumber| body | //activity[5]/transactionNumber/text() |110229065858001|
+| let |activityType| body | //activity[5]/activityType/text() |11|
+
+#2010-2011 most recent 5 activities

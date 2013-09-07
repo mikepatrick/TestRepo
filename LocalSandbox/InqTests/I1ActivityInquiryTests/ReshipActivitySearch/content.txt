@@ -1,0 +1,13 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/65565/?activityType=35&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='65565']|
+| let | activityType| body | //activity[1]/activityType/text() |35|
+| let | transactionNumber| body | //activity[1]/transactionNumber/text() |109243000218000|
+| let | invoice| body | //activity[1]/invoice/text() |1073|
+| let | productReshipped| body | //activity[1]/productReshipped/text() |G875B50778EN|
+
+
+#most recent 10 reship activities

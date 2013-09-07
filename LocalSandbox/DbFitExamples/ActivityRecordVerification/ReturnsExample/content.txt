@@ -1,0 +1,58 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the RETURN activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTY,               
+    SUBSTR(HEX(ACTMISC),61,7) AS PRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS TAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS SH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS DISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS COUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS MISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS INVOICE,
+    SUBSTR(ACTMISC,54,1) AS STOCKSW,  
+    SUBSTR(ACTMISC,55,1) AS HOWAPPL,  
+    SUBSTR(ACTMISC,56,1) AS GIFTKITSW,
+    SUBSTR(HEX(ACTMISC),113,3) AS ITMSEQ, 
+    SUBSTR(ACTMISC,59,2) AS CLMRTN
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 04
+         AND ACCTNBR = 23596513   
+         AND TRANSNBR > 110292000000001                         -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|RSN?|PRODNBR?|QTY?|PRODVL?|TAX?|SH?|DISC?|COUP?|MISC?|INVOICE?|STOCKSW?|HOWAPPL?|GIFTKITSW?|ITMSEQ?|CLMRTN?|
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          |       |        | | |
+
+
+
+!3 Now verify the 04 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTY,               
+    SUBSTR(HEX(ACTMISC),61,7) AS PRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS TAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS SH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS DISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS COUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS MISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS INVOICE,
+    SUBSTR(ACTMISC,54,1) AS STOCKSW,  
+    SUBSTR(ACTMISC,55,1) AS HOWAPPL,  
+    SUBSTR(ACTMISC,56,1) AS GIFTKITSW,
+    SUBSTR(HEX(ACTMISC),113,3) AS ITMSEQ, 
+    SUBSTR(ACTMISC,59,2) AS CLMRTN
+        FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 04
+         AND ACCTNBR = 23596513     
+         AND TRANSNBR > 110292000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|RSN|PRODNBR|QTY|PRODVL|TAX|SH|DISC|COUP|MISC|INVOICE|STOCKSW|HOWAPPL|GIFTKITSW|ITMSEQ|CLMRTN|
+|23596513||2893| 4| 110172102607028| CX| 'ALL PRODUCTS'| 001| 0000000| 0000000| 00000| 00000| 00000| 00000| 01001| N| N| ' '| 000| AN|
+

@@ -1,0 +1,31 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543419/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543419']|
+| let |setCode| body |//customer/order[1]/setCode/text() |B|
+| let |setCode| body |//customer/order[1]/orderItem[1]/setCode/text() |A|
+| let |accountNumber| body |//customer/order[1]/orderItem[1]/recipient/accountNumber/text() |null|
+| let |setCode| body |//customer/order[1]/orderItem[2]/setCode/text() |A|
+| let |accountNumber| body |//customer/order[1]/orderItem[2]/recipient/accountNumber/text() |null|
+| let |setCode| body |//customer/order[1]/orderItem[3]/setCode/text() |A|
+| let |accountNumber| body |//customer/order[1]/orderItem[3]/recipient/accountNumber/text() |null|
+| let |setCode| body |//customer/order[1]/orderItem[4]/setCode/text() |A|
+| let |accountNumber| body |//customer/order[1]/orderItem[4]/recipient/accountNumber/text() |null|
+| let |setCode| body |//customer/order[1]/orderItem[5]/setCode/text() |C|
+| let |accountNumber| body |//customer/order[1]/orderItem[5]/recipient/accountNumber/text() |376543427|
+| let |setCode| body |//customer/order[1]/orderItem[6]/setCode/text() |C|
+| let |accountNumber| body |//customer/order[1]/orderItem[6]/recipient/accountNumber/text() |376543427|
+| let |setCode| body |//customer/order[1]/orderItem[7]/setCode/text() |C|
+| let |accountNumber| body |//customer/order[1]/orderItem[7]/recipient/accountNumber/text() |376543427|
+| let |setCode| body |//customer/order[1]/orderItem[8]/setCode/text() |C|
+| let |accountNumber| body |//customer/order[1]/orderItem[8]/recipient/accountNumber/text() |376543427|
+| let |setCode| body |//customer/order[1]/orderItem[9]/setCode/text() |E|
+| let |accountNumber| body |//customer/order[1]/orderItem[9]/recipient/accountNumber/text() |376543435|
+| let |setCode| body |//customer/order[1]/orderItem[10]/setCode/text() |E|
+| let |accountNumber| body |//customer/order[1]/orderItem[10]/recipient/accountNumber/text() |376543435|
+| let |setCode| body |//customer/order[1]/orderItem[11]/setCode/text() |E|
+| let |accountNumber| body |//customer/order[1]/orderItem[11]/recipient/accountNumber/text() |376543435|
+| let |setCode| body |//customer/order[1]/orderItem[12]/setCode/text() |E|
+| let |accountNumber| body |//customer/order[1]/orderItem[12]/recipient/accountNumber/text() |376543435|

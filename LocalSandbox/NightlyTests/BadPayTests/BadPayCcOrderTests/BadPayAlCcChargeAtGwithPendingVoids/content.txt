@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300015120?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>CW</reasonCode><transactionNbr>110152131041000</transactionNbr><badPayAmount>18.30</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest12 |
+
+##CC Charge at 'G' ($36.59) with pending voids (1 pending void - $18.30, 1 accepted void - $36.59)  (Another CC charge at 'E').  
+##BP $18.30 at 'G'.  Pending void cncl'd, $12.23 amtdue & balance.  CC chrg at 'E' for $12.23 is voided - found on ECCSPFSPF and deleted.

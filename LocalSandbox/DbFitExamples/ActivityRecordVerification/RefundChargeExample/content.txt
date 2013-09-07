@@ -1,0 +1,46 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the REFUND/CHARGE activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+  SUBSTR(HEX(ACTMISC),25,15) AS TRNSNBR,
+  SUBSTR(ACTMISC,21,1) AS RSN,
+  SUBSTR(ACTMISC,22,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(HEX(ACTMISC),51,3)AS SEQNBR, 
+  SUBSTR(ACTMISC,28,1)AS RFNDCHRGSW,
+  SUBSTR(ACTMISC,29,2)AS PRESETTYPE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 34
+         AND ACCTNBR =  27091941
+         AND TRANSNBR > 113120000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|TRNSNBR?|RSN?|HOWCRTD?|INVOICE?|SEQNBR?|RFNDCHRGSW?|PRESETTYPE?|
+|        |         |       |          |       |    |         |    |        |        |       |           |           |
+|        |         |       |          |       |    |         |    |        |        |       |           |           |
+|        |         |       |          |       |    |         |    |        |        |       |           |           |
+
+
+!3 Now verify the 34 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+ SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+  SUBSTR(HEX(ACTMISC),25,15) AS TRNSNBR,
+  SUBSTR(ACTMISC,21,1) AS RSN,
+  SUBSTR(ACTMISC,22,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(HEX(ACTMISC),51,3)AS SEQNBR, 
+  SUBSTR(ACTMISC,28,1)AS RFNDCHRGSW,
+  SUBSTR(ACTMISC,29,2)AS PRESETTYPE 
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 34
+         AND ACCTNBR = 27091941
+         AND TRANSNBR > 113120000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMT|TRNSNBR|RSN|HOWCRTD|INVOICE|SEQNBR|RFNDCHRGSW|PRESETTYPE|
+|27091941||594| 34| 113121105647001| 0008929| 113121105647001| ' '| ' '| 00000| 000| C| AE|
+|27091941||594| 34| 113121105647001| 0001071| 113121105731002| ' '| ' '| 00000| 000| C| AE|
+|27091941||000| 34| 113121105647001| 0001071| 113121105731003| D| D| 00000| 000| R| '  '|

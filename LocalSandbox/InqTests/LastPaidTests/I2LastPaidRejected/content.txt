@@ -1,0 +1,13 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=80184&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='80184']|
+| let | orderNumber | body |//order[9]/orderNumber/text() |111350070050036|
+| let | lastPaymentDate| body |//order[9]/lastPaymentDate/text() |2012-01-04|
+| let | amountPaid| body |//order[9]/payment/amountPaid/text() |67.50|
+| let | lastCreditCardChargeStatus| body |//order[9]/payment/lastCreditCardChargeStatus/text() |D|
+| let | paymentType| body |//order[9]/payment/paymentType/text() |B|
+
+# CC payment with D (rejected) status

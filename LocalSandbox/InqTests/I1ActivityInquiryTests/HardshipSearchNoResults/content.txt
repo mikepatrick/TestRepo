@@ -1,0 +1,9 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/76208/?activityType=33&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | activityType| body | //activity[1]/activityType/text() |null|
+
+#no hardship activities for this account - returns "null"

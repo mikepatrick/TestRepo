@@ -1,0 +1,9 @@
+!contents  
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D7X_HF12/112235084908002?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>374363141</accountNumber></customer><orderItem><sequenceNumber>3</sequenceNumber><quantity>1</quantity><reasonCode>AB</reasonCode><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest24Sql|
+
+
+##Test:Reshipped/Shipped again, now regular return - 2nd Return
+

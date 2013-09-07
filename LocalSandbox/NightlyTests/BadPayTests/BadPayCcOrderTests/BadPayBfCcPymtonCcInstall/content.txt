@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/567890454?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AY</reasonCode><transactionNbr>113170094150001</transactionNbr><badPayAmount>233.36</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest32 |
+
+##CC install order for $233.36. Paid with cc 233.36. Chg sitting at B - not charged.
+##BP $233.36. Order cancelled, prodnbr 4328220292 PV$191.88, tax $11.51, S/H $29.97.   Amtdue = $0.

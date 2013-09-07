@@ -1,0 +1,39 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CHANGE OF ADDRESS activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(ACTMISC,1 ,1) AS SRCOFCHG,
+    SUBSTR(HEX(ACTMISC),3,7) AS EFFCTVDATE,                 
+    SUBSTR(ACTMISC,6,1) AS EXTNTOFCHG,                   
+    SUBSTR(HEX(ACTMISC),13,11) AS OLDMDBACCT,               
+    SUBSTR(ACTMISC,13,1) AS BYPASSCHG,                   
+    SUBSTR(ACTMISC,14,1) AS OLDCUSTS 
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 01
+         AND ACCTNBR = 22014559      
+         AND TRANSNBR > 111158000000001                         -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|SRCOFCHG?|EFFCTVDATE?|EXTNTOFCHG?|OLDMDBACCT?|BYPASSCHG?|OLDCUSTS?| 
+|        |         |       |          |         |           |           |          |           |         |  
+
+
+!3 Now verify the 01 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(ACTMISC,1 ,1) AS SRCOFCHG,
+    SUBSTR(HEX(ACTMISC),3,7) AS EFFCTVDATE,                 
+    SUBSTR(ACTMISC,6,1) AS EXTNTOFCHG,                   
+    SUBSTR(HEX(ACTMISC),13,11) AS OLDMDBACCT,               
+    SUBSTR(ACTMISC,13,1) AS BYPASSCHG, 
+    SUBSTR(ACTMISC,14,1) AS OLDCUSTS 
+        FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 01
+         AND ACCTNBR =22014559    
+         AND TRANSNBR > 111158000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|SRCOFCHG|EFFCTVDATE|EXTNTOFCHG|OLDMDBACCT|BYPASSCHG|OLDCUSTS|
+|22014559| |800| 1| B| 0112076| J| 00000000000| 1| N|
+
+
+

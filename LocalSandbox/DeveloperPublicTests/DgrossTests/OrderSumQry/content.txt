@@ -1,0 +1,550 @@
+!lastmodified -----
+!contents -R2 -g -p -f -h
+
+!define client {DEXFCR}
+!define clt {DEX}
+!define acctNbr {138735}
+
+!define appid {AutomatedTesting}
+!define password {cds1001}
+
+!3 Use DBFit to load account info into tables.
+!|dbfit.DB2Test|
+!|ConnectUsingFile|c:\FITNESSE\FitnesseRoot\files\lib\connect.properties|
+
+!|set option|fixed length string parsing|true|
+!|Set Parameter|account|${acctNbr}|
+!|Set Parameter|clientAbbr|${clt}|
+
+!2 - Create tables
+
+!|Execute|call dbdrop (' table Ord_table')|
+!|Execute|!- Create table Ord_table(
+orderNumber varchar(15), 
+prodAbbr varchar(4), 
+amtDue decimal(5,2), 
+invoiceNbr varchar(5), 
+prevBillAmt decimal(5,2), 
+orderEntry varchar(15) DEFAULT ' ',
+creditStatus varchar(4),
+orderValue decimal(5,2),
+billEffort varchar(4)  DEFAULT ' ',
+installmentAllowed varchar(4),
+installmentSent varchar(4),
+installmentDue decimal(5,2),
+installmentAmount decimal(5,2),
+planCode varchar(4),
+contSw varchar(4),
+installSw varchar(4)
+) -!|
+
+!|Execute|call dbdrop (' table Ord_table_Return')|
+!|Execute|!- Create table Ord_table_Return(
+orderNumber varchar(15), 
+prodAbbr varchar(4), 
+amtDue nvarchar(7), 
+invoiceNbr varchar(5), 
+prevBillAmt varchar(7), 
+orderEntry varchar(10), 
+creditStatus varchar(4),
+orderValue varchar(7),
+billEffort varchar(4),
+installmentAllowed varchar(4),
+installmentSent varchar(4),
+installmentDue varchar(7),
+installmentAmount varchar(7),
+planCode varchar(4)
+) -!|
+
+!2 Load the customer database files.
+
+!1 Order Summary. 
+!|Execute|!- Insert into Ord_table(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode, contSw, installSw) 
+select ORDERNBR, PRODABBR, AMTDUE, INVOICENBR, PRVBILLAMT, CREDITSTS, TOTORDVAL, SUBSTR(BILLKEY, 5, 2), INSTALLALW, INSTALLSNT, INSTALLAMD, INSTALLAMT, PLANCODE, CONTSW, INSTALLSW 
+FROM CLTLIBDEX.XORDERSUM0 where ACCTNBR = :account and ORDSTATUS NOT IN('H') order by ORDERNBR desc -!|
+
+!|Inspect Query|Select * from Ord_table|
+
+!1 - Translate fields based on program logic.
+!|Execute|!- Update Ord_table set
+billEffort = CASE WHEN installSw = 'Y' THEN 'XD' ELSE 'X1' END where billEffort = ' '
+-!| 
+!|Execute|!- Update Ord_table set
+orderEntry = CASE WHEN contSw IN('B', 'A') THEN 'Series' ELSE 'Other' END
+-!| 
+
+!3 Use REST API to build return table from XML.
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/${client}|
+|GET|?accountNumber=${acctNbr}&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|
+| let | ON1 | body |//transaction/customer/orderSummary[1]/orderNumber/text() | |
+| let | PA1 | body |//transaction/customer/orderSummary[1]/prodId/text() | |
+| let | AD1 | body |//transaction/customer/orderSummary[1]/amountDue/text() | |
+| let | IN1 | body |//transaction/customer/orderSummary[1]/invoiceNumber/text() | |
+| let | PB1 | body |//transaction/customer/orderSummary[1]/previousBillAmount/text() | |
+| let | OE1 | body |//transaction/customer/orderSummary[1]/orderEntry/text() | |
+| let | CS1 | body |//transaction/customer/orderSummary[1]/creditStatus/text() | |
+| let | OV1 | body |//transaction/customer/orderSummary[1]/orderValue/text() | |
+| let | BE1 | body |//transaction/customer/orderSummary[1]/billEffort/text() | |
+| let | IA1 | body |//transaction/customer/orderSummary[1]/installmentAllowed/text() | |
+| let | IS1 | body |//transaction/customer/orderSummary[1]/installmentSent/text() | |
+| let | ID1 | body |//transaction/customer/orderSummary[1]/installmentDue/text() | |
+| let | IM1 | body |//transaction/customer/orderSummary[1]/installmentAmount/text() | |
+| let | PC1 | body |//transaction/customer/orderSummary[1]/planCode/text() | |
+| let | ON2 | body |//transaction/customer/orderSummary[2]/orderNumber/text() | |
+| let | PA2 | body |//transaction/customer/orderSummary[2]/prodId/text() | |
+| let | AD2 | body |//transaction/customer/orderSummary[2]/amountDue/text() | |
+| let | IN2 | body |//transaction/customer/orderSummary[2]/invoiceNumber/text() | |
+| let | PB2 | body |//transaction/customer/orderSummary[2]/previousBillAmount/text() | |
+| let | OE2 | body |//transaction/customer/orderSummary[2]/orderEntry/text() | |
+| let | CS2 | body |//transaction/customer/orderSummary[2]/creditStatus/text() | |
+| let | OV2 | body |//transaction/customer/orderSummary[2]/orderValue/text() | |
+| let | BE2 | body |//transaction/customer/orderSummary[2]/billEffort/text() | |
+| let | IA2 | body |//transaction/customer/orderSummary[2]/installmentAllowed/text() | |
+| let | IS2 | body |//transaction/customer/orderSummary[2]/installmentSent/text() | |
+| let | ID2 | body |//transaction/customer/orderSummary[2]/installmentDue/text() | |
+| let | IM2 | body |//transaction/customer/orderSummary[2]/installmentAmount/text() | |
+| let | PC2 | body |//transaction/customer/orderSummary[2]/planCode/text() | |
+| let | ON3 | body |//transaction/customer/orderSummary[3]/orderNumber/text() | |
+| let | PA3 | body |//transaction/customer/orderSummary[3]/prodId/text() | |
+| let | AD3 | body |//transaction/customer/orderSummary[3]/amountDue/text() | |
+| let | IN3 | body |//transaction/customer/orderSummary[3]/invoiceNumber/text() | |
+| let | PB3 | body |//transaction/customer/orderSummary[3]/previousBillAmount/text() | |
+| let | OE3 | body |//transaction/customer/orderSummary[3]/orderEntry/text() | |
+| let | CS3 | body |//transaction/customer/orderSummary[3]/creditStatus/text() | |
+| let | OV3 | body |//transaction/customer/orderSummary[3]/orderValue/text() | |
+| let | BE3 | body |//transaction/customer/orderSummary[3]/billEffort/text() | |
+| let | IA3 | body |//transaction/customer/orderSummary[3]/installmentAllowed/text() | |
+| let | IS3 | body |//transaction/customer/orderSummary[3]/installmentSent/text() | |
+| let | ID3 | body |//transaction/customer/orderSummary[3]/installmentDue/text() | |
+| let | IM3 | body |//transaction/customer/orderSummary[3]/installmentAmount/text() | |
+| let | PC3 | body |//transaction/customer/orderSummary[3]/planCode/text() | |
+| let | ON4 | body |//transaction/customer/orderSummary[4]/orderNumber/text() | |
+| let | PA4 | body |//transaction/customer/orderSummary[4]/prodId/text() | |
+| let | AD4 | body |//transaction/customer/orderSummary[4]/amountDue/text() | |
+| let | IN4 | body |//transaction/customer/orderSummary[4]/invoiceNumber/text() | |
+| let | PB4 | body |//transaction/customer/orderSummary[4]/previousBillAmount/text() | |
+| let | OE4 | body |//transaction/customer/orderSummary[4]/orderEntry/text() | |
+| let | CS4 | body |//transaction/customer/orderSummary[4]/creditStatus/text() | |
+| let | OV4 | body |//transaction/customer/orderSummary[4]/orderValue/text() | |
+| let | BE4 | body |//transaction/customer/orderSummary[4]/billEffort/text() | |
+| let | IA4 | body |//transaction/customer/orderSummary[4]/installmentAllowed/text() | |
+| let | IS4 | body |//transaction/customer/orderSummary[4]/installmentSent/text() | |
+| let | ID4 | body |//transaction/customer/orderSummary[4]/installmentDue/text() | |
+| let | IM4 | body |//transaction/customer/orderSummary[4]/installmentAmount/text() | |
+| let | PC4 | body |//transaction/customer/orderSummary[4]/planCode/text() | |
+| let | ON5 | body |//transaction/customer/orderSummary[5]/orderNumber/text() | |
+| let | PA5 | body |//transaction/customer/orderSummary[5]/prodId/text() | |
+| let | AD5 | body |//transaction/customer/orderSummary[5]/amountDue/text() | |
+| let | IN5 | body |//transaction/customer/orderSummary[5]/invoiceNumber/text() | |
+| let | PB5 | body |//transaction/customer/orderSummary[5]/previousBillAmount/text() | |
+| let | OE5 | body |//transaction/customer/orderSummary[5]/orderEntry/text() | |
+| let | CS5 | body |//transaction/customer/orderSummary[5]/creditStatus/text() | |
+| let | OV5 | body |//transaction/customer/orderSummary[5]/orderValue/text() | |
+| let | BE5 | body |//transaction/customer/orderSummary[5]/billEffort/text() | |
+| let | IA5 | body |//transaction/customer/orderSummary[5]/installmentAllowed/text() | |
+| let | IS5 | body |//transaction/customer/orderSummary[5]/installmentSent/text() | |
+| let | ID5 | body |//transaction/customer/orderSummary[5]/installmentDue/text() | |
+| let | IM5 | body |//transaction/customer/orderSummary[5]/installmentAmount/text() | |
+| let | PC5 | body |//transaction/customer/orderSummary[5]/planCode/text() | |
+| let | ON6 | body |//transaction/customer/orderSummary[6]/orderNumber/text() | |
+| let | PA6 | body |//transaction/customer/orderSummary[6]/prodId/text() | |
+| let | AD6 | body |//transaction/customer/orderSummary[6]/amountDue/text() | |
+| let | IN6 | body |//transaction/customer/orderSummary[6]/invoiceNumber/text() | |
+| let | PB6 | body |//transaction/customer/orderSummary[6]/previousBillAmount/text() | |
+| let | OE6 | body |//transaction/customer/orderSummary[6]/orderEntry/text() | |
+| let | CS6 | body |//transaction/customer/orderSummary[6]/creditStatus/text() | |
+| let | OV6 | body |//transaction/customer/orderSummary[6]/orderValue/text() | |
+| let | BE6 | body |//transaction/customer/orderSummary[6]/billEffort/text() | |
+| let | IA6 | body |//transaction/customer/orderSummary[6]/installmentAllowed/text() | |
+| let | IS6 | body |//transaction/customer/orderSummary[6]/installmentSent/text() | |
+| let | ID6 | body |//transaction/customer/orderSummary[6]/installmentDue/text() | |
+| let | IM6 | body |//transaction/customer/orderSummary[6]/installmentAmount/text() | |
+| let | PC6 | body |//transaction/customer/orderSummary[6]/planCode/text() | |
+| let | ON7 | body |//transaction/customer/orderSummary[7]/orderNumber/text() | |
+| let | PA7 | body |//transaction/customer/orderSummary[7]/prodId/text() | |
+| let | AD7 | body |//transaction/customer/orderSummary[7]/amountDue/text() | |
+| let | IN7 | body |//transaction/customer/orderSummary[7]/invoiceNumber/text() | |
+| let | PB7 | body |//transaction/customer/orderSummary[7]/previousBillAmount/text() | |
+| let | OE7 | body |//transaction/customer/orderSummary[7]/orderEntry/text() | |
+| let | CS7 | body |//transaction/customer/orderSummary[7]/creditStatus/text() | |
+| let | OV7 | body |//transaction/customer/orderSummary[7]/orderValue/text() | |
+| let | BE7 | body |//transaction/customer/orderSummary[7]/billEffort/text() | |
+| let | IA7 | body |//transaction/customer/orderSummary[7]/installmentAllowed/text() | |
+| let | IS7 | body |//transaction/customer/orderSummary[7]/installmentSent/text() | |
+| let | ID7 | body |//transaction/customer/orderSummary[7]/installmentDue/text() | |
+| let | IM7 | body |//transaction/customer/orderSummary[7]/installmentAmount/text() | |
+| let | PC7 | body |//transaction/customer/orderSummary[7]/planCode/text() | |
+| let | ON8 | body |//transaction/customer/orderSummary[8]/orderNumber/text() | |
+| let | PA8 | body |//transaction/customer/orderSummary[8]/prodId/text() | |
+| let | AD8 | body |//transaction/customer/orderSummary[8]/amountDue/text() | |
+| let | IN8 | body |//transaction/customer/orderSummary[8]/invoiceNumber/text() | |
+| let | PB8 | body |//transaction/customer/orderSummary[8]/previousBillAmount/text() | |
+| let | OE8 | body |//transaction/customer/orderSummary[8]/orderEntry/text() | |
+| let | CS8 | body |//transaction/customer/orderSummary[8]/creditStatus/text() | |
+| let | OV8 | body |//transaction/customer/orderSummary[8]/orderValue/text() | |
+| let | BE8 | body |//transaction/customer/orderSummary[8]/billEffort/text() | |
+| let | IA8 | body |//transaction/customer/orderSummary[8]/installmentAllowed/text() | |
+| let | IS8 | body |//transaction/customer/orderSummary[8]/installmentSent/text() | |
+| let | ID8 | body |//transaction/customer/orderSummary[8]/installmentDue/text() | |
+| let | IM8 | body |//transaction/customer/orderSummary[8]/installmentAmount/text() | |
+| let | PC8 | body |//transaction/customer/orderSummary[8]/planCode/text() | |
+| let | ON9 | body |//transaction/customer/orderSummary[9]/orderNumber/text() | |
+| let | PA9 | body |//transaction/customer/orderSummary[9]/prodId/text() | |
+| let | AD9 | body |//transaction/customer/orderSummary[9]/amountDue/text() | |
+| let | IN9 | body |//transaction/customer/orderSummary[9]/invoiceNumber/text() | |
+| let | PB9 | body |//transaction/customer/orderSummary[9]/previousBillAmount/text() | |
+| let | OE9 | body |//transaction/customer/orderSummary[9]/orderEntry/text() | |
+| let | CS9 | body |//transaction/customer/orderSummary[9]/creditStatus/text() | |
+| let | OV9 | body |//transaction/customer/orderSummary[9]/orderValue/text() | |
+| let | BE9 | body |//transaction/customer/orderSummary[9]/billEffort/text() | |
+| let | IA9 | body |//transaction/customer/orderSummary[9]/installmentAllowed/text() | |
+| let | IS9 | body |//transaction/customer/orderSummary[9]/installmentSent/text() | |
+| let | ID9 | body |//transaction/customer/orderSummary[9]/installmentDue/text() | |
+| let | IM9 | body |//transaction/customer/orderSummary[9]/installmentAmount/text() | |
+| let | PC9 | body |//transaction/customer/orderSummary[9]/planCode/text() | |
+| let | ON10 | body |//transaction/customer/orderSummary[10]/orderNumber/text() | |
+| let | PA10 | body |//transaction/customer/orderSummary[10]/prodId/text() | |
+| let | AD10 | body |//transaction/customer/orderSummary[10]/amountDue/text() | |
+| let | IN10 | body |//transaction/customer/orderSummary[10]/invoiceNumber/text() | |
+| let | PB10 | body |//transaction/customer/orderSummary[10]/previousBillAmount/text() | |
+| let | OE10 | body |//transaction/customer/orderSummary[10]/orderEntry/text() | |
+| let | CS10 | body |//transaction/customer/orderSummary[10]/creditStatus/text() | |
+| let | OV10 | body |//transaction/customer/orderSummary[10]/orderValue/text() | |
+| let | BE10 | body |//transaction/customer/orderSummary[10]/billEffort/text() | |
+| let | IA10 | body |//transaction/customer/orderSummary[10]/installmentAllowed/text() | |
+| let | IS10 | body |//transaction/customer/orderSummary[10]/installmentSent/text() | |
+| let | ID10 | body |//transaction/customer/orderSummary[10]/installmentDue/text() | |
+| let | IM10 | body |//transaction/customer/orderSummary[10]/installmentAmount/text() | |
+| let | PC10 | body |//transaction/customer/orderSummary[10]/planCode/text() | |
+| let | ON11 | body |//transaction/customer/orderSummary[11]/orderNumber/text() | |
+| let | PA11 | body |//transaction/customer/orderSummary[11]/prodId/text() | |
+| let | AD11 | body |//transaction/customer/orderSummary[11]/amountDue/text() | |
+| let | IN11 | body |//transaction/customer/orderSummary[11]/invoiceNumber/text() | |
+| let | PB11 | body |//transaction/customer/orderSummary[11]/previousBillAmount/text() | |
+| let | OE11 | body |//transaction/customer/orderSummary[11]/orderEntry/text() | |
+| let | CS11 | body |//transaction/customer/orderSummary[11]/creditStatus/text() | |
+| let | OV11 | body |//transaction/customer/orderSummary[11]/orderValue/text() | |
+| let | BE11 | body |//transaction/customer/orderSummary[11]/billEffort/text() | |
+| let | IA11 | body |//transaction/customer/orderSummary[11]/installmentAllowed/text() | |
+| let | IS11 | body |//transaction/customer/orderSummary[11]/installmentSent/text() | |
+| let | ID11 | body |//transaction/customer/orderSummary[11]/installmentDue/text() | |
+| let | IM11 | body |//transaction/customer/orderSummary[11]/installmentAmount/text() | |
+| let | PC11 | body |//transaction/customer/orderSummary[11]/planCode/text() | |
+| let | ON12 | body |//transaction/customer/orderSummary[12]/orderNumber/text() | |
+| let | PA12 | body |//transaction/customer/orderSummary[12]/prodId/text() | |
+| let | AD12 | body |//transaction/customer/orderSummary[12]/amountDue/text() | |
+| let | IN12 | body |//transaction/customer/orderSummary[12]/invoiceNumber/text() | |
+| let | PB12 | body |//transaction/customer/orderSummary[12]/previousBillAmount/text() | |
+| let | OE12 | body |//transaction/customer/orderSummary[12]/orderEntry/text() | |
+| let | CS12 | body |//transaction/customer/orderSummary[12]/creditStatus/text() | |
+| let | OV12 | body |//transaction/customer/orderSummary[12]/orderValue/text() | |
+| let | BE12 | body |//transaction/customer/orderSummary[12]/billEffort/text() | |
+| let | IA12 | body |//transaction/customer/orderSummary[12]/installmentAllowed/text() | |
+| let | IS12 | body |//transaction/customer/orderSummary[12]/installmentSent/text() | |
+| let | ID12 | body |//transaction/customer/orderSummary[12]/installmentDue/text() | |
+| let | IM12 | body |//transaction/customer/orderSummary[12]/installmentAmount/text() | |
+| let | PC12 | body |//transaction/customer/orderSummary[12]/planCode/text() | |
+| let | ON13 | body |//transaction/customer/orderSummary[13]/orderNumber/text() | |
+| let | PA13 | body |//transaction/customer/orderSummary[13]/prodId/text() | |
+| let | AD13 | body |//transaction/customer/orderSummary[13]/amountDue/text() | |
+| let | IN13 | body |//transaction/customer/orderSummary[13]/invoiceNumber/text() | |
+| let | PB13 | body |//transaction/customer/orderSummary[13]/previousBillAmount/text() | |
+| let | OE13 | body |//transaction/customer/orderSummary[13]/orderEntry/text() | |
+| let | CS13 | body |//transaction/customer/orderSummary[13]/creditStatus/text() | |
+| let | OV13 | body |//transaction/customer/orderSummary[13]/orderValue/text() | |
+| let | BE13 | body |//transaction/customer/orderSummary[13]/billEffort/text() | |
+| let | IA13 | body |//transaction/customer/orderSummary[13]/installmentAllowed/text() | |
+| let | IS13 | body |//transaction/customer/orderSummary[13]/installmentSent/text() | |
+| let | ID13 | body |//transaction/customer/orderSummary[13]/installmentDue/text() | |
+| let | IM13 | body |//transaction/customer/orderSummary[13]/installmentAmount/text() | |
+| let | PC13 | body |//transaction/customer/orderSummary[13]/planCode/text() | |
+| let | ON14 | body |//transaction/customer/orderSummary[14]/orderNumber/text() | |
+| let | PA14 | body |//transaction/customer/orderSummary[14]/prodId/text() | |
+| let | AD14 | body |//transaction/customer/orderSummary[14]/amountDue/text() | |
+| let | IN14 | body |//transaction/customer/orderSummary[14]/invoiceNumber/text() | |
+| let | PB14 | body |//transaction/customer/orderSummary[14]/previousBillAmount/text() | |
+| let | OE14 | body |//transaction/customer/orderSummary[14]/orderEntry/text() | |
+| let | CS14 | body |//transaction/customer/orderSummary[14]/creditStatus/text() | |
+| let | OV14 | body |//transaction/customer/orderSummary[14]/orderValue/text() | |
+| let | BE14 | body |//transaction/customer/orderSummary[14]/billEffort/text() | |
+| let | IA14 | body |//transaction/customer/orderSummary[14]/installmentAllowed/text() | |
+| let | IS14 | body |//transaction/customer/orderSummary[14]/installmentSent/text() | |
+| let | ID14 | body |//transaction/customer/orderSummary[14]/installmentDue/text() | |
+| let | IM14 | body |//transaction/customer/orderSummary[14]/installmentAmount/text() | |
+| let | PC14 | body |//transaction/customer/orderSummary[14]/planCode/text() | |
+| let | ON15 | body |//transaction/customer/orderSummary[15]/orderNumber/text() | |
+| let | PA15 | body |//transaction/customer/orderSummary[15]/prodId/text() | |
+| let | AD15 | body |//transaction/customer/orderSummary[15]/amountDue/text() | |
+| let | IN15 | body |//transaction/customer/orderSummary[15]/invoiceNumber/text() | |
+| let | PB15 | body |//transaction/customer/orderSummary[15]/previousBillAmount/text() | |
+| let | OE15 | body |//transaction/customer/orderSummary[15]/orderEntry/text() | |
+| let | CS15 | body |//transaction/customer/orderSummary[15]/creditStatus/text() | |
+| let | OV15 | body |//transaction/customer/orderSummary[15]/orderValue/text() | |
+| let | BE15 | body |//transaction/customer/orderSummary[15]/billEffort/text() | |
+| let | IA15 | body |//transaction/customer/orderSummary[15]/installmentAllowed/text() | |
+| let | IS15 | body |//transaction/customer/orderSummary[15]/installmentSent/text() | |
+| let | ID15 | body |//transaction/customer/orderSummary[15]/installmentDue/text() | |
+| let | IM15 | body |//transaction/customer/orderSummary[15]/installmentAmount/text() | |
+| let | PC15 | body |//transaction/customer/orderSummary[15]/planCode/text() | |
+| let | ON16 | body |//transaction/customer/orderSummary[16]/orderNumber/text() | |
+| let | PA16 | body |//transaction/customer/orderSummary[16]/prodId/text() | |
+| let | AD16 | body |//transaction/customer/orderSummary[16]/amountDue/text() | |
+| let | IN16 | body |//transaction/customer/orderSummary[16]/invoiceNumber/text() | |
+| let | PB16 | body |//transaction/customer/orderSummary[16]/previousBillAmount/text() | |
+| let | OE16 | body |//transaction/customer/orderSummary[16]/orderEntry/text() | |
+| let | CS16 | body |//transaction/customer/orderSummary[16]/creditStatus/text() | |
+| let | OV16 | body |//transaction/customer/orderSummary[16]/orderValue/text() | |
+| let | BE16 | body |//transaction/customer/orderSummary[16]/billEffort/text() | |
+| let | IA16 | body |//transaction/customer/orderSummary[16]/installmentAllowed/text() | |
+| let | IS16 | body |//transaction/customer/orderSummary[16]/installmentSent/text() | |
+| let | ID16 | body |//transaction/customer/orderSummary[16]/installmentDue/text() | |
+| let | IM16 | body |//transaction/customer/orderSummary[16]/installmentAmount/text() | |
+| let | PC16 | body |//transaction/customer/orderSummary[16]/planCode/text() | |
+| let | ON17 | body |//transaction/customer/orderSummary[17]/orderNumber/text() | |
+| let | PA17 | body |//transaction/customer/orderSummary[17]/prodId/text() | |
+| let | AD17 | body |//transaction/customer/orderSummary[17]/amountDue/text() | |
+| let | IN17 | body |//transaction/customer/orderSummary[17]/invoiceNumber/text() | |
+| let | PB17 | body |//transaction/customer/orderSummary[17]/previousBillAmount/text() | |
+| let | OE17 | body |//transaction/customer/orderSummary[17]/orderEntry/text() | |
+| let | CS17 | body |//transaction/customer/orderSummary[17]/creditStatus/text() | |
+| let | OV17 | body |//transaction/customer/orderSummary[17]/orderValue/text() | |
+| let | BE17 | body |//transaction/customer/orderSummary[17]/billEffort/text() | |
+| let | IA17 | body |//transaction/customer/orderSummary[17]/installmentAllowed/text() | |
+| let | IS17 | body |//transaction/customer/orderSummary[17]/installmentSent/text() | |
+| let | ID17 | body |//transaction/customer/orderSummary[17]/installmentDue/text() | |
+| let | IM17 | body |//transaction/customer/orderSummary[17]/installmentAmount/text() | |
+| let | PC17 | body |//transaction/customer/orderSummary[17]/planCode/text() | |
+| let | ON18 | body |//transaction/customer/orderSummary[18]/orderNumber/text() | |
+| let | PA18 | body |//transaction/customer/orderSummary[18]/prodId/text() | |
+| let | AD18 | body |//transaction/customer/orderSummary[18]/amountDue/text() | |
+| let | IN18 | body |//transaction/customer/orderSummary[18]/invoiceNumber/text() | |
+| let | PB18 | body |//transaction/customer/orderSummary[18]/previousBillAmount/text() | |
+| let | OE18 | body |//transaction/customer/orderSummary[18]/orderEntry/text() | |
+| let | CS18 | body |//transaction/customer/orderSummary[18]/creditStatus/text() | |
+| let | OV18 | body |//transaction/customer/orderSummary[18]/orderValue/text() | |
+| let | BE18 | body |//transaction/customer/orderSummary[18]/billEffort/text() | |
+| let | IA18 | body |//transaction/customer/orderSummary[18]/installmentAllowed/text() | |
+| let | IS18 | body |//transaction/customer/orderSummary[18]/installmentSent/text() | |
+| let | ID18 | body |//transaction/customer/orderSummary[18]/installmentDue/text() | |
+| let | IM18 | body |//transaction/customer/orderSummary[18]/installmentAmount/text() | |
+| let | PC18 | body |//transaction/customer/orderSummary[18]/planCode/text() | |
+| let | ON19 | body |//transaction/customer/orderSummary[19]/orderNumber/text() | |
+| let | PA19 | body |//transaction/customer/orderSummary[19]/prodId/text() | |
+| let | AD19 | body |//transaction/customer/orderSummary[19]/amountDue/text() | |
+| let | IN19 | body |//transaction/customer/orderSummary[19]/invoiceNumber/text() | |
+| let | PB19 | body |//transaction/customer/orderSummary[19]/previousBillAmount/text() | |
+| let | OE19 | body |//transaction/customer/orderSummary[19]/orderEntry/text() | |
+| let | CS19 | body |//transaction/customer/orderSummary[19]/creditStatus/text() | |
+| let | OV19 | body |//transaction/customer/orderSummary[19]/orderValue/text() | |
+| let | BE19 | body |//transaction/customer/orderSummary[19]/billEffort/text() | |
+| let | IA19 | body |//transaction/customer/orderSummary[19]/installmentAllowed/text() | |
+| let | IS19 | body |//transaction/customer/orderSummary[19]/installmentSent/text() | |
+| let | ID19 | body |//transaction/customer/orderSummary[19]/installmentDue/text() | |
+| let | IM19 | body |//transaction/customer/orderSummary[19]/installmentAmount/text() | |
+| let | PC19 | body |//transaction/customer/orderSummary[19]/planCode/text() | |
+| let | ON20 | body |//transaction/customer/orderSummary[20]/orderNumber/text() | |
+| let | PA20 | body |//transaction/customer/orderSummary[20]/prodId/text() | |
+| let | AD20 | body |//transaction/customer/orderSummary[20]/amountDue/text() | |
+| let | IN20 | body |//transaction/customer/orderSummary[20]/invoiceNumber/text() | |
+| let | PB20 | body |//transaction/customer/orderSummary[20]/previousBillAmount/text() | |
+| let | OE20 | body |//transaction/customer/orderSummary[20]/orderEntry/text() | |
+| let | CS20 | body |//transaction/customer/orderSummary[20]/creditStatus/text() | |
+| let | OV20 | body |//transaction/customer/orderSummary[20]/orderValue/text() | |
+| let | BE20 | body |//transaction/customer/orderSummary[20]/billEffort/text() | |
+| let | IA20 | body |//transaction/customer/orderSummary[20]/installmentAllowed/text() | |
+| let | IS20 | body |//transaction/customer/orderSummary[20]/installmentSent/text() | |
+| let | ID20 | body |//transaction/customer/orderSummary[20]/installmentDue/text() | |
+| let | IM20 | body |//transaction/customer/orderSummary[20]/installmentAmount/text() | |
+| let | PC20 | body |//transaction/customer/orderSummary[20]/planCode/text() | |
+| let | ON21 | body |//transaction/customer/orderSummary[21]/orderNumber/text() | |
+| let | PA21 | body |//transaction/customer/orderSummary[21]/prodId/text() | |
+| let | AD21 | body |//transaction/customer/orderSummary[21]/amountDue/text() | |
+| let | IN21 | body |//transaction/customer/orderSummary[21]/invoiceNumber/text() | |
+| let | PB21 | body |//transaction/customer/orderSummary[21]/previousBillAmount/text() | |
+| let | OE21 | body |//transaction/customer/orderSummary[21]/orderEntry/text() | |
+| let | CS21 | body |//transaction/customer/orderSummary[21]/creditStatus/text() | |
+| let | OV21 | body |//transaction/customer/orderSummary[21]/orderValue/text() | |
+| let | BE21 | body |//transaction/customer/orderSummary[21]/billEffort/text() | |
+| let | IA21 | body |//transaction/customer/orderSummary[21]/installmentAllowed/text() | |
+| let | IS21 | body |//transaction/customer/orderSummary[21]/installmentSent/text() | |
+| let | ID21 | body |//transaction/customer/orderSummary[21]/installmentDue/text() | |
+| let | IM21 | body |//transaction/customer/orderSummary[21]/installmentAmount/text() | |
+| let | PC21 | body |//transaction/customer/orderSummary[21]/planCode/text() | |
+| let | ON22 | body |//transaction/customer/orderSummary[22]/orderNumber/text() | |
+| let | PA22 | body |//transaction/customer/orderSummary[22]/prodId/text() | |
+| let | AD22 | body |//transaction/customer/orderSummary[22]/amountDue/text() | |
+| let | IN22 | body |//transaction/customer/orderSummary[22]/invoiceNumber/text() | |
+| let | PB22 | body |//transaction/customer/orderSummary[22]/previousBillAmount/text() | |
+| let | OE22 | body |//transaction/customer/orderSummary[22]/orderEntry/text() | |
+| let | CS22 | body |//transaction/customer/orderSummary[22]/creditStatus/text() | |
+| let | OV22 | body |//transaction/customer/orderSummary[22]/orderValue/text() | |
+| let | BE22 | body |//transaction/customer/orderSummary[22]/billEffort/text() | |
+| let | IA22 | body |//transaction/customer/orderSummary[22]/installmentAllowed/text() | |
+| let | IS22 | body |//transaction/customer/orderSummary[22]/installmentSent/text() | |
+| let | ID22 | body |//transaction/customer/orderSummary[22]/installmentDue/text() | |
+| let | IM22 | body |//transaction/customer/orderSummary[22]/installmentAmount/text() | |
+| let | PC22 | body |//transaction/customer/orderSummary[22]/planCode/text() | |
+| let | ON23 | body |//transaction/customer/orderSummary[23]/orderNumber/text() | |
+| let | PA23 | body |//transaction/customer/orderSummary[23]/prodId/text() | |
+| let | AD23 | body |//transaction/customer/orderSummary[23]/amountDue/text() | |
+| let | IN23 | body |//transaction/customer/orderSummary[23]/invoiceNumber/text() | |
+| let | PB23 | body |//transaction/customer/orderSummary[23]/previousBillAmount/text() | |
+| let | OE23 | body |//transaction/customer/orderSummary[23]/orderEntry/text() | |
+| let | CS23 | body |//transaction/customer/orderSummary[23]/creditStatus/text() | |
+| let | OV23 | body |//transaction/customer/orderSummary[23]/orderValue/text() | |
+| let | BE23 | body |//transaction/customer/orderSummary[23]/billEffort/text() | |
+| let | IA23 | body |//transaction/customer/orderSummary[23]/installmentAllowed/text() | |
+| let | IS23 | body |//transaction/customer/orderSummary[23]/installmentSent/text() | |
+| let | ID23 | body |//transaction/customer/orderSummary[23]/installmentDue/text() | |
+| let | IM23 | body |//transaction/customer/orderSummary[23]/installmentAmount/text() | |
+| let | PC23 | body |//transaction/customer/orderSummary[23]/planCode/text() | |
+| let | ON24 | body |//transaction/customer/orderSummary[24]/orderNumber/text() | |
+| let | PA24 | body |//transaction/customer/orderSummary[24]/prodId/text() | |
+| let | AD24 | body |//transaction/customer/orderSummary[24]/amountDue/text() | |
+| let | IN24 | body |//transaction/customer/orderSummary[24]/invoiceNumber/text() | |
+| let | PB24 | body |//transaction/customer/orderSummary[24]/previousBillAmount/text() | |
+| let | OE24 | body |//transaction/customer/orderSummary[24]/orderEntry/text() | |
+| let | CS24 | body |//transaction/customer/orderSummary[24]/creditStatus/text() | |
+| let | OV24 | body |//transaction/customer/orderSummary[24]/orderValue/text() | |
+| let | BE24 | body |//transaction/customer/orderSummary[24]/billEffort/text() | |
+| let | IA24 | body |//transaction/customer/orderSummary[24]/installmentAllowed/text() | |
+| let | IS24 | body |//transaction/customer/orderSummary[24]/installmentSent/text() | |
+| let | ID24 | body |//transaction/customer/orderSummary[24]/installmentDue/text() | |
+| let | IM24 | body |//transaction/customer/orderSummary[24]/installmentAmount/text() | |
+| let | PC24 | body |//transaction/customer/orderSummary[24]/planCode/text() | |
+| let | ON25 | body |//transaction/customer/orderSummary[25]/orderNumber/text() | |
+| let | PA25 | body |//transaction/customer/orderSummary[25]/prodId/text() | |
+| let | AD25 | body |//transaction/customer/orderSummary[25]/amountDue/text() | |
+| let | IN25 | body |//transaction/customer/orderSummary[25]/invoiceNumber/text() | |
+| let | PB25 | body |//transaction/customer/orderSummary[25]/previousBillAmount/text() | |
+| let | OE25 | body |//transaction/customer/orderSummary[25]/orderEntry/text() | |
+| let | CS25 | body |//transaction/customer/orderSummary[25]/creditStatus/text() | |
+| let | OV25 | body |//transaction/customer/orderSummary[25]/orderValue/text() | |
+| let | BE25 | body |//transaction/customer/orderSummary[25]/billEffort/text() | |
+| let | IA25 | body |//transaction/customer/orderSummary[25]/installmentAllowed/text() | |
+| let | IS25 | body |//transaction/customer/orderSummary[25]/installmentSent/text() | |
+| let | ID25 | body |//transaction/customer/orderSummary[25]/installmentDue/text() | |
+| let | IM25 | body |//transaction/customer/orderSummary[25]/installmentAmount/text() | |
+| let | PC25 | body |//transaction/customer/orderSummary[25]/planCode/text() | |
+| let | ON26 | body |//transaction/customer/orderSummary[26]/orderNumber/text() | |
+| let | PA26 | body |//transaction/customer/orderSummary[26]/prodId/text() | |
+| let | AD26 | body |//transaction/customer/orderSummary[26]/amountDue/text() | |
+| let | IN26 | body |//transaction/customer/orderSummary[26]/invoiceNumber/text() | |
+| let | PB26 | body |//transaction/customer/orderSummary[26]/previousBillAmount/text() | |
+| let | OE26 | body |//transaction/customer/orderSummary[26]/orderEntry/text() | |
+| let | CS26 | body |//transaction/customer/orderSummary[26]/creditStatus/text() | |
+| let | OV26 | body |//transaction/customer/orderSummary[26]/orderValue/text() | |
+| let | BE26 | body |//transaction/customer/orderSummary[26]/billEffort/text() | |
+| let | IA26 | body |//transaction/customer/orderSummary[26]/installmentAllowed/text() | |
+| let | IS26 | body |//transaction/customer/orderSummary[26]/installmentSent/text() | |
+| let | ID26 | body |//transaction/customer/orderSummary[26]/installmentDue/text() | |
+| let | IM26 | body |//transaction/customer/orderSummary[26]/installmentAmount/text() | |
+| let | PC26 | body |//transaction/customer/orderSummary[26]/planCode/text() | |
+| let | ON27 | body |//transaction/customer/orderSummary[27]/orderNumber/text() | |
+| let | PA27 | body |//transaction/customer/orderSummary[27]/prodId/text() | |
+| let | AD27 | body |//transaction/customer/orderSummary[27]/amountDue/text() | |
+| let | IN27 | body |//transaction/customer/orderSummary[27]/invoiceNumber/text() | |
+| let | PB27 | body |//transaction/customer/orderSummary[27]/previousBillAmount/text() | |
+| let | OE27 | body |//transaction/customer/orderSummary[27]/orderEntry/text() | |
+| let | CS27 | body |//transaction/customer/orderSummary[27]/creditStatus/text() | |
+| let | OV27 | body |//transaction/customer/orderSummary[27]/orderValue/text() | |
+| let | BE27 | body |//transaction/customer/orderSummary[27]/billEffort/text() | |
+| let | IA27 | body |//transaction/customer/orderSummary[27]/installmentAllowed/text() | |
+| let | IS27 | body |//transaction/customer/orderSummary[27]/installmentSent/text() | |
+| let | ID27 | body |//transaction/customer/orderSummary[27]/installmentDue/text() | |
+| let | IM27 | body |//transaction/customer/orderSummary[27]/installmentAmount/text() | |
+| let | PC27 | body |//transaction/customer/orderSummary[27]/planCode/text() | |
+| let | ON28 | body |//transaction/customer/orderSummary[28]/orderNumber/text() | |
+| let | PA28 | body |//transaction/customer/orderSummary[28]/prodId/text() | |
+| let | AD28 | body |//transaction/customer/orderSummary[28]/amountDue/text() | |
+| let | IN28 | body |//transaction/customer/orderSummary[28]/invoiceNumber/text() | |
+| let | PB28 | body |//transaction/customer/orderSummary[28]/previousBillAmount/text() | |
+| let | OE28 | body |//transaction/customer/orderSummary[28]/orderEntry/text() | |
+| let | CS28 | body |//transaction/customer/orderSummary[28]/creditStatus/text() | |
+| let | OV28 | body |//transaction/customer/orderSummary[28]/orderValue/text() | |
+| let | BE28 | body |//transaction/customer/orderSummary[28]/billEffort/text() | |
+| let | IA28 | body |//transaction/customer/orderSummary[28]/installmentAllowed/text() | |
+| let | IS28 | body |//transaction/customer/orderSummary[28]/installmentSent/text() | |
+| let | ID28 | body |//transaction/customer/orderSummary[28]/installmentDue/text() | |
+| let | IM28 | body |//transaction/customer/orderSummary[28]/installmentAmount/text() | |
+| let | PC28 | body |//transaction/customer/orderSummary[28]/planCode/text() | |
+| let | ON29 | body |//transaction/customer/orderSummary[29]/orderNumber/text() | |
+| let | PA29 | body |//transaction/customer/orderSummary[29]/prodId/text() | |
+| let | AD29 | body |//transaction/customer/orderSummary[29]/amountDue/text() | |
+| let | IN29 | body |//transaction/customer/orderSummary[29]/invoiceNumber/text() | |
+| let | PB29 | body |//transaction/customer/orderSummary[29]/previousBillAmount/text() | |
+| let | OE29 | body |//transaction/customer/orderSummary[29]/orderEntry/text() | |
+| let | CS29 | body |//transaction/customer/orderSummary[29]/creditStatus/text() | |
+| let | OV29 | body |//transaction/customer/orderSummary[29]/orderValue/text() | |
+| let | BE29 | body |//transaction/customer/orderSummary[29]/billEffort/text() | |
+| let | IA29 | body |//transaction/customer/orderSummary[29]/installmentAllowed/text() | |
+| let | IS29 | body |//transaction/customer/orderSummary[29]/installmentSent/text() | |
+| let | ID29 | body |//transaction/customer/orderSummary[29]/installmentDue/text() | |
+| let | IM29 | body |//transaction/customer/orderSummary[29]/installmentAmount/text() | |
+| let | PC29 | body |//transaction/customer/orderSummary[29]/planCode/text() | |
+| let | ON30 | body |//transaction/customer/orderSummary[30]/orderNumber/text() | |
+| let | PA30 | body |//transaction/customer/orderSummary[30]/prodId/text() | |
+| let | AD30 | body |//transaction/customer/orderSummary[30]/amountDue/text() | |
+| let | IN30 | body |//transaction/customer/orderSummary[30]/invoiceNumber/text() | |
+| let | PB30 | body |//transaction/customer/orderSummary[30]/previousBillAmount/text() | |
+| let | OE30 | body |//transaction/customer/orderSummary[30]/orderEntry/text() | |
+| let | CS30 | body |//transaction/customer/orderSummary[30]/creditStatus/text() | |
+| let | OV30 | body |//transaction/customer/orderSummary[30]/orderValue/text() | |
+| let | BE30 | body |//transaction/customer/orderSummary[30]/billEffort/text() | |
+| let | IA30 | body |//transaction/customer/orderSummary[30]/installmentAllowed/text() | |
+| let | IS30 | body |//transaction/customer/orderSummary[30]/installmentSent/text() | |
+| let | ID30 | body |//transaction/customer/orderSummary[30]/installmentDue/text() | |
+| let | IM30 | body |//transaction/customer/orderSummary[30]/installmentAmount/text() | |
+| let | PC30 | body |//transaction/customer/orderSummary[30]/planCode/text() | |
+
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON1, :PA1, :AD1, :IN1, :PB1, :OE1, :CS1, :OV1, :BE1, :IA1, :IS1, :ID1, :IM1, :PC1) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON2, :PA2, :AD2, :IN2, :PB2, :OE2, :CS2, :OV2, :BE2, :IA2, :IS2, :ID2, :IM2, :PC2) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON3, :PA3, :AD3, :IN3, :PB3, :OE3, :CS3, :OV3, :BE3, :IA3, :IS3, :ID3, :IM3, :PC3) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON4, :PA4, :AD4, :IN4, :PB4, :OE4, :CS4, :OV4, :BE4, :IA4, :IS4, :ID4, :IM4, :PC4) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON5, :PA5, :AD5, :IN5, :PB5, :OE5, :CS5, :OV5, :BE5, :IA5, :IS5, :ID5, :IM5, :PC5) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON6, :PA6, :AD6, :IN6, :PB6, :OE6, :CS6, :OV6, :BE6, :IA6, :IS6, :ID6, :IM6, :PC6) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON7, :PA7, :AD7, :IN7, :PB7, :OE7, :CS7, :OV7, :BE7, :IA7, :IS7, :ID7, :IM7, :PC7) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON8, :PA8, :AD8, :IN8, :PB8, :OE8, :CS8, :OV8, :BE8, :IA8, :IS8, :ID8, :IM8, :PC8) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON9, :PA9, :AD9, :IN9, :PB9, :OE9, :CS9, :OV9, :BE9, :IA9, :IS9, :ID9, :IM9, :PC9) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON10, :PA10, :AD10, :IN10, :PB10, :OE10, :CS10, :OV10, :BE10, :IA10, :IS10, :ID10, :IM10, :PC10) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON11, :PA11, :AD11, :IN11, :PB11, :OE11, :CS11, :OV11, :BE11, :IA11, :IS11, :ID11, :IM11, :PC11) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON12, :PA12, :AD12, :IN12, :PB12, :OE12, :CS12, :OV12, :BE12, :IA12, :IS12, :ID12, :IM12, :PC12) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON13, :PA13, :AD13, :IN13, :PB13, :OE13, :CS13, :OV13, :BE13, :IA13, :IS13, :ID13, :IM13, :PC13) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON14, :PA14, :AD14, :IN14, :PB14, :OE14, :CS14, :OV14, :BE14, :IA14, :IS14, :ID14, :IM14, :PC14) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON15, :PA15, :AD15, :IN15, :PB15, :OE15, :CS15, :OV15, :BE15, :IA15, :IS15, :ID15, :IM15, :PC15) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON16, :PA16, :AD16, :IN16, :PB16, :OE16, :CS16, :OV16, :BE16, :IA16, :IS16, :ID16, :IM16, :PC16) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON17, :PA17, :AD17, :IN17, :PB17, :OE17, :CS17, :OV17, :BE17, :IA17, :IS17, :ID17, :IM17, :PC17) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON18, :PA18, :AD18, :IN18, :PB18, :OE18, :CS18, :OV18, :BE18, :IA18, :IS18, :ID18, :IM18, :PC18) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON19, :PA19, :AD19, :IN19, :PB19, :OE19, :CS19, :OV19, :BE19, :IA19, :IS19, :ID19, :IM19, :PC19) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON20, :PA20, :AD20, :IN20, :PB20, :OE20, :CS20, :OV20, :BE20, :IA20, :IS20, :ID20, :IM20, :PC20) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON21, :PA21, :AD21, :IN21, :PB21, :OE21, :CS21, :OV21, :BE21, :IA21, :IS21, :ID21, :IM21, :PC21) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON22, :PA22, :AD22, :IN22, :PB22, :OE22, :CS22, :OV22, :BE22, :IA22, :IS22, :ID22, :IM22, :PC22) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON23, :PA23, :AD23, :IN23, :PB23, :OE23, :CS23, :OV23, :BE23, :IA23, :IS23, :ID23, :IM23, :PC23) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON24, :PA24, :AD24, :IN24, :PB24, :OE24, :CS24, :OV24, :BE24, :IA24, :IS24, :ID24, :IM24, :PC24) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON25, :PA25, :AD25, :IN25, :PB25, :OE25, :CS25, :OV25, :BE25, :IA25, :IS25, :ID25, :IM25, :PC25) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON26, :PA26, :AD26, :IN26, :PB26, :OE26, :CS26, :OV26, :BE26, :IA26, :IS26, :ID26, :IM26, :PC26) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON27, :PA27, :AD27, :IN27, :PB27, :OE27, :CS27, :OV27, :BE27, :IA27, :IS27, :ID27, :IM27, :PC27) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON28, :PA28, :AD28, :IN28, :PB28, :OE28, :CS28, :OV28, :BE28, :IA28, :IS28, :ID28, :IM28, :PC28) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON29, :PA29, :AD29, :IN29, :PB29, :OE29, :CS29, :OV29, :BE29, :IA29, :IS29, :ID29, :IM29, :PC29) |
+!|Execute|Insert into Ord_table_Return(orderNumber, prodAbbr, amtDue, invoiceNbr, prevBillAmt, orderEntry, creditStatus, orderValue, billEffort, InstallmentAllowed, installmentSent, installmentDue, installmentAmount, planCode) values (:ON30, :PA30, :AD30, :IN30, :PB30, :OE30, :CS30, :OV30, :BE30, :IA30, :IS30, :ID30, :IM30, :PC30) |
+
+!3 Convert data in tables so they match. Replace null with spaces
+!|Execute|Delete from Ord_table_Return where orderNumber in('null', '-')  |
+
+!|Execute|!- Update Ord_table_Return set
+billEffort = replace(billEffort, 'null', '  '),
+installmentAllowed= replace(installmentAllowed, 'null', '  '),
+installmentSent = replace(installmentSent, 'null', '  '),
+planCode = replace(planCode, 'null', '   '),
+orderEntry = replace(orderEntry, 'null', '   ')
+-!| 
+
+!|Inspect Query|Select * from Ord_table|
+!|Inspect Query|Select * from Ord_table_Return|
+!|StoreQuery|Select * from Ord_table|pfQry|
+!|StoreQuery|Select * from Ord_table_Return|xmlQry|
+
+|compare stored queries|pfQry|xmlQry|
+|orderNumber?|prodAbbr?|amtDue?|invoiceNbr?|prevBillAmt?|orderEntry?|creditStatus?|orderValue?|billEffort?|installmentAllowed?|installmentSent?|installmentDue?|installmentAmount?|planCode?|

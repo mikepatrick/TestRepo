@@ -1,0 +1,10 @@
+!contents 
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/112110145916001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37045838</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>DA</reasonCode><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest13Sql|
+
+
+
+##Test:Cash order, partiall cancelled, partial paid cash, partial paid cc.  Amtdue = $0.

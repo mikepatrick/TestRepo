@@ -1,0 +1,49 @@
+!3 Here we query the activity file, simulate a transaction, and then query the activity file again.
+!3 This method will reveal if any "extra" unwanted activities that may have been written.
+
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+!|set option|fixed length string parsing|true|
+
+!3 Cleanup after last test execution:
+
+|Execute|delete from CLTLIBMSP.XACTIVITY0 where TRANSTYPE = 11 and TRANSNBR > 113232000000000 and ACCTNBR = 123588|
+
+!3 This customer currently has 15 activities.  Show them:
+
+!|Query|select * from CLTLIBMSP.XACTIVITY0 where ACCTNBR = 123588|
+|ACCTNBR|TRANSNBR?|OPERID?|TRANSTYPE?|PRODABBR?|ACTMISC?|
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||     
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+|123588  |         |       |          |       ||   
+|123588  |         |       |          |       ||  
+
+!3 Store this query:
+!|StoreQuery|select * from CLTLIBMSP.XACTIVITY0 where ACCTNBR = 123588|beforeQry|
+
+!3 Add some comments:
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/MSP|
+|PUT|/123588?appId=AutomatedTesting&pwd=cds1001&xml=<request><transactionSource><operatorId>302</operatorId></transactionSource><customer><comment1>Comment Number 1</comment1><comment2>Comment Number 2</comment2><comment3>Comment Number 3</comment3></customer></request>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!3 Execute and store a new query:
+
+!|dbfit.DB2Test|
+!|StoreQuery|select * from CLTLIBMSP.XACTIVITY0 where ACCTNBR = 123588|afterQry|
+
+!3 Compare the stored queries to see the changes to the database.  The added records are in red.
+
+|compare stored queries|afterQry|beforeQry|
+|ACCTNBR|TRANSNBR|OPERID|TRANSTYPE|PRODABBR|ACTMISC|

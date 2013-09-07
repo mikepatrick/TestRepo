@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/88385/?stopPosition=5&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='88385']|
+| let | name | body | //name/text() | CHRISTIAN SCIENCE SOCIETY  |
+| let | email | body | //email/text() | cssocietyrd@gmail.com |
+| let | orderNumber | body |//order[1]/orderNumber/text() |113206085521014|
+| let | productNumber| body |//order[1]/orderItem[1]/productNumber/text() |STL1335C|
+| let | serviceDate| body |//order[1]/orderItem[1]/serviceDate/text() |2013-07-31|
+

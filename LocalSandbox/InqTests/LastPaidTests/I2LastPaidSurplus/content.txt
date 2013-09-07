@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=316707231&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='316707231']|
+| let | lastPaymentDate| body |//order[2]/lastPaymentDate/text() |2012-09-10|
+| let | amountPaid| body |//order[2]/payment/amountPaid/text() |13.43|
+| let | lastPaymentDate| body |//order[3]/lastPaymentDate/text() |2012-09-10|
+| let | amountPaid| body |//order[3]/payment/amountPaid/text() |10.19|
+| let | lastPaymentDate| body |//order[4]/lastPaymentDate/text() |2012-08-14|
+| let | amountPaid| body |//order[4]/payment/amountPaid/text() |13.43|

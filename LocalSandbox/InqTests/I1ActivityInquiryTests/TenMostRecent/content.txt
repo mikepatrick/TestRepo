@@ -1,0 +1,34 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/249862/?stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='249862']|
+| let | activityType| body | //activity[1]/activityType/text() |29|
+| let | transactionNumber| body | //activity[1]/transactionNumber/text() |112013030939004|
+| let | priceChanged| body | //activity[1]/priceChanged/text() |Y|
+| let | activityType| body | //activity[2]/activityType/text() |49|
+| let | transactionNumber| body | //activity[2]/transactionNumber/text() |112011220004001|
+| let | activityType| body | //activity[3]/activityType/text() |49|
+| let | transactionNumber| body | //activity[3]/transactionNumber/text() |112010220003001|
+| let | activityType| body | //activity[4]/activityType/text() |29|
+| let | transactionNumber| body | //activity[4]/transactionNumber/text() |112009080205065|
+| let | activityType| body | //activity[5]/activityType/text() |29|
+| let | transactionNumber| body | //activity[5]/transactionNumber/text() |112006040017029|
+| let | activityType| body | //activity[6]/activityType/text() |49|
+| let | transactionNumber| body | //activity[6]/transactionNumber/text() |112003220005001|
+| let | productNbr| body | //activity[6]/productNbr/text() |STL1206C|
+| let | activityType| body | //activity[7]/activityType/text() |29|
+| let | transactionNumber| body | //activity[7]/transactionNumber/text() |111364095815097|
+| let | activityType| body | //activity[8]/activityType/text() |49|
+| let | transactionNumber| body | //activity[8]/transactionNumber/text() |111361220005001|
+| let | activityType| body | //activity[9]/activityType/text() |29|
+| let | transactionNumber| body | //activity[9]/transactionNumber/text() |111356030150021|
+| let | activityType| body | //activity[10]/activityType/text() |49|
+| let | transactionNumber| body | //activity[10]/transactionNumber/text() |111350144507001|
+| let | orderNumber| body | //activity[10]/orderNumber/text() |111348020015020|
+
+
+#10 most recent transactions
+#29-chg gen info
+#49-confirmation

@@ -1,0 +1,14 @@
+!lastmodified ----
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!|Import|
+|com.cds.fitnesse.fixture|
+
+!3 Create a data queue, send a message to it, peek at the message, and receive the message.
+
+!4 All methods (create, send, receive, peek) take a library and a queue name as parameters.
+
+!|DataQueueFixture|
+|create|MPATRICK|TESTQ|is|Object already exists.|
+|send|MPATRICK|TESTQ|Test Msg|is| |
+|peek|MPATRICK|TESTQ|is|Test Msg|
+|receive|MPATRICK|TESTQ|is|Test Msg|

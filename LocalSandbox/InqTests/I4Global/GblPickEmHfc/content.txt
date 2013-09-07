@@ -1,0 +1,15 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/374379584/?stopPosition=20&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='374379584']|
+| let | planCode| body | //seriesSummary[1]/pickem/planCode/text() |HPP|
+| let | doneeAccountNbr| body | //seriesSummary[1]/pickem/doneeAccountNbr/text() |374379592|
+| let | productNbr| body | //seriesSummary[1]/pickem/pickemEntries[1]/productNbr/text() |HP003|
+| let | productNbr| body | //seriesSummary[1]/pickem/pickemEntries[2]/productNbr/text() |HP504|
+| let | productNbr| body | //seriesSummary[1]/pickem/pickemEntries[3]/productNbr/text() |HP508|
+| let | doneeAccountNbr| body | //seriesSummary[2]/pickem/doneeAccountNbr/text() |374382927|
+| let | productNbr| body | //seriesSummary[2]/pickem/pickemEntries[1]/productNbr/text() |HP100|
+| let | productNbr| body | //seriesSummary[2]/pickem/pickemEntries[2]/productNbr/text() |HP453|
+| let | productNbr| body | //seriesSummary[2]/pickem/pickemEntries[3]/productNbr/text() |HP002|

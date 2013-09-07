@@ -1,0 +1,22 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=10397&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10397']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113221105908001|
+| let | promotionKey| body |//order[1]/promotionKey/text() |WHOLESALEI|
+| let | productNumber| body |//order[1]/orderItem/productNumber/text() |G425A50799EN|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |29.00|
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=10405&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10405']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113221110409001|
+| let | promotionKey| body |//order[1]/promotionKey/text() |WHOLESALEI|
+| let | productNumber| body |//order[1]/orderItem/productNumber/text() |G425A50799EN|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |0.00|
+
+#orders i put on
+#first order is cash payment on a credit order - $29 cash payment returned
+#second order is cash payments on cc that goes to surplus - zero payment amount returns

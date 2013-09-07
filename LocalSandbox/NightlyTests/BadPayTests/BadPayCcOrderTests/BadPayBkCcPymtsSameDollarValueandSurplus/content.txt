@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300013711?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>CW</reasonCode><transactionNbr>110033121000001</transactionNbr><badPayAmount>36.00</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest37 |
+
+
+##2 CC Pymts for the same dollar value on the same credit order.  Acct has $0.12 in surplus.
+##BP $36 - 02FEB10  on invoice 1000.  $0.12 was taken from surplus.  Amtdue is $35.88.  The other cc pymt is not voided.

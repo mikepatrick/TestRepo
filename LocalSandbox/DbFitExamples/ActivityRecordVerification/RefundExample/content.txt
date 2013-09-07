@@ -1,0 +1,46 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the REFUND activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+    SUBSTR(ACTMISC,13,1) AS MTHD,                 
+    SUBSTR(ACTMISC,14,1) AS RSN,                 
+    SUBSTR(ACTMISC,15,1) AS HOWCRTD,
+    SUBSTR(HEX(ACTMISC),31,7) AS RPTDATE,                   
+    SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
+    SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
+    SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 05
+         AND ACCTNBR = 25391038  
+         AND TRANSNBR > 112003000000001                        -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|
+|        |         |       |          |       |    |     |    |        |        |          |          |            |          |        
+
+
+
+!3 Now verify the 05 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+    SUBSTR(ACTMISC,13,1) AS MTHD,                 
+    SUBSTR(ACTMISC,14,1) AS RSN,                 
+    SUBSTR(ACTMISC,15,1) AS HOWCRTD,
+    SUBSTR(HEX(ACTMISC),31,7) AS RPTDATE,                   
+    SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
+    SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
+    SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 05
+         AND ACCTNBR = 25391038  
+         AND TRANSNBR > 112003000000001                         -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMT|MTHD|RSN|HOWCRTD|RPTDATE|RPTUNDELV|REAPPLIED|MIGPRODABBR|REFUNDSTS|
+|25391038||2384| 5| 111301111714056| 0000005| A| A| A| 0112007| A| Y| '   '| ' '|
+

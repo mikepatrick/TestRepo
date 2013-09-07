@@ -1,0 +1,125 @@
+!contents -R2 -g -p -f -h
+!lastmodified -----
+!define client {MSP}
+!define accountNumber {1611829}
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!4 Using system time to run a stopwatch against queries:
+
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+|Set parameter|threshold|5|
+
+!3 Get the start time - this is seconds and microseconds.
+!4 If the test crosses over a minute boundary, this will not be accurate.
+
+!|Query|!- select    
+(SECOND(current_timestamp) * 1000000) +                
+ MICROSECOND (current timestamp) as start_time      
+                                 from sysibm.sysdummy1 -!                             |
+|start_time?                                                            |
+|>>start_time                                                           |
+
+!3 XORDERDTL0 - This query could be modified to only bring back detail records for a range of order numbers.
+
+!4 Get the first 10 order detail records
+!|OrderedQuery|!- SELECT * FROM (
+SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC, ITMSEQNUM ASC) AS ROW_NUM, Deets.* FROM(
+Select ACCTNBR, ORDERNBR, PRODNBR, ORDDETSTAT, SERVICECDE, ORDERTYPE, PAYTYPE, QTYORDERED, PRODVALUE, DSACCTNBR, SHIPIND, CDSTRKNUM, ITMSHVAL, ITMSEQNUM, ITMQTYCAN, QTYTORSHP, PROMKEY, PRODTAXES 
+from CLTLIBfcx.XORDERDTL0 where ACCTNBR = 76208 ) as Deets) as pagedDeets
+WHERE pagedDeets.ROW_NUM > 0 AND
+      pagedDeets.ROW_NUM <= 10 -!|
+|ROW_NUM?|ACCTNBR?|ORDERNBR?|PRODNBR?|ORDDETSTAT?|SERVICECDE?|ORDERTYPE?|PAYTYPE?|QTYORDERED?|PRODVALUE?|DSACCTNBR?|SHIPIND?|CDSTRKNUM?|ITMSHVAL?|ITMSEQNUM?|ITMQTYCAN?|QTYTORSHP?|PROMKEY?|PRODTAXES?|
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+
+!4 Get the time elapsed for this inquiry (divide by 1,000,000 to get seconds)
+!|Query|!- select    
+(SECOND(current_timestamp) * 1000000) +                
+ MICROSECOND (current timestamp) - :start_time AS duration     
+                                 from sysibm.sysdummy1 -! |
+|duration?                                                                            |
+|>>duration                                                                           |
+
+!4 Get a larger range
+!4 Restart the timer
+!|Query|!- select    
+(SECOND(current_timestamp) * 1000000) +                
+ MICROSECOND (current timestamp) as start_time      
+                                 from sysibm.sysdummy1 -!                             |
+|start_time?                                                            |
+|>>start_time                                                           |
+
+!|OrderedQuery|!- SELECT * FROM (
+SELECT ROWNUMBER() OVER(ORDER BY ORDERNBR DESC, ITMSEQNUM ASC) AS ROW_NUM, Deets.* FROM(
+Select ACCTNBR, ORDERNBR, PRODNBR, ORDDETSTAT, SERVICECDE, ORDERTYPE, PAYTYPE, QTYORDERED, PRODVALUE, DSACCTNBR, SHIPIND, CDSTRKNUM, ITMSHVAL, ITMSEQNUM, ITMQTYCAN, QTYTORSHP, PROMKEY, PRODTAXES 
+from CLTLIBMSP.XORDERDTL0 where ACCTNBR = 11611829 ) as Deets) as pagedDeets
+WHERE pagedDeets.ROW_NUM > 20 AND
+      pagedDeets.ROW_NUM <= 70 -!|
+|ROW_NUM?|ACCTNBR?|ORDERNBR?|PRODNBR?|ORDDETSTAT?|SERVICECDE?|ORDERTYPE?|PAYTYPE?|QTYORDERED?|PRODVALUE?|DSACCTNBR?|SHIPIND?|CDSTRKNUM?|ITMSHVAL?|ITMSEQNUM?|ITMQTYCAN?|QTYTORSHP?|PROMKEY?|PRODTAXES?|
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+||||||||||||||||||||
+
+!4 Get the duration
+!|Query|!- select    
+(SECOND(current_timestamp) * 1000000) +                
+ MICROSECOND (current timestamp) - :start_time AS duration     
+                                 from sysibm.sysdummy1 -!                         |
+|duration?                                                                            |
+|>>duration                                                                           |

@@ -1,0 +1,6 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/AMS_CKI/|
+|GET|/113121095533001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=702258| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='702258']|

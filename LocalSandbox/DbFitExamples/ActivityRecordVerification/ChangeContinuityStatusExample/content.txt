@@ -1,0 +1,40 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CHANGE CONTINUITY STATUS activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,7,1) AS OLDCONTTYPE,
+  SUBSTR(ACTMISC,8,1) AS NEWCONTTYPE,
+  SUBSTR(ACTMISC,9,3) AS PLANCODE,
+  SUBSTR(HEX(ACTMISC),23,15) AS ORDNBR,
+  SUBSTR(ACTMISC,20,2)AS CANCELRSN,
+  SUBSTR(HEX(ACTMISC),43,5) AS GENSEQNBR
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 26
+         AND ACCTNBR = 37047388 
+         AND TRANSNBR > 113114000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|DSACCTNBR?|OLDCONTTYPE?|NEWCONTTYPE?|PLANCODE?|ORDNBR?|CANCELRSN?|GENSEQNBR?|
+|        |         |       |          |       |      |       |       |        |       |       |
+|        |         |       |          |       |      |       |       |        |       |       |
+
+
+!3 Now verify the 26 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+SUBSTR(HEX(ACTMISC),1,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,7,1) AS OLDCONTTYPE,
+  SUBSTR(ACTMISC,8,1) AS NEWCONTTYPE,
+  SUBSTR(ACTMISC,9,3) AS PLANCODE,
+  SUBSTR(HEX(ACTMISC),23,15) AS ORDNBR,
+  SUBSTR(ACTMISC,20,2)AS CANCELRSN,
+  SUBSTR(HEX(ACTMISC),43,5) AS GENSEQNBR
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 26
+         AND ACCTNBR =37047388 
+         AND TRANSNBR > 113114000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|DSACCTNBR|OLDCONTTYPE|NEWCONTTYPE|PLANCODE|ORDNBR|CANCELRSN|GENSEQNBR|
+|37047388| |85021| 26| 00000000000| A| L| 001| 113115121027001| '  '| 00001|
+|37047388| |85021| 26| 00000000000| L| A| 001| 113115121027001| CB| 00001|

@@ -1,0 +1,21 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/112839/?stopPosition=10&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='112839']|
+| let | name | body | //name/text() | CHRISTIAN SCIENCE READING ROOM |
+| let | address1| body | //address1/text() | 62 WEST ADAMS STREET |
+| let | orderNumber | body |//order[1]/orderNumber/text() |111349022933008|
+| let | amountDue| body |//order[1]/amountDue/text() |0.00|
+| let | setCode| body |//order[1]/setCode/text() |E|
+| let | orderNumber | body |//order[3]/orderNumber/text() |110072131340001|
+| let | setCode| body |//order[3]/setCode/text() |A|
+| let | productNumber| body |//order[3]/orderItem/productNumber/text() |JCCHANGE|
+| let | orderNumber | body |//order[6]/orderNumber/text() |108345000003287|
+
+
+##Acct 112839
+##Returning 10 orders, 10 activities
+##Customer has 5 total orders
+##Verifying 3 order summaries, and 1 detail, and discount amount

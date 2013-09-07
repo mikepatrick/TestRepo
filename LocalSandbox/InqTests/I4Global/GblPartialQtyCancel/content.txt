@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50492/?stopPosition=50&numberOfActivities=150&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50492']|
+| let | orderNumber| body |//order[1]/orderNumber/text() |112013025857006|
+| let | orderStatus| body |//order[1]/orderStatus/text() |E|
+| let | orderStatus| body |//order[1]/orderItem[1]/orderStatus/text() |E|
+| let | lastCancelDate| body |//order[1]/orderItem[1]/lastCancelDate/text() |2012-01-31|
+| let | quantity| body |//order[1]/orderItem[1]/quantity/text() |6|
+| let | quantityCancelled| body |//order[1]/orderItem[1]/quantityCancelled/text() |1|

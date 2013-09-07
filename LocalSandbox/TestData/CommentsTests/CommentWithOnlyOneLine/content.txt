@@ -1,0 +1,1 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22625982' and OPERID='602' and TRANSTYPE='11' and ACTMISC like 'This is a comment with only one line.%01%':1

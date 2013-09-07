@@ -1,0 +1,11 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://172.26.68.207:8080/ws/service/customer/MSP|
+|GET|/76208/?stopPosition=5&numberOfActivities=10&pwd=got2know&appId=jamie&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | name | body | //name/text() | CHRISTIAN SCIENCE READING ROOM |
+| let | email | body | //email/text() | tmcrr@csps.com |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112013025918026|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112013025812003|
+| let | orderNumber | body |//order[3]/orderNumber/text() |112013025805001|

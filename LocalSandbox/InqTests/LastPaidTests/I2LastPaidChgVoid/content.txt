@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=299994517&startPosition=54&stopPosition=80&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='299994517']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |110014164951006|
+| let | orderNumber | body |//order[7]/orderNumber/text() |109253203109016|
+| let | lastPaymentDate| body |//order[7]/lastPaymentDate/text() |2009-09-27|
+| let | amountPaid| body |//order[7]/payment/amountPaid/text() |11.43|
+| let | lastCreditCardChargeStatus| body |//order[7]/payment/lastCreditCardChargeStatus/text() |A|
+| let | paymentType| body |//order[7]/payment/paymentType/text() |B|
+
+# CC payment with G for one 16 status, but most recent 16 status for order is A

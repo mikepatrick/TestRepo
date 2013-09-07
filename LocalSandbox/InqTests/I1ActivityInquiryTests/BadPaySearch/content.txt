@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/76208/?activityType=14&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | activityType| body | //activity[2]/activityType/text() |14|
+| let | amountReturned| body | //activity[2]/amountReturned/text() |4490.74|
+| let | activityType| body | //activity[3]/activityType/text() |14|
+| let | activityType| body | //activity[4]/activityType/text() |14|
+| let | activityType| body | //activity[5]/activityType/text() |14|
+| let | transactionNumber| body | //activity[5]/transactionNumber/text() |110088090013000|
+| let | activityType| body | //activity[6]/activityType/text() |14|
+| let | activityType| body | //activity[7]/activityType/text() |14|
+| let | activityType| body | //activity[8]/activityType/text() |14|
+| let | activityType| body | //activity[9]/activityType/text() |14|
+| let | activityType| body | //activity[10]/activityType/text() |14|
+| let | badPayorderNbr| body | //activity[10]/badPayorderNbr/text() |109095000011743|
+

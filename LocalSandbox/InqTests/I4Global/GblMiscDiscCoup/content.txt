@@ -1,0 +1,31 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543443/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543443']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113161115859001|
+| let | miscValue | body |//order[1]/miscValue/text() |8.00|
+| let | discountAmt | body |//order[1]/discountAmt/text() |1.50|
+| let | couponsAmt | body |//order[1]/couponsAmt/text() |2.99|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543419/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543419']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113161115840001|
+| let | miscValue | body |//order[1]/miscValue/text() |3.00|
+| let | discountAmt | body |//order[1]/discountAmt/text() |6.00|
+| let | couponsAmt | body |//order[1]/couponsAmt/text() |7.00|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543450/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543450']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113161121425001|
+| let | miscValue | body |//order[1]/miscValue/text() |3.00|
+| let | discountAmt | body |//order[1]/discountAmt/text() |6.00|
+| let | couponsAmt | body |//order[1]/couponsAmt/text() |7.00|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/376543484/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='376543484']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113161121457001|
+| let | miscValue | body |//order[1]/miscValue/text() |8.00|
+| let | discountAmt | body |//order[1]/discountAmt/text() |1.50|
+| let | couponsAmt | body |//order[1]/couponsAmt/text() |2.99|

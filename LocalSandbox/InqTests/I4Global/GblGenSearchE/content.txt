@@ -1,0 +1,16 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/88385/?startPosition=50&stopPosition=60&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='88385']|
+| let | name | body | //name/text() | CHRISTIAN SCIENCE SOCIETY |
+| let | email | body | //email/text() | cssocietyrd@gmail.com |
+| let | customerBalance | body | //customerBalance /text() | -169.35 |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112352133425025|
+| let | discountAmt| body |//order[2]/discountAmt/text() |15.00|
+
+
+##Account - 88385
+##Orders 50-60
+##Verifies name, email, balance, order number of 1st returned, discount value of 2nd returned

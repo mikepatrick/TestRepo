@@ -1,0 +1,34 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CORRESPONDENCE activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(ACTMISC,1,1) AS INQSRC,
+  SUBSTR(ACTMISC,2,4) AS LTRACTCD,
+  SUBSTR(ACTMISC,6,25) AS LTRDESC,
+  SUBSTR(ACTMISC,31,1) AS RECTYPE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 10
+         AND ACCTNBR = 37045838
+         AND TRANSNBR > 112109000000001                          -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|INQSRC?|LTRACTCD?|LTRDESC?|RECTYPE?| 
+|        |         |       |          |       |         |        |        |   
+
+
+!3 Now verify the 10 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+  SUBSTR(ACTMISC,1,1) AS INQSRC,
+  SUBSTR(ACTMISC,2,4) AS LTRACTCD,
+  SUBSTR(ACTMISC,6,25) AS LTRDESC,
+  SUBSTR(ACTMISC,31,1) AS RECTYPE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 10
+         AND ACCTNBR = 37045838
+         AND TRANSNBR > 112109000000001                      -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|INQSRC|LTRACTCD|LTRDESC|RECTYPE|
+| 37045838| 112110145916001| 85021| 10| E| EN05| 'UNKNOWN                  '| C|
+

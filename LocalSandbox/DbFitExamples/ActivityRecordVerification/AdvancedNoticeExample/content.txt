@@ -1,0 +1,37 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the ADVANCED NOTICE activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(ACTMISC,1,12) AS PRODNBR,          
+    SUBSTR(HEX(ACTMISC),37,7) AS SRVCDATE,    
+    SUBSTR(HEX(ACTMISC),45,11) AS ACCTNBR2,    
+    SUBSTR(ACTMISC,29,3) AS PLANCODE,         
+    SUBSTR(ACTMISC,32,2) AS CNCLRSN,          
+    SUBSTR(ACTMISC,34,10) AS PROMKEY,         
+    SUBSTR(HEX(ACTMISC),87,5) AS IDPN                       
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 24
+         AND ACCTNBR = 27080969 
+         AND TRANSNBR > 112323000000001                      -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|PRODNBR?|SRVCDATE?|ACCTNBR2?|PLANCODE?|CNCLRSN?|PROMKEY?|IDPN?|
+|        |         |       |          |        |         |        |        |         |        |     |  
+
+!3 Now verify the 24 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(ACTMISC,1,12) AS PRODNBR,          
+    SUBSTR(HEX(ACTMISC),37,7) AS SRVCDATE,    
+    SUBSTR(HEX(ACTMISC),45,11) AS ACCTNBR2,    
+    SUBSTR(ACTMISC,29,3) AS PLANCODE,         
+    SUBSTR(ACTMISC,32,2) AS CNCLRSN,          
+    SUBSTR(ACTMISC,34,10) AS PROMKEY,         
+    SUBSTR(HEX(ACTMISC),87,5) AS IDPN                      
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 24
+         AND ACCTNBR =27080969  
+         AND TRANSNBR > 112323000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|PRODNBR|SRVCDATE|ACCTNBR2|PLANCODE|CNCLRSN|PROMKEY|IDPN|
+|27080969| |800| 24| 'CH67        '| 0112324| 00000000000| 016| BT| 'C2C104AAJ '| 00000|

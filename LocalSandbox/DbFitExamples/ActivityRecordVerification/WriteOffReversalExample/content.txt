@@ -1,0 +1,39 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the WRITE OFF REVERSAL activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS TRNSNBR,
+  SUBSTR(HEX(ACTMISC),17,15) AS ORDNBR,
+  SUBSTR(ACTMISC,17,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),35,7) AS AMT,
+  SUBSTR(ACTMISC,22,1) AS MTHD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(ACTMISC,26,10)AS BILLKEY 
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 32
+         AND ACCTNBR = 25162496
+         AND TRANSNBR > 112052000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|TRNSNBR?|ORDNBR?|HOWCRTD?|AMT?|MTHD?|INVOICE?|BILLKEY?|
+|        |         |       |          |       |      |       |       |        |       |       |
+
+
+!3 Now verify the 32 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS TRNSNBR,
+  SUBSTR(HEX(ACTMISC),17,15) AS ORDNBR,
+  SUBSTR(ACTMISC,17,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),35,7) AS AMT,
+  SUBSTR(ACTMISC,22,1) AS MTHD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(ACTMISC,26,10)AS BILLKEY 
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 32
+         AND ACCTNBR =25162496
+         AND TRANSNBR > 112052000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|TRNSNBR|ORDNBR|HOWCRTD|AMT|MTHD|INVOICE|BILLKEY|
+|25162496||85| 32| 111349133043368| 111105060536043| C| 0002845| A| 01001| '1115XCC   '|
+

@@ -1,0 +1,10 @@
+!contents !contents 
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/113190104918001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37046299</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>3</quantity><reasonCode>AF</reasonCode><moneyInd>R</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest16Sql|
+
+
+
+##Test:Return qty = qtyordered - qty returned - qty cancelled

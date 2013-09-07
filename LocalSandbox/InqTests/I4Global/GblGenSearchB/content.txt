@@ -1,0 +1,66 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/30288/?stopPosition=30&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='30288']|
+| let | name | body | //name/text() | IIPT |
+| let | address1| body | //address1/text() | NATHAN SMITH |
+| let | address2| body | //address2/text() | 210 MASSACHUSETTS AVENUE P3-25 |
+| let | customerBalance| body | //customerBalance/text() | -2109.69 |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112013030935008|
+| let | orderStatus| body |//order[1]/orderStatus/text() |A|
+| let | planCode| body |//order[1]/planCode/text() |STL|
+| let | totOrderValue| body |//order[1]/totalOrderValue/text() |1.70|
+| let | setCode| body |//order[1]/setCode/text() |A|
+| let | amountDue| body |//order[1]/amountDue/text() |1.70|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112013030930003|
+| let | orderStatus| body |//order[2]/orderStatus/text() |A|
+| let | planCode| body |//order[2]/planCode/text() |HCG|
+| let | totOrderValue| body |//order[2]/totalOrderValue/text() |7.00|
+| let | setCode| body |//order[2]/setCode/text() |A|
+| let | amountDue| body |//order[2]/amountDue/text() |7.00|
+| let | orderNumber | body |//order[10]/orderNumber/text() |111350075954010|
+| let | orderStatus| body |//order[10]/orderStatus/text() |A|
+| let | planCode| body |//order[10]/planCode/text() |HCG|
+| let | totOrderValue| body |//order[10]/totalOrderValue/text() |7.00|
+| let | setCode| body |//order[10]/setCode/text() |A|
+| let | amountDue| body |//order[10]/amountDue/text() |7.00|
+| let | orderNumber | body |//order[20]/orderNumber/text() |111318055946003|
+| let | orderStatus| body |//order[20]/orderStatus/text() |A|
+| let | planCode| body |//order[20]/planCode/text() |HCG|
+| let | totOrderValue| body |//order[20]/totalOrderValue/text() |7.00|
+| let | setCode| body |//order[20]/setCode/text() |A|
+| let | amountDue| body |//order[20]/amountDue/text() |7.00|
+| let | orderNumber | body |//order[25]/orderNumber/text() |111304020017009|
+| let | orderStatus| body |//order[25]/orderStatus/text() |A|
+| let | planCode| body |//order[25]/planCode/text() |CSJ|
+| let | totOrderValue| body |//order[25]/totalOrderValue/text() |7.30|
+| let | setCode| body |//order[25]/setCode/text() |D|
+| let | amountDue| body |//order[25]/amountDue/text() |7.30|
+| let | accountNumber| body |//order[25]/orderItem/recipient/accountNumber/text() |165464|
+| let | orderNumber | body |//order[26]/orderNumber/text() |111301020524008|
+| let | orderStatus| body |//order[26]/orderStatus/text() |A|
+| let | planCode| body |//order[26]/planCode/text() |STL|
+| let | totOrderValue| body |//order[26]/totalOrderValue/text() |1.70|
+| let | setCode| body |//order[26]/setCode/text() |A|
+| let | amountDue| body |//order[26]/amountDue/text() |1.70|
+| let | planCodeDate | body |//seriesSummary[1]/planCodeDate/text() |2009-07-09|
+| let | planCodeDate | body |//seriesSummary[2]/planCodeDate/text() |2010-04-20|
+| let | planCodeDate | body |//seriesSummary[3]/planCodeDate/text() |2010-04-20|
+| let | planCodeDate | body |//seriesSummary[4]/planCodeDate/text() |2010-04-20|
+| let | planCodeDate | body |//seriesSummary[5]/planCodeDate/text() |2010-04-20|
+| let | transactionNumber| body |//activity[1]/transactionNumber/text() |112016083952022|
+| let | transactionNumber| body |//activity[5]/transactionNumber/text() |112011220004001|
+| let | transactionNumber| body |//activity[10]/transactionNumber/text() |112003220005001|
+
+
+##Acct 30288
+##Returning 30 orders, 10 activites
+##Customer has 1236 total orders 
+##Verifying 1, 2, 10, 20, 25, and 26th most recent order numbers, order status, plan code, total order value, set code, and amount due
+##Verifying recipient acctnbr on 25th order
+##Verifying 5 most recent plan code dates
+##Verifying transaction number on 1st, 5th, and 10th most recent activities
+
+

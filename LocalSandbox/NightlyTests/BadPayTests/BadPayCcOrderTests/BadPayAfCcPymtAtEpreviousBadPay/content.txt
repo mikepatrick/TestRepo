@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/31859747?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AY</reasonCode><transactionNbr>111157152902001</transactionNbr><badPayAmount>161.94</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest06 |
+
+##BP Credit Card payment at 'E' on CC order that was previously flipped to credit (Payment pays off 2 orders: inv 1001 & 1004.) (BP previously.  Amtdue $0 before BP).
+##BP cc pymt $161.94 06JUN11, BP app to 1001 and 1004

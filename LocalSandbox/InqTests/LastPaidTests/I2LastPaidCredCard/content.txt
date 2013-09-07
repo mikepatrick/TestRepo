@@ -1,0 +1,23 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=374371706&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='374371706']|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112235100302001|
+| let | lastPaymentDate| body |//order[2]/lastPaymentDate/text() |2012-09-24|
+| let | amountPaid| body |//order[2]/payment/amountPaid/text() |7.90|
+| let | paymentType| body |//order[2]/payment/paymentType/text() |B|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DIXHF1|
+|GET|?accountNumber=21292123&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='21292123']|
+| let | totalProductValue| body |//order[1]/orderValue/text() |0.00|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |0.00|
+| let | amountPaid| body |//order[2]/amountPaid/text() |16.40|
+| let | amountPaid| body |//order[2]/payment/amountPaid/text() |16.40|
+| let | lastPaymentDate| body |//order[2]/lastPaymentDate/text() |2003-08-21|
+
+#| let | lastPaymentDate| body |//order[2]/lastPaymentDate/text() |2012-09-24|
+#| let | amountPaid| body |//order[2]/payment/amountPaid/text() |7.90|
+#| let | paymentType| body |//order[2]/payment/paymentType/text() |B|
+

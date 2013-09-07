@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/567890736?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AZ</reasonCode><transactionNbr>113212141249000</transactionNbr><badPayAmount>74.17</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']| |

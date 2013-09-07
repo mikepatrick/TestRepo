@@ -1,0 +1,17 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=59097&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='59097']|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112013025904009|
+| let | lastPaymentDate| body |//order[2]/lastPaymentDate/text() |2012-01-31|
+| let | amountPaid| body |//order[2]/payment/amountPaid/text() |1.70|
+| let | lastCreditCardChargeStatus| body |//order[2]/payment/lastCreditCardChargeStatus/text() |B|
+| let | paymentType| body |//order[2]/payment/paymentType/text() |B|
+
+# CC payment with B (not charged) status
+
+
+
+

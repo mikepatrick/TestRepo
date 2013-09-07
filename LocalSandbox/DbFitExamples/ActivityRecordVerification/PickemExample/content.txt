@@ -1,0 +1,37 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the PICKEM activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(ACTMISC, 1,1) AS INDICATOR,
+  SUBSTR(ACTMISC, 2,3) AS PLANCODE,
+  SUBSTR(HEX(ACTMISC),9,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,12,12) AS PRODNBR
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 50
+         AND ACCTNBR = 27048651
+         AND TRANSNBR > 113126000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|INDICATOR?|PLANCODE?|DSACCTNBR?|PRODNBR?| 
+|        |         |       |          |       |      |       |        
+|        |         |       |          |       |      |       |        
+|        |         |       |          |       |      |       |        
+
+
+!3 Now verify the 50 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(ACTMISC, 1,1) AS INDICATOR,
+  SUBSTR(ACTMISC, 2,3) AS PLANCODE,
+  SUBSTR(HEX(ACTMISC),9,11) AS DSACCTNBR,
+  SUBSTR(ACTMISC,12,12) AS PRODNBR
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 50
+         AND ACCTNBR =27048651
+         AND TRANSNBR > 113126000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|INDICATOR|PLANCODE|DSACCTNBR|PRODNBR|
+|27048651||594| A| 001| 00000000000| 'A19K        '|
+|27048651||594| A| 001| 00000000000| 'A0203       '|
+|27048651||594| A| 001| 00000000000| 'A19T        '|
+

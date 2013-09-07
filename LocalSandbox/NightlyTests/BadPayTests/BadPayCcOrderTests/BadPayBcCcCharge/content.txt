@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/77559789?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AV</reasonCode><transactionNbr>113205131715001</transactionNbr><badPayAmount>101.26</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest29 |
+
+##CC Pre-settled - charge back - unshipped/pending
+##BP $101.26 pre-settled cc.  Item 480024230X was cancelled - PV $99.96, Tax $6.30, S/H $5.

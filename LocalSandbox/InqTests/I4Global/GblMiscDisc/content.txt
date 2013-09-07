@@ -1,0 +1,18 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/70243/?stopPosition=60&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='70243']|
+| let | name | body | //name/text() | KAREN GAUTHIER |
+| let | email | body | //email/text() | tcreadingroom@msn.com |
+| let | customerBalance | body | //customerBalance /text() | -128.60 |
+| let | orderNumber | body |//order[1]/orderNumber/text() |113212075939017|
+| let | discountAmt| body |//order[1]/discountAmt/text() |2.00|
+| let | miscValue| body |//order[1]/miscValue/text() |1.00|
+| let | orderNumber | body |//order[22]/orderNumber/text() |113161162114001|
+
+
+
+#returns most recent 60 orders and 50 activities
+#verifies discount and misc value on first order (file flashed amounts)

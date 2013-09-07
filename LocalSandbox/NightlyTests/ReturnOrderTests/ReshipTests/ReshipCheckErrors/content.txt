@@ -1,0 +1,13 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|  
+|PUT|/D8X_CKI2/113190101222001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>25970955</accountNumber></customer><orderItem><sequenceNumber>3</sequenceNumber><quantity>3</quantity><reasonCode>AG</reasonCode><moneyInd>S</moneyInd><errorSwitch>O</errorSwitch></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0291-Qty returned is more than total ordered for this item.')]||
+|PUT|/D8X_CPP2/113165133626001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37049103</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>AA</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0239-Reship not allowed for this return reason.')]||
+|PUT|/D8X_CPP2/113165133626001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37049103</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>AF</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0292-Qty returned is greater than total shipped and not returned/cancelled.')]||
+
+
+##1 - Regular Reship - qty > qty available
+##2 - Reason code is not valid for reship 
+##3 - Regular Reship - qty > qty available - qty returned
+

@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/69215267?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AV</reasonCode><transactionNbr>110033083846000</transactionNbr><badPayAmount>119.96</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest43 |
+
+
+##ECCSPFSPF file - fully void cc record(s).  
+##BP 2nd charge at 'E' for $119.96.  2 other cc charges at 'E', and are on the ECCSPFSPF file.  

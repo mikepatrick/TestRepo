@@ -1,0 +1,53 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/76208/?stopPosition=5&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | name | body | //name/text() | CHRISTIAN SCIENCE READING ROOM |
+| let | address1| body | //address1/text() | KEVIN KING |
+| let | address2| body | //address2/text() | 194 MASSACHUSETTS AVE |
+| let | email | body | //email/text() | tmcrr@csps.com |
+| let | customerBalance | body | //customerBalance/text() | -7367.32 |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112013025918026|
+| let | promotionKey| body |//order[1]/promotionKey/text() |CONT200U|
+| let | orderValue| body |//order[1]/orderValue/text() |25.50|
+| let | creditStatusDescription| body |//order[1]/creditStatusDescription/text() |Billed, (unpaid)|
+| let | setCode| body |//order[1]/setCode/text() |A|
+| let | productNumber| body |//order[1]/orderItem/productNumber/text() |STL1208C|
+| let | productDesc| body |//order[1]/orderItem/productDesc/text() |CS Sentinel Feb 20 2012|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112013025812003|
+| let | promotionKey| body |//order[2]/promotionKey/text() |CONT700U|
+| let | orderValue| body |//order[2]/orderValue/text() |14.00|
+| let | creditStatusDescription| body |//order[2]/creditStatusDescription/text() |Billed, (unpaid)|
+| let | setCode| body |//order[2]/setCode/text() |A|
+| let | productNumber| body |//order[2]/orderItem/productNumber/text() |HCG1204C|
+| let | productDesc| body |//order[2]/orderItem/productDesc/text() |CS Herald German Apr 12|
+| let | orderNumber | body |//order[3]/orderNumber/text() |112013025805001|
+| let | promotionKey| body |//order[3]/promotionKey/text() |CONT600U|
+| let | orderValue| body |//order[3]/orderValue/text() |24.00|
+| let | creditStatusDescription| body |//order[3]/creditStatusDescription/text() |Billed, (unpaid)|
+| let | setCode| body |//order[3]/setCode/text() |A|
+| let | productNumber| body |//order[3]/orderItem/productNumber/text() |HCF1204C|
+| let | productDesc| body |//order[3]/orderItem/productDesc/text() |CS Herald French Apr 12|
+| let | planCode| body |//seriesSummary[1]/planCode/text() |CSX|
+| let | unpaidDollars| body |//seriesSummary[1]/unpaidDollars/text() |208.31|
+| let | initialOrder| body |//seriesSummary[1]/initialOrder/text() |109095000011744|
+| let | productPrice| body |//seriesSummary[1]/productPrice/text() |2.30|
+| let | planStatus| body |//seriesSummary[1]/planStatus/text() |A|
+| let | planCode| body |//seriesSummary[4]/planCode/text() |CEQ|
+| let | unpaidDollars| body |//seriesSummary[4]/unpaidDollars/text() |175.50|
+| let | initialOrder| body |//seriesSummary[4]/initialOrder/text() |109095000011747|
+| let | productPrice| body |//seriesSummary[4]/productPrice/text() |3.90|
+| let | planStatus| body |//seriesSummary[4]/planStatus/text() |A|
+| let | planStatus| body |//seriesSummary[18]/planStatus/text() |D|
+
+##Acct 76208
+##Returning 5 orders, 10 activites
+##Customer has 1942 total orders - yikes!
+##Verifying name, address1, address2, email, balance
+##Verifying 1st order - ordernbr, promkey, totprodval, credit status, ordsetcode, prodnbr
+##Verifying 2nd order - ordernbr, promkey, totprodval, credit status, ordsetcode, prodnbr
+##Verifying 3nd order - ordernbr, promkey, totprodval, credit status, ordsetcode, prodnbr
+##Verifying 1st series - unpaid dollars, prod price, plancode, initial ordernbr
+##Verifying 4th series - unpaid dollars, prod price, plancode, initial ordernbr

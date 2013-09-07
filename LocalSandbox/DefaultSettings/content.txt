@@ -1,0 +1,2 @@
+|!-smartrics.rest.fitnesse.fixture.RestFixtureConfig-!|
+|http.client.connection.timeout |60000|

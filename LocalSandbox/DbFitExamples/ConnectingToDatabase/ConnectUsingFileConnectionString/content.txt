@@ -1,0 +1,18 @@
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitNesseRoot/files/lib/connect.properties|
+
+# DBFit connection properties file
+#
+#1) Either specify full connection string
+# Use this option to specify the IBM toolbox driver.
+connection-string=jdbc:as400://serv.cdsfulfillment.com/;user=WWWAUTOT;password=cds999;transaction isolation=none;errors=full;
+#
+#2) OR specify service, username and password as separate properties
+# On the iSeries, this option requires re-building of the project
+# as some of the driver information is hard-coded.
+##service=//serv.cdsfulfillment.com
+#service=SERV
+#username=MPATRICK
+#password=PASSWORD
+##optionally specify a database name
+##database=TEST400

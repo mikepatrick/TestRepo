@@ -1,0 +1,1 @@
+select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='14459085' and OPERID='602' and TRANSTYPE='11' and ACTMISC like 'Only has 2nd line%02%':1

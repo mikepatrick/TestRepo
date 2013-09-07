@@ -1,0 +1,15 @@
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+|Execute|!- CREATE PROCEDURE dbdrop( IN STMT VARCHAR(1000) )  
+             LANGUAGE SQL                                                 
+             BEGIN                                                        
+                DECLARE SQLSTATE CHAR(5);                                 
+                DECLARE NotThere    CONDITION FOR SQLSTATE '42704';       
+                DECLARE NotThereSig CONDITION FOR SQLSTATE '42883';       
+                DECLARE EXIT HANDLER FOR NotThere, NotThereSig            
+                SET SQLSTATE = '     ';                                
+                SET STMT = 'DROP' || STMT;                                
+                EXECUTE IMMEDIATE STMT;                                   
+              END -!|

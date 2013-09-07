@@ -1,0 +1,14 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/3283199?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1002</invoice><reasonCode>AV</reasonCode><transactionNbr>110035123445000</transactionNbr><badPayAmount>74.98</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest03 |
+
+
+##1st BP of 2
+##CC order - 1 cc chrg at F, 1 cc chrg at A, 1 rfnd from rtn
+##1st - BP $74.98 cc chrg at 'F' - 04FEB10 123445 000, inv 1002.  Refund was not deleted no 11 actv was created .  Void is cancelled.  Amtdue is zero, since all returned and refund was deleted.  
+

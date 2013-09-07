@@ -1,0 +1,6 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/AMS_CKI|
+|GET|/001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=66399&shipToAccountNumber=0| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='66399'] and //planCode[text()='001']|

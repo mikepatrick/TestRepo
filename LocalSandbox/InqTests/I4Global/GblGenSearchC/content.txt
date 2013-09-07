@@ -1,0 +1,23 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/165464/?stopPosition=30&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='165464']|
+| let | name | body | //name/text() | NATHAN S SMITH |
+| let | address1| body | //address1/text() | INTERNATIONAL PLANNING TEAM |
+| let | address2| body | //address2/text() | THE FIRST CHURCH OF CHRIST SCT |
+| let | address3| body | //address3/text() | 210 MASSACHUSETTS AVE P3-25 |
+| let | customerBalance | body | //customerBalance/text() | 0.00 |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112009080203154|
+| let | orderNumber | body |//order[2]/orderNumber/text() |111346020019009|
+| let | orderNumber | body |//order[10]/orderNumber/text() |111091073702009|
+| let | orderNumber | body |//order[20]/orderNumber/text() |110165091046050|
+| let | orderNumber | body |//order[25]/orderNumber/text() |110011112736008|
+| let | orderNumber | body |//order[26]/orderNumber/text() |109341123742006|
+
+##Acct 165464 - customer is recipient
+##Returning 30 orders, 10 activites
+##Customer has 1236 total orders 
+##Verifying 1, 2, 10, 25, 26th order numbers
+##Verifying 5 most recent plan code dates

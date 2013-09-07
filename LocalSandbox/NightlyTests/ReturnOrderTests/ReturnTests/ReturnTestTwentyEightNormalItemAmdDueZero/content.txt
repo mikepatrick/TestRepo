@@ -1,0 +1,9 @@
+!contents  
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D7X_HF12/112086093821002?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1003</invoiceNumber><return>Y</return><customer><accountNumber>369771589</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AF</reasonCode><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest28Sql|
+
+
+
+##Test:Return a normal item - amtdue = 0.  CC order, cc ar = 0.  

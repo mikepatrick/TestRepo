@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=70243&start=112000000000000&stop=113000000000000&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='70243']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112362164051001|
+| let | productNumber| body |//order[1]/orderItem[1]/productNumber/text() |G500B50745EN|
+| let | orderNumber | body |//order[10]/orderNumber/text() |112341084139007|
+| let | productNumber| body |//order[10]/orderItem[1]/productNumber/text() |STL1302C|
+| let | orderNumber | body |//order[30]/orderNumber/text() |112307023024006|
+| let | productNumber| body |//order[30]/orderItem[1]/productNumber/text() |STL1250C|
+| let | orderNumber | body |//order[49]/orderNumber/text() |112258022249002|
+| let | productNumber| body |//order[49]/orderItem[1]/productNumber/text() |STL1243C|

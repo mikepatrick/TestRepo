@@ -1,0 +1,16 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/363220021/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='363220021']|
+| let |invoiceNumber| body |//order[3]/invoiceNumber/text() |1005|
+| let |amountPaid| body |//order[3]/payment/amountPaid/text() |13.43|
+| let |lateFeesCollected| body |//order[3]/payment/lateFeesCollected/text() |1.50|
+| let |invoiceNumber| body |//order[4]/invoiceNumber/text() |1004|
+| let |amountPaid| body |//order[4]/payment/amountPaid/text() |10.93|
+| let |lateFeesCollected| body |//order[4]/payment/lateFeesCollected/text() |1.50|
+| let |invoiceNumber| body |//order[7]/invoiceNumber/text() |1001|
+| let |amountPaid| body |//order[7]/payment/amountPaid/text() |11.43|
+| let |lateFeesCollected| body |//order[7]/payment/lateFeesCollected/text() |1.50|
+

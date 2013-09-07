@@ -1,0 +1,13 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/60749/?activityType=32&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='60749']|
+| let | activityType| body | //activity[1]/activityType/text() |32|
+| let | orderNumber| body | //activity[1]/orderNumber/text() |109095000007514|
+| let | activityType| body | //activity[2]/activityType/text() |32|
+| let | amountReversed| body | //activity[2]/amountReversed/text() |6.90|
+
+#write off reversal activities only
+#up to 10 most recent

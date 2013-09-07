@@ -1,0 +1,9 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/374543346/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='374543346']|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |0.00|
+
+#Verifying delete payments does not return an amount paid in payment information

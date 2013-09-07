@@ -1,0 +1,44 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=128363&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='128363']|
+| let | orderNumber | body |//order[3]/orderNumber/text() |111076102159016|
+| let | invoiceNumber| body |//order[3]/invoiceNumber/text() |1008|
+| let | lastPaymentDate| body |//order[3]/lastPaymentDate/text() |2011-05-09|
+| let | amountPaid| body |//order[3]/payment/amountPaid/text() |169.00|
+| let | orderNumber | body |//order[4]/orderNumber/text() |111076102153022|
+| let | invoiceNumber| body |//order[4]/invoiceNumber/text() |1007|
+| let | lastPaymentDate| body |//order[4]/lastPaymentDate/text() |2011-05-09|
+| let | amountPaid| body |//order[4]/payment/amountPaid/text() |780.00|
+
+##cc payment apps
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=37937&stopPosition=250&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='37937']|
+| let | orderNumber | body |//order[82]/orderNumber/text() |111229094245001|
+| let | invoiceNumber| body |//order[82]/invoiceNumber/text() |1476|
+| let | lastPaymentDate| body |//order[82]/lastPaymentDate/text() |2011-08-24|
+| let | amountPaid| body |//order[82]/payment/amountPaid/text() |15.00|
+
+#proven adjustment
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=37937&startPosition=200&stopPosition=250&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='37937']|
+| let | orderNumber | body |//order[16]/orderNumber/text() |110344211554001|
+| let | invoiceNumber| body |//order[16]/invoiceNumber/text() |1343|
+| let | lastPaymentDate| body |//order[16]/lastPaymentDate/text() |2011-06-30|
+| let | amountPaid| body |//order[16]/payment/amountPaid/text() |1718.76|
+
+#order with bad pay
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=76208&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112013025918026|
+| let | invoiceNumber| body |//order[1]/invoiceNumber/text() |1942|
+| let | lastPaymentDate| body |//order[1]/lastPaymentDate/text() |2013-08-09|
+| let | lastBadPayTransactionNumber| body |//order[1]/payment/lastBadPayTransactionNumber/text() |113221133958001|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |25.00|
+
+#bad payment

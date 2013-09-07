@@ -1,0 +1,14 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=41269&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='41269']|
+| let | orderNumber | body |//order[22]/orderNumber/text() |113108095534008|
+| let | totalOrderValue | body |//order[22]/totalOrderValue /text() |3.90|
+| let | lastBillDate| body |//order[22]/lastBillDate/text() |2013-06-24|
+| let | lastPaymentDate| body |//order[22]/lastPaymentDate/text() |2013-06-10|
+| let | lastEbillDate| body |//order[22]/lastEbillDate/text() |2013-06-22|
+| let | amountPaid| body |//order[22]/payment/amountPaid/text() |3.90|
+| let | lastCreditCardChargeStatus| body |//order[22]/payment/lastCreditCardChargeStatus/text() |A|
+| let | paymentType| body |//order[22]/payment/paymentType/text() |B|

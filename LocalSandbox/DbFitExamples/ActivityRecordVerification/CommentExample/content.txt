@@ -1,0 +1,34 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the COMMENT activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(ACTMISC,1,55) AS COMMENT,
+  SUBSTR(ACTMISC,56,2) AS SEQNBR
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 11
+         AND ACCTNBR = 27032093
+         AND TRANSNBR > 112088000000001                          -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|COMMENT?|SEQNBR?| 
+|        |         |       |          |       |        |   
+|        |         |       |          |       |        |  
+|        |         |       |          |       |        | 
+
+
+!3 Now verify the 11 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+   SUBSTR(ACTMISC,1,55) AS COMMENT,
+  SUBSTR(ACTMISC,56,2) AS SEQNBR
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 11
+         AND ACCTNBR = 27032093
+         AND TRANSNBR > 11208800000001                      -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|COMMENT|SEQNBR|
+| 27032093|| 3801| 11| 'BOTH 1000 AND 1002 HAD WRONG SHIPPING SO REPLACED ORDER'| 01|
+| 27032093|| 3801| 11| 'SHE WILL BE RECIEVING A LETTER REGARDING THOSE.        '| 03|
+| 27032093|| 3801| 11| 'WITH CORRECT SHIPPING. SOME HAVE BEEN DISCONTINUED AND '| 02|
+

@@ -1,0 +1,5 @@
+!2 Use this line in test pages to connect to the database:
+{{{
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+}}}
+!contents -R2 -g -p -f -h

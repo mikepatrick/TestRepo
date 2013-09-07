@@ -1,0 +1,38 @@
+!contents -R2 -g -p -f -h
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+
+!2 The empty table below will populate with the results of the query.
+!2 There is no verification going on here; we simply execute the query.
+
+!|set option|fixed length string parsing|true|
+!|OrderedQuery|!- SELECT OPERIDNBR, USRPRF 
+                    FROM SERVPFPROD.XOPERID1 
+                      WHERE OPERIDNBR = 99310 
+                         OR OPERIDNBR = 899 -!|
+|OPERIDNBR|USRPRF|
+|         |      |
+|         |      |
+
+!2 This time we pre-populate our expected results, creating a test.
+
+!|OrderedQuery|!- SELECT OPERIDNBR, USRPRF 
+                    FROM SERVPFPROD.XOPERID1 
+                     WHERE OPERIDNBR = 99310 
+                        OR OPERIDNBR = 899 
+                    ORDER BY USRPRF -!|
+|OPERIDNBR|USRPRF|
+|99310|'MPATRICK  '|
+|899|XTSTCLTREP|
+
+!2 This is what a wrong result looks like:
+
+
+!|OrderedQuery|!- SELECT OPERIDNBR, USRPRF 
+                    FROM SERVPFPROD.XOPERID1 
+                     WHERE OPERIDNBR = 99310 
+                        OR OPERIDNBR = 899 
+                    ORDER BY USRPRF -!|
+|OPERIDNBR|USRPRF|
+|99310|'MPATRICK  '|
+|899|XTSTSPRVSR|

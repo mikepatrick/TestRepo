@@ -1,0 +1,56 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CANCEL activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTYCNCL,               
+    SUBSTR(HEX(ACTMISC),61,7) AS CNCLPRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS CNCLTAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS CNCLSH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS CNCLDISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS CNCLCOUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS CNCLMISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS CNCLINV,
+    SUBSTR(ACTMISC,54,1) AS GIFTKITSW,  
+    SUBSTR(HEX(ACTMISC),109,3) AS ITMSEQ, 
+    SUBSTR(HEX(ACTMISC),113,7) AS PREVIEW
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 2
+         AND ACCTNBR = 37049038       
+         AND TRANSNBR > 113164000000001                         -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|RSN?|PRODNBR?|QTYCNCL?|CNCLPRODVL?|CNCLTAX?|CNCLSH?|CNCLDISC?|CNCLCOUP?|CNCLMISC?|CNCLINV?|GIFTKITSW?|ITMSEQ?|PREVIEW?|
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          |       |        |
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          |       |        |
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          |       |        |
+
+!3 Now verify the 02 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                  
+    SUBSTR(HEX(ACTMISC),57,3) AS QTYCNCL,               
+    SUBSTR(HEX(ACTMISC),61,7) AS CNCLPRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS CNCLTAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS CNCLSH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS CNCLDISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS CNCLCOUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS CNCLMISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS CNCLINV,
+    SUBSTR(ACTMISC,54,1) AS GIFTKITSW,  
+    SUBSTR(HEX(ACTMISC),109,3) AS ITMSEQ, 
+    SUBSTR(HEX(ACTMISC),113,7) AS PREVIEW
+        FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 2
+         AND ACCTNBR = 37049038        
+         AND TRANSNBR > 113164000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR         |RSN|PRODNBR|QTYCNCL|CNCLPRODVL|CNCLTAX|CNCLSH|CNCLDISC|CNCLCOUP|CNCLMISC|CNCLINV|GIFTKITSW|ITMSEQ|PREVIEW|
+|37049038| |594| 2| 113165125510001| AA| 'CDVD8P      '| 001| 0000000| 0000000| 00000| 00000| 00000| 00000| 01000| N| 002| 0000000|
+|37049038| |594| 2| 113165125510001| AA| 'CH36I       '| 001| 0002995| 0000000| 00000| 00000| 00000| 00000| 01000| N| 001| 0000000|
+|37049038| |594| 2| 113165125510001| AA| 'SUPER3      '| 001| 0000000| 0000000| 00000| 00000| 00000| 00000| 01000| N| 003| 0000000|
+

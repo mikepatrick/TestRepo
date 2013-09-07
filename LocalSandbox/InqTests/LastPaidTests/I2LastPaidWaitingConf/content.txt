@@ -1,0 +1,13 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=91223&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='91223']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112031130025001|
+| let | lastPaymentDate| body |//order[1]/lastPaymentDate/text() |2012-02-01|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |137.40|
+| let | lastCreditCardChargeStatus| body |//order[1]/payment/lastCreditCardChargeStatus/text() |C|
+| let | paymentType| body |//order[1]/payment/paymentType/text() |B|
+
+# CC payment with C (waiting confirmation) status

@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300015138?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AU</reasonCode><transactionNbr>110154131748000</transactionNbr><badPayAmount>181.15</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest13 |
+
+##CC Charge at 'F' ($181.15) w/ pending void for this order and pending voids for another order, an another cc chrg for same order at 'E' - $78.42 (invoice 1000 cc chrg at F, all pending voids)
+##BP $181.15 on cc chrg - 03JUN10 131748 000, invoice 1000.  Pending void cncl'd.  Other cc chrg at 'E' for $78.42 is voided-found on ECCSPFSPF and deleted.  Amtdue = 78.42.  

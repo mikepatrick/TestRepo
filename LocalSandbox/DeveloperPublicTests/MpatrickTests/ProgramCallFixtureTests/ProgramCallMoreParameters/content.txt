@@ -1,0 +1,44 @@
+!lastmodified ----
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!|Import|
+|com.cds.fitnesse.fixture|
+
+##!|ActionFixture|
+
+!|com.cds.fitnesse.fixture.PgmCallFixture|
+|runpgm|is|No arguments passed|
+
+!|com.cds.fitnesse.fixture.PgmCallFixture|ABC|123|
+|runpgm|is|Not enough arguments found|
+
+##!|com.cds.fitnesse.fixture.PgmCallFixture|2|ABC|123|
+##|runpgm|is|arrayoutofbounds- catch this guy and return a proper usage message|
+
+!3 SequenceFixture - returns a string only
+!|PgmCallFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|ZON|15|106251942736111|fourth|NUM|7,2|32323.44|fifth|ZON|12,2|444333555.66|sixth|NUM|9,9|.000350|seventh|ZON|6,6|.999125|
+|runpgm|is||
+
+!3 RowFixture - returns a table of data
+!|PgmCallRowFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|ZON|15|106251942736111|fourth|NUM|7,2|32323.44|fifth|ZON|12,2|444333555.66|sixth|NUM|9,9|.000350|seventh|ZON|6,6|.999125|
+|dataName|dataType|dataLength|dataValue|
+| firstparm| CHAR| 12| HELLO, WORLD|
+| secondparm| NUM| 15| 999999999999999|
+| third| ZON| 15| 999999999999999|
+| fourth| NUM| 7| 123.45|
+| fifth| ZON| 12| 123.45|
+| sixth| NUM| 9| 0.125000000|
+| seventh| ZON| 6| 0.125000|
+
+!|PgmCallRowFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|ZON|15|106251942736111|fourth|NUM|7,2|32323.44|fifth|ZON|12,2|444333555.66|sixth|NUM|9,9|.000350|seventh|ZON|6,6|.999125|
+|dataName|dataType|dataLength|dataValue|
+| firstparm| CHAR| 12| HELLO, WORLD|
+| secondparm| NUM| 15| 999999999999999|
+| third| ZON| 15| 999999999999999|
+| fourth| NUM| 7| 124.45|
+| fifth| ZON| 12| 123.45|
+| sixth| NUM| 9| 0.125000000|
+| seventh| ZON| 6| 0.125000|
+
+
+##!|PgmCallFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|NUM|9|4444|fourth|NUM|6|125000|fifth|NUM|15|88883337773|sixth|NUM|12|125000|seventh|NUM|6|125000|
+##|runpgm|is||

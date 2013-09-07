@@ -1,0 +1,11 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/344430137/?stopPosition=50&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='344430137']|
+| let |invoiceNumber| body |//order[12]/invoiceNumber/text() |1030|
+| let |amountPaid| body |//order[12]/payment/amountPaid/text() |13.43|
+| let |lateFeesCollected| body |//order[12]/payment/lateFeesCollected/text() |1.50|
+| let |setCode| body |//order[12]/setCode/text() |D|
+| let |setCode| body |//order[12]/orderItem[1]/setCode/text() |F|

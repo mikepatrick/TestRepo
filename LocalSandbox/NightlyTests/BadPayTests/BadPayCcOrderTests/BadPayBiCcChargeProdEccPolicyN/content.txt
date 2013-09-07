@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLC2/9479460?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AX</reasonCode><transactionNbr>111143094758000</transactionNbr><badPayAmount>81.11</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest35 |
+
+
+##PRODECCSW = N - set acct to bad pay and a cc charge.  Installamd before bp is $201.08.
+##BP $81.11 cc charge, 16 actv is now 'D'.  Amtdue is $201.08.  Customer is marked bad pay, because PRODECCSW = N.

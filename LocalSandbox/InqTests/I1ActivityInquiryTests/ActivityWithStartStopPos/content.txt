@@ -1,0 +1,30 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/DEXFCR|
+|GET|/220798/?startPosition=2&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='220798']|
+| let | activityType| body | //activity[1]/activityType/text() |34|
+| let | orderNumber| body | //activity[1]/orderNumber/text() |111280135811001|
+| let | amount| body | //activity[1]/amount/text() |30.31|
+| let | activityType| body | //activity[2]/activityType/text() |05|
+| let | refundReportedDate| body | //activity[2]/refundReportedDate/text() |2011-11-08|
+| let | activityType| body | //activity[3]/activityType/text() |04|
+| let | orderNumber| body | //activity[3]/orderNumber/text() |111280135811001|
+| let | productNbr| body | //activity[3]/productNbr/text() |P025B34090SP|
+| let | activityType| body | //activity[6]/activityType/text() |16|
+| let | amount| body | //activity[6]/amount/text() |42.22|
+| let | authorizationCode| body | //activity[6]/authorizationCode/text() |009203|
+| let | activityType| body | //activity[7]/activityType/text() |06|
+| let | creditCareExpire| body | //activity[7]/creditCardExpire/text() |0613|
+| let | creditCardNbr| body | //activity[7]/creditCardNbr/text() |3593|
+| let | activityType| body | //activity[8]/activityType/text() |11|
+| let | comment| body | //activity[8]/comment/text() |VOID 1/31/11 REFUND CHECK 11.90 TCO 1/31/11 JAG|
+
+#returns 2nd - 10th activities (9 total)
+#34-refund/charge
+#05-refunds
+#04-return
+#16-cc charge
+#06-cc payment
+#11-comment

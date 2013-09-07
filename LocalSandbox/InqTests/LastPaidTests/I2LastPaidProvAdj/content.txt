@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=72322&start=113157071615001&stop=113157071615001&stopPosition=1&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='72322']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113157071615001|
+| let | lastPaymentDate| body |//order[1]/lastPaymentDate/text() |2013-07-03|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |15.63|
+| let | paymentType| body |//order[1]/payment/paymentType/text() |C|

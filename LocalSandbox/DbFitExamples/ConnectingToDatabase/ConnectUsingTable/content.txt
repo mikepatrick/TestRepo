@@ -1,0 +1,17 @@
+!contents -R2 -g -p -f -h
+
+!|dbfit.DB2Test|
+##!|Connect|//serv.cdsfulfillmsnt.com|WWWAUTOT|cds999|SERV|
+##|Connect|data source=jdbc:as400://serv.cdsfulfillment.com/;user=WWWAUTOT;password=cds999;transaction isolation=none;errors=full;database=SERV;|
+
+
+
+!|set option|fixed length string parsing|true|
+
+##!|OrderedQuery|!- SELECT OPERIDNBR, USRPRF 
+##                    FROM SERVPFPROD.XOPERID1 
+##                      WHERE OPERIDNBR = 99310 
+##                         OR OPERIDNBR = 899 -!|
+##|OPERIDNBR|USRPRF|
+##|         |      |
+##|         |      |

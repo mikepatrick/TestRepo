@@ -1,0 +1,5 @@
+!lastmodified -----
+
+!3 This suite consists of tests that attempt to verify (with SQL) that the data returned by a REST inquiry is correct.
+
+!contents -R2 -g -p -f -h

@@ -1,0 +1,32 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the RESUME activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,5) AS INVOICE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE  
+         TRANSTYPE = 18
+         AND ACCTNBR = 37047180
+         AND TRANSNBR > 113126000000001                          -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?        | INVOICE? | 
+|        |         |       |          |               |        | 
+|        |         |       |          |               |        | 
+
+
+
+!3 Now verify the 44 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,5) AS INVOICE
+    FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 18
+         AND ACCTNBR = 37047180      
+         AND TRANSNBR > 113126000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|INVOICE|
+|37047180||594| 18| 113115120822030| 01000|
+|37047180||594| 18| 113115123917009| 01001|

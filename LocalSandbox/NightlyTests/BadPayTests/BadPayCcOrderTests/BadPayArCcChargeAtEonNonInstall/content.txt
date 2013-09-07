@@ -1,0 +1,13 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300016961?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AZ</reasonCode><transactionNbr>111159091651000</transactionNbr><badPayAmount>171.94</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest18 |
+
+##Credit Card Charge at 'E' - cc non-install order. (CC AR $171.94 before BP)
+##BP $171.94. Chg changed to D - rejected.  Amtdue is now $171.94 (Accts are not set to bad pay when the PRODECCSW = 'B' and it a cc chrg)
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.
+

@@ -1,0 +1,12 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=76208&start=112000000000000&stop=113000000000000&stopPosition=5&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='76208']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112013025918026|
+| let | productNumber| body |//order[1]/orderItem[1]/productNumber/text() |STL1208C|
+| let | orderNumber | body |//order[3]/orderNumber/text() |112013025805001|
+| let | productNumber| body |//order[3]/orderItem[1]/productNumber/text() |HCF1204C|
+| let | orderNumber | body |//order[5]/orderNumber/text() |112010010133003|
+| let | productNumber| body |//order[5]/orderItem[1]/productNumber/text() |CSX1205C|

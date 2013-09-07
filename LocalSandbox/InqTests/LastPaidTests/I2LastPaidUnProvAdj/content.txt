@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=100156&start=109010000000041&stop=109010000000041&stopPosition=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='100156']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |109010000000041|
+| let | lastPaymentDate| body |//order[1]/lastPaymentDate/text() |2012-01-31|
+| let | amountPaid| body |//order[1]/payment/amountPaid/text() |504.00|
+| let | paymentType| body |//order[1]/payment/paymentType/text() |D|

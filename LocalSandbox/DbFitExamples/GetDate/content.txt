@@ -1,0 +1,3 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+
+|Inspect Query| select * from SYSIBM.SYSDUMMY1|

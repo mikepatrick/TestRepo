@@ -1,0 +1,9 @@
+!contents -R2 -g -p -f -h
+
+!4 This isn't actually a sutie on the test server, but a suite that I have on my local instance.
+
+!5 I put tests here that I know I'm not likely to use after the task I'm working on is complete.
+!5 During the course of unit testing, I'm likely to automate some things through FitNesse.
+!5 I keep tests here that I know I won't be returning to.  The suite never gets run in its entirety.
+!5 It's just kind of a dumping ground for stuff that I won't need for long, but is much easier and
+!5 quicker through Fitnesse than doing it manually.

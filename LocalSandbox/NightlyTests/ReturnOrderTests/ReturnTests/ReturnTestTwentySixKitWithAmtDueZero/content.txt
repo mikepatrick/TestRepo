@@ -1,0 +1,9 @@
+!contents  
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D7X_HF12/111308120108001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1020</invoiceNumber><return>Y</return><customer><accountNumber>344182472</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>DA</reasonCode><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>2</sequenceNumber><quantity>1</quantity><reasonCode>DA</reasonCode><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>3</sequenceNumber><quantity>1</quantity><reasonCode>DA</reasonCode><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>4</sequenceNumber><quantity>1</quantity><reasonCode>DA</reasonCode><moneyInd>R</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest26Sql|
+
+
+
+##Test:Return a kit - amtdue = 0

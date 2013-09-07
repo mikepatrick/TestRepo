@@ -1,0 +1,10 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/order/DEXFCR|
+|GET|?accountNumber=10389&stopPosition=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='10389']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |113220150731001|
+| let | promotionKey| body |//order[1]/promotionKey/text() |CONT200U|
+| let | orderStatus| body |//order[1]/orderStatus/text() |B|
+| let | productNumber| body |//order[1]/orderItem/productNumber/text() |STL0933C|

@@ -1,0 +1,39 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the ECC FUTURE SHIP activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(ACTMISC,9,2) AS CCTYPE,
+  SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,
+  SUBSTR(ACTMISC,20,1) AS SRVCDE,
+  SUBSTR(ACTMISC,21,5) AS FTRSHPDT,
+  SUBSTR(ACTMISC,26,1)AS STATUS
+          FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 28
+         AND ACCTNBR = 27019900 
+         AND TRANSNBR > 112085000000001                                  -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|CCTYPE?|CCNBR?|SRVCDE?|FTRSHPDT?|STATUS?| 
+|        |         |       |          |       |      |       |       |        |       |       
+|        |         |       |          |       |      |       |       |        |       |       
+
+
+
+!3 Now verify the 28 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+ SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(ACTMISC,9,2) AS CCTYPE,
+  SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,
+  SUBSTR(ACTMISC,20,1) AS SRVCDE,
+  SUBSTR(ACTMISC,21,5) AS FTRSHPDT,
+  SUBSTR(ACTMISC,26,1)AS STATUS
+      FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 28
+         AND ACCTNBR =27019900
+         AND TRANSNBR > 112085000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|CCTYPE|CCNBR|SRVCDE|FTRSHPDT|STATUS|
+|27019900||0| 28| 112083202914004| MC| 00000000000009549| H| 12093| A|
+|27019900||0| 28| 112083204750001| MC| 00000000000009549| H| 12093| A|

@@ -1,0 +1,52 @@
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the CREDIT CARD CHARGE activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at the 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,1) AS CCIND,                 
+    SUBSTR(HEX(ACTMISC),19,7) AS CCAMT,                   
+    SUBSTR(HEX(ACTMISC),27,7) AS CCDATE,               
+    SUBSTR(HEX(ACTMISC),35,5) AS INVOICE,                   
+    SUBSTR(ACTMISC,21,2) AS RJCTRSN,                
+    SUBSTR(HEX(ACTMISC),45,3) AS SEQNBR,                
+    SUBSTR(ACTMISC,25,6) AS AUTHCODE,                   
+    SUBSTR(ACTMISC,31,6) AS AUTHDATE,
+    SUBSTR(ACTMISC,37,14) AS AUTHREFNBR,               
+    SUBSTR(HEX(ACTMISC),101,7) AS ORIGAMT,
+    SUBSTR(ACTMISC,55,2) AS PRESETTYPE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 16
+         AND ACCTNBR = 37046935      
+         AND TRANSNBR > 113114000000001                         -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|CCIND?|CCAMT?|CCDATE?|INVOICE?|RJCTRSN?|SEQNBR?|AUTHCODE?|AUTHDATE?|AUTHREFNBR?|ORIGAMT?|PRESETTYPE? |
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          | 
+|        |         |       |          |       |    |        |        |           |        |       |         |         |         |        |          |  
+
+
+!3 Now verify the 02 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,1) AS CCIND,                 
+    SUBSTR(HEX(ACTMISC),19,7) AS CCAMT,                   
+    SUBSTR(HEX(ACTMISC),27,7) AS CCDATE,               
+    SUBSTR(HEX(ACTMISC),35,5) AS INVOICE,                   
+    SUBSTR(ACTMISC,21,2) AS RJCTRSN,                
+    SUBSTR(HEX(ACTMISC),45,3) AS SEQNBR,                
+    SUBSTR(ACTMISC,25,6) AS AUTHCODE,                   
+    SUBSTR(ACTMISC,31,6) AS AUTHDATE,
+    SUBSTR(ACTMISC,37,14) AS AUTHREFNBR,               
+    SUBSTR(HEX(ACTMISC),101,7) AS ORIGAMT,
+    SUBSTR(ACTMISC,55,2) AS PRESETTYPE
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 16
+         AND ACCTNBR = 37046935      
+         AND TRANSNBR > 113114000000001                         -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|CCIND|CCAMT|CCDATE|INVOICE|RJCTRSN|SEQNBR|AUTHCODE|AUTHDATE|AUTHREFNBR|ORIGAMT|PRESETTYPE|
+|37046935||810| 16| 113115120822009| A| 0000100| 0113115| 01000| '  '| 000| '      '| 000000| '              '| 0000100| DS|
+|37046935||810| 16| 113115123916071| A| 0002400| 0113115| 01001| '  '| 000| '      '| 000000| '              '| 0002400| DS|
+
+

@@ -1,0 +1,17 @@
+!contents
+
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+|GET| /D2X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D1X_HF12/353436728?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0181-Client restricted from using itemized billing.')]||
+|PUT|/D2X_CKI2/25138348?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0182-Itemized billing not allowed when balance is surplus or zero.')]||
+|PUT|/D2X_CKI2/25138413?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0182-Itemized billing not allowed when balance is surplus or zero.')]||
+|PUT|/D2X_CKI2/22052880?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='22052880' and TRANSTYPE='42' and ACTMISC like 'N%':1|
+|PUT|/D2X_CKI2/2355097?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='2355097' and TRANSTYPE='42' and ACTMISC like 'N%':1|
+|PUT|/D2X_CKI2/21212121?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0391-Customer Summary record not found. Contact Supervisor.')]||
+|PUT|/D2X_CKI2/23557861?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:select * from CLTLIBD2X.XACTIVITY0 where ACCTNBR='23557861' and TRANSTYPE='42' and ACTMISC like 'N%':1|
+|PUT|/D2X_CKI2/22050900?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>999</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0133-Operator ID not recognized. Cannot access system.')]||
+|PUT|/D2X_CKI2/21542121?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><itemizedBill/></customer></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0183-No customer summary record for this product line.')]||

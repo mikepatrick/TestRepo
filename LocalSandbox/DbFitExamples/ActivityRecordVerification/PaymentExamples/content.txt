@@ -1,0 +1,107 @@
+!define client {MSPBHE2}
+!define acctNbr {123760}
+!define appid {iCare}
+!define password {got2know}
+!define actvType {03}
+!define numRecs {5}
+
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!3 Get the payment activities, with ACTMISC broken out by the SQL query.
+We are querying by TRANSNBR and TRANSTYPE, both of which are at teh 
+front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
+!4 If a query like this were available for all transtypes, we could verify most activity records using Db Fit with ease.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                 
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                   
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                  
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,               
+    SUBSTR((ACTMISC),27,1) AS APPIND,                   
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,  
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,               
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                   
+    SUBSTR((ACTMISC),48,2) AS PRETYP                    
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
+         AND TRANSNBR = 113149170930001                          -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |
+
+!3 Now verify the records
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                 
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                   
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                  
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,               
+    SUBSTR((ACTMISC),27,1) AS APPIND,                   
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,                
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                   
+    SUBSTR((ACTMISC),48,2) AS PRETYP                    
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
+         AND TRANSNBR = 113149170930001                          -!|
+|ACCTNBR|TRANSNBR|OPERID|TRANSTYPE|ORDNBR|AMTPD|PAYMTD|BILKEY|INVOICE|APPIND|DEPDAT|BATNBR|HOWCRTD|CHKNBR|PRETYP|
+|123760|113149170930001|99310|3|113149170700001|0000600|A|'          '|01000|C|0113149|01004| C|'         '|'  '|
+|123760|113149170930001|99310|3|113149170700001|0000600|A|BILLKEY000|01000|C|0113149|01004| C|CHECKNBR1|MC|  
+
+!3 You can also issue queries searching on redefined miscellaneous fields, such as order number:
+
+!|Query|!- SELECT * FROM (                                              
+SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,                    
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                      
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                        
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                       
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,                    
+    SUBSTR((ACTMISC),27,1) AS APPIND,                        
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                     
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR, 
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,                    
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                        
+    SUBSTR((ACTMISC),48,2) AS PRETYP                         
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3       
+               ) AS PMTS WHERE PMTS.ORDNBR = 113149170700001 -!|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |
+|        |         |       |          |       |      |       |       |        |       |       |       |        |       |       |  
+
+!3 Verify the four activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT * FROM (                                              
+  SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,                    
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                      
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                        
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                       
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,                    
+    SUBSTR((ACTMISC),27,1) AS APPIND,                        
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                     
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,                     
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                        
+    SUBSTR((ACTMISC),48,2) AS PRETYP                         
+    FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3       
+    ) AS PMTS WHERE PMTS.ORDNBR = 113149170700001 -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMTPD|PAYMTD|BILKEY|INVOICE|APPIND|DEPDAT|BATNBR|HOWCRTD|CHKNBR|PRETYP|
+|123760||99310|3|113149170700001|0000600|A|'          '|01000|C|0113149|01004| C|'         '|'  '|
+|123760||99310|3|113149170700001|0000800|A|'          '|01000|C|0113149|01004| C|'         '|'  '|
+|123760||99310|3|113149170700001|0000600|A|'          '|01000|C|0113149|01004| C|'         '|'  '|
+|123760||99310|3|113149170700001|0000600|A|BILLKEY000|01000|C|0113149|01004| C|CHECKNBR1|MC|  
+
+!3 We could issue a REST request to validate that inquiry returns these same values.
+!3 Use the let() method to validate values out of the response.
+
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/activity/${client}|
+|GET|/${acctNbr}/?stopPosition=${numRecs}&pwd=${password}&appId=${appid}&activityType=${actvType}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

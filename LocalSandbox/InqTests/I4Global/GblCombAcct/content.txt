@@ -1,0 +1,26 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/366081685/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='366081685']|
+| let |name| body |//customer/name/text() |MARY SAUL|
+| let |address1| body |//customer/address1/text() |1002 CRESTLINE DR|
+| let |zipCode| body |//customer/zipCode/text() |66049|
+| let |orderCount| body |//customer/orderCount/text() |3|
+| let |invoiceNumber| body |//order[1]/invoiceNumber/text() |1001|
+| let |invoiceNumber| body |//order[2]/invoiceNumber/text() |11000|
+| let |invoiceNumber| body |//order[3]/invoiceNumber/text() |1000|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/356685701/?stopPosition=10&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='356685701']|
+| let |name| body |//customer/name/text() |MARY SAUL|
+| let |address1| body |//customer/address1/text() |1002 CRESTLINE DR|
+| let |zipCode| body |//customer/zipCode/text() |66049|
+| let |orderCount| body |//customer/orderCount/text() |3|
+| let |invoiceNumber| body |//order[1]/invoiceNumber/text() |1001|
+| let |invoiceNumber| body |//order[2]/invoiceNumber/text() |11000|
+| let |invoiceNumber| body |//order[3]/invoiceNumber/text() |1000|
+
+
+#Combined into account - verifying same data is returned for both account numbers

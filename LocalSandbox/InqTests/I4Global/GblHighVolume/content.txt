@@ -1,0 +1,57 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=5&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | name | body | //name/text() | FIRST CHURCH OF CHRIST, |
+| let | email | body | //email/text() | spence.kingsbery@principia.edu |
+| let | orderNumber | body |//order[1]/orderNumber/text() |112044115651013|
+| let | orderNumber | body |//order[2]/orderNumber/text() |112044115538002|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=10&numberOfActivities=10&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[3]/orderNumber/text() |112013025857005|
+| let | orderNumber | body |//order[6]/orderNumber/text() |112009075729002|
+| let | orderNumber | body |//order[8]/orderNumber/text() |112004013656008|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=20&numberOfActivities=20&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[11]/orderNumber/text() |111363080007026|
+| let | orderNumber | body |//order[15]/orderNumber/text() |111347013436009|
+| let | orderNumber | body |//order[20]/orderNumber/text() |111340160410001|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=50&numberOfActivities=50&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112044115651013|
+| let | orderNumber | body |//order[42]/orderNumber/text() |111294015305019|
+| let | orderNumber | body |//order[50]/orderNumber/text() |111285011837004|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=100&numberOfActivities=100&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[1]/orderNumber/text() |112044115651013|
+| let | orderNumber | body |//order[15]/orderNumber/text() |111347013436009|
+| let | orderNumber | body |//order[50]/orderNumber/text() |111285011837004|
+| let | orderNumber | body |//order[62]/orderNumber/text() |111263023211003|
+| let | orderNumber | body |//order[88]/orderNumber/text() |111202073615012|
+| let | orderNumber | body |//order[100]/orderNumber/text() |111172073901005|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=200&numberOfActivities=200&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[100]/orderNumber/text() |111172073901005|
+| let | orderNumber | body |//order[110]/orderNumber/text() |111154112221004|
+| let | orderNumber | body |//order[149]/orderNumber/text() |111066092154001|
+| let | orderNumber | body |//order[160]/orderNumber/text() |111042080535002|
+| let | orderNumber | body |//order[178]/orderNumber/text() |111004070207004|
+| let | orderNumber | body |//order[200]/orderNumber/text() |110326125323002|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/50468/?stopPosition=400&numberOfActivities=0&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='50468']|
+| let | orderNumber | body |//order[300]/orderNumber/text() |110119090941047|
+| let | orderNumber | body |//order[350]/orderNumber/text() |110028090430004|
+| let | orderNumber | body |//order[400]/orderNumber/text() |109300094123024|
+
+##Acct 50468
+##Returning varying amounts of order and activities
+##Multiple global calls
+
