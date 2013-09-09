@@ -1,0 +1,33 @@
+!lastmodified ----
+##|Import|com.cds.fitnesse.fixture|
+
+!4 This fixture takes three parameters - Library, File, and Member for the
+!4 member containing the job CL.
+##!|com.cds.fitnesse.fixture.CmdCallFixture|
+##|runcmd|CHGCURLIB MPATRICK|is| |
+
+!|dbfit.DB2iTest|
+!|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+|Execute| create alias jobcard for TESTCARDS (SHXMSP0001)|
+
+!4 This statement will display the job you're about to run.
+|Inspect Query|select * from jobcard|
+
+!4 The job will be submitted using the same name as the member.
+
+##!|com.cds.fitnesse.fixture.SbmJobFixture| | | |
+##|Cell Handler Loader| 
+##|load|SymbolSaveHandler|FitLibrary| 
+##|load|SymbolRecallHandler|FitLibrary| 
+
+!|com.cds.fitnesse.fixture.SbmJobFixture|MPATRICK|TESTCARDS|SHXMSP0001|
+|set|jobName|show|submitJob|
+
+##|set|jobName|=|submitJob| 
+##|set|jobName|show|submitJob| 
+##|submitJob|is| |
+##|submitJob|@{jobName}|
+ 
+!|com.cds.fitnesse.fixture.CmdCallFixture|
+|runcmd|@{jobName}|is| |

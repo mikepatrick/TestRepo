@@ -1,0 +1,30 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {FCXFCR}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody|<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>WHOLESALEI</promotionKey><sourceCode>10</sourceCode><internetNumber>TEST333222</internetNumber><poNumber>335587PO</poNumber><shippingAndHandlingAmt>11.00</shippingAndHandlingAmt><customer><accountNumber></accountNumber><name>John Galt</name><address1>111 Spruce Dr</address1><city>Des Moines</city> <state>IA</state><zipCode>50316X</zipCode></customer><payment><paymentType>presettled</paymentType> <creditCardType>PY</creditCardType> <creditCardNumber>5555544443332213</creditCardNumber> <creditCardExpire>1124</creditCardExpire><authorizationCode>ABC5244Z</authorizationCode><authorizationDate/><authorizationReference>233456789PAYPAL</authorizationReference><authorizationIndicator>P</authorizationIndicator><authorizationCode/> <presettledSwitch>Y</presettledSwitch><amountPaid>19.50</amountPaid></payment><orderItem><productNumber>CAC1111</productNumber> <quantity>1</quantity> <value>19.50</value> <customerGetsRefund>N</customerGetsRefund></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()||
+
+!4 Lookup the customer using the account number defined above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupCustomerService}${client}|
+|GET|/%acctNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%]|
+| let | name | body | //name/text() | JOHN GALT |
+| let | customerBalance | body | //customerBalance/text() | 22.67- |
+| let | amountDue | body | //amountDue/text() | 22.67 |
+| let | orderNbr | body |//orderNumber[1]/text() |  |
+| let | planCode | body |//orderSummary[1]/planCode/text() | |
+
+!5 Lookup the order detail using the order number returned above
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${lookupOrderService}${client}|
+|GET|/%orderNbr%/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=%acctNbr%| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=%acctNbr%] and //orderNumber[text()=%orderNbr%]|
+| let | totalOrderValue | body |//totalOrderValue/text() | $22.67 |
+| let | orderTax | body |//totalOrderTax/text() | 0.00 |
+| let | prodDesc | body |//productDesc/text() | PUMPER FIRE ENG |
