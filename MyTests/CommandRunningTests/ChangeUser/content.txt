@@ -5,8 +5,8 @@
 !3 CommandCallFixture - issue arbitrary CL commands via FitNesse:
 
 !4 A command with bad syntax:
-!|com.cds.fitnesse.fixture.CmdCallFixture|
+!|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
 |runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
-|login||user|WWWAUTOT|password|cds999|
-|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+|loginUserPassword| |WWWAUTOT|cds999|
+|runcmd|DLTLIB TESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
 |runcmd|CRTLIB TESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|

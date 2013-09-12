@@ -3,10 +3,8 @@
 | Import |
 | com.cds.fitnesse.fixture |
 
-!3 Start with come basic commands, creating and deleting libraries.
-
-##!|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
-##|runcmd|CRTLIB TESTINGMSP|
+!3 CmdCallSequenceFixture issues commands on a single line, and a String is returned.  Verify the string using the "is" method.
+!4 Start with come basic commands, creating and deleting libraries.
 
 !4 ActionFixture can be used for this, but not does not return a value.
 !|ActionFixture|
@@ -21,14 +19,10 @@
 |start|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
 |enter|runcmd|ADDLIBLE LIB(TESTFF) POSITION(*AFTER MPATRICK)|
 
-##!|ActionFixture|
-##|start|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
-##|enter|runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST23.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
-
 !3 CommandCallFixture can also be used for this, and will return a system message.
 
 !4 A command with bad syntax:
-!|CommandCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
 
 !4 Successful commands:
@@ -39,17 +33,17 @@
 |runcmd|DLTLIB TESTDD|is|Library TESTDD deleted.|
 
 !4 Upload a file from the iSeries to the FMSERVER:
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST27.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|is|All records copied from file XMLUPLOAD in MPATRICK.|
 
 !4 Copy activity records into redefined files:
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|CPYF FROMFILE(CLTLIBMSP/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|is|638 records copied from member XACTIVITY0.|
 |runcmd|CPYF FROMFILE(CLTLIBMSP/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|is| |
 |runcmd|CPYF FROMFILE(CLTLIBMSP/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
 
 !4 Copy some data over from System A (Test bed accounts, in this case):
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|CLRPFM MPATRICK/XTSTBEDACT|is|Member XTSTBEDACT file XTSTBEDACT in MPATRICK cleared.|
 |runcmd|DLTF MPATRICK/SYSAACTS|is|Object SYSAACTS in MPATRICK type *FILE deleted.|
 |runcmd|CRTDDMF FILE(MPATRICK/DDMTEST1) RMTFILE(MPATRICK/XTSTBEDACT) RMTLOCNAME(*RDB) RDB(SYSA400)|is|File DDMTEST1 created in library MPATRICK.|
@@ -57,7 +51,7 @@
 |runcmd|DLTF MPATRICK/DDMTEST1|is|Object DDMTEST1 in MPATRICK type *FILE deleted.|
 
 !4 Compiling scripts work just fine. Recompile the WEBPFS error handling service programs, and bounce my jobs:
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|CRTCBLMOD MODULE(MPATRICK/XWEBERRHL3) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL3) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
 |runcmd|CRTCBLMOD MODULE(MPATRICK/XWEBERRHL4) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL4) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
 |runcmd|CRTCBLMOD MODULE(WEBTRANS/XWEBERRHL3) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL3) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
@@ -75,5 +69,5 @@
 |runcmd|STRPJ SBS(WEBPFS5) PGM(CLTLIBMSP/XWEB500MSP)|is| |
 
 !4 Add a new prestart job entry in a WEBPFS subsystem:
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|is| |

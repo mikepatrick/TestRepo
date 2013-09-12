@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <properties>
+	<Edit>true</Edit>
 	<Files>true</Files>
 	<LastModifyingUser>mpatrick</LastModifyingUser>
 	<Properties>true</Properties>
@@ -9,9 +10,4 @@
 	<Test/>
 	<Versions>true</Versions>
 	<WhereUsed>true</WhereUsed>
-	<WikiImport>
-		<Source>http://test-mag3.buysub.com:8090/ServPfTestDevelopment.DbFitExamples.GetDate</Source>
-		<LastRemoteModification>20130822111834</LastRemoteModification>
-		<AutoUpdate/>
-	</WikiImport>
 </properties>

@@ -4,35 +4,23 @@
 !define client {MSP}
 !define mylib {MPATRICK}
 ## ActionFixture removed, because it sucks.
-##!4 ActionFixture can be used for this, but not does not return a value.
-##!|ActionFixture|
-##|start|smartrics.rest.fitnesse.fixture.PgmCallFixture|
-##|enter|runcmd|DLTLIB TESTFF|
-
-##!|ActionFixture|
-##|start|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
-##|enter|runcmd|CRTLIB TESTFF|
-
-##!|ActionFixture|
-##|start|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
-##|enter|runcmd|ADDLIBLE LIB(TESTFF) POSITION(*AFTER MPATRICK)|
+!4 ActionFixture can be used for this, but not does not return a value.
+!|ActionFixture|
+|start|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|enter|runcmd|DLTLIB TESTFF|
 
 ##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
 
-##!|ActionFixture|
-##|start|com.cds.fitnesse.fixture.CmdCallFixture|
-##|enter|runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST23.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+!3 Cmd Call Fixture - Extends Row Fixture; returns a table of data.  Requires a fixture declaration with every command.
+!3 Cmd Call Sequence Fixture - Extends Sequence Fixture; returns a string.  Multiple commands can follow a single fixture declaration.
 
-!3 CommandCallFixture - issue arbitrary CL commands via FitNesse:
-
-!4 A command with bad syntax:
+!4 Examples: (Row Fixture format):
 !|com.cds.fitnesse.fixture.CmdCallFixture|DLTLIBTESTFF|
 |cmdToRun|returnMsg|
 |DLTLIBTESTFF| |
 
 ##|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
 
-!4 Successful commands:
 !|com.cds.fitnesse.fixture.CmdCallFixture|CRTLIB ${mylib}|
 |cmdToRun|returnMsg|
 |CRTLIB MPATRICK| |
@@ -61,6 +49,7 @@
 
 ##!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
 
+!3 Sequence Fixture format examples -
 !4 Copy some data over from System A (Test bed accounts, in this case):
 !|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
 |runcmd|CLRPFM MPATRICK/XTSTBEDACT|is|Member XTSTBEDACT file XTSTBEDACT in MPATRICK cleared.|
@@ -88,5 +77,13 @@
 |runcmd|STRPJ SBS(WEBPFS5) PGM(CLTLIB${client}/XWEB500MSP)|is| |
 
 !4 Add a new prestart job entry in a WEBPFS subsystem:
-!|com.cds.fitnesse.fixture.CmdCallFixture|
+!|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
 |runcmd|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|is| |
+
+!4 Notice above, the returned messages are simply concatenated together.  Below, we use Cmd Call Fixture to do the same thing:
+!4 Add a new prestart job entry in a WEBPFS subsystem:
+!|com.cds.fitnesse.fixture.CmdCallFixture|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|
+|cmdToRun|returnMsg|
+|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)||
+
+

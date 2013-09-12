@@ -1,0 +1,73 @@
+!lastmodified ----
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+!|Import|
+|com.cds.fitnesse.fixture|
+
+!3 Using LINKPARM
+!4 Some programs take a single parameter, which we often call LINKPARM.
+!4 For these programs, specify "linkparm" after the number of parameters.  
+!4 This tells the fixture to mash all the parms together, and pass a single pointer, rather than a pointer to each parm.
+!4 If parms should be sent separately, specify "no" after the number of parameters.
+
+!4 This example shows us executing the test before populating results.  This gives us a preview of the return values.
+
+!|PgmCallRowFixture|11|linkparm|MPATRICK|XGEN050|client|CHAR|3|HFX|acctnbr|ZON|11|10025|cardType|CHAR|2|MC|expireMonth|ZON|2|08|expireYear|ZON|2|15|carNbr|ZON|17|54444444444445|encrypted|CHAR|32| |keyId|ZON|15|0|caller|CHAR|10|XENT010|encryptOnlySw|CHAR|1|N|errorCode|CHAR|4| |
+|dataName|dataType|dataLength|byteLength|returnMessage|dataValue|
+|||||||
+
+!4 Unfortunately, the row fixture doesn't care too much about element order, but the parms can be re-ordered to create this test:
+
+!5 Client policy does not allow credit cards
+!|PgmCallRowFixture|11|linkparm|MPATRICK|XGEN050|client|CHAR|3|RDX|acctnbr|ZON|11|10025|cardType|CHAR|2|MC|expireMonth|ZON|2|08|expireYear|ZON|2|15|carNbr|ZON|17|54444444444445|encrypted|CHAR|32| |keyId|ZON|15|0|caller|CHAR|10|XENT010|encryptOnlySw|CHAR|1|N|errorCode|CHAR|4| |
+|dataName|dataType|dataLength|byteLength|returnMessage|dataValue|
+| client| CHAR| 3| 3| blank| HFX|
+| acctnbr| ZON| 11| 11| blank| 10025|
+| cardType| CHAR| 2| 2| blank| MC|
+| expireMonth| ZON| 2| 2| blank| 8|
+| expireYear| ZON| 2| 2| blank| 15|
+| carNbr| ZON| 17| 17| blank| 54444444444445|
+| encrypted| CHAR| 32| 32| blank|  
+| keyId| ZON| 15| 15| blank| 0|
+| caller| CHAR| 10| 10| blank|XENT010    |
+| encryptOnlySw| CHAR| 1| 1| blank| N|
+| errorCode| CHAR| 4| 4| blank| 0495|                           
+
+!5 Expired card
+!|PgmCallRowFixture|11|linkparm|MPATRICK|XGEN050|client|CHAR|3|HFX|acctnbr|ZON|11|10025|cardType|CHAR|2|MC|expireMonth|ZON|2|08|expireYear|ZON|2|11|carNbr|ZON|17|5444444444444445|encrypted|CHAR|32| |keyId|ZON|15|0|caller|CHAR|10|XENT010|encryptOnlySw|CHAR|1|N|errorCode|CHAR|4| |
+|dataName|dataType|dataLength|byteLength|returnMessage|dataValue|
+| client| CHAR| 3| 3| blank|MSP|
+| acctnbr| ZON| 11| 11| blank| 10025|
+| cardType| CHAR| 2| 2| blank| MC|
+| expireMonth| ZON| 2| 2| blank| 8|
+| expireYear| ZON| 2| 2| blank| 11|
+| carNbr| ZON| 17| 17| blank| 5444444444444445|
+| encrypted| CHAR| 32| 32| blank|  
+| keyId| ZON| 15| 15| blank| 0|
+| caller| CHAR| 10| 10| blank|XENT010    |
+| encryptOnlySw| CHAR| 1| 1| blank| N|
+| errorCode| CHAR| 4| 4| blank| 0495|     
+
+##!3 RowFixture - returns a table of data
+##!|PgmCallRowFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|ZON|15|106251942736111|fourth|NUM|7,2|32323.44|fifth|ZON|12,2|444333555.66|sixth|NUM|9,9|.000350|seventh|ZON|6,6|.999125|
+##|dataName|dataType|dataLength|byteLength|returnMessage|dataValue|
+##| firstparm| CHAR| 12| | |HELLO, WORLD|
+##| secondparm| NUM| 15| | |999999999999999|
+##| third| ZON| 15| | |999999999999999|
+##| fourth| NUM| 7| | |123.45|
+##| fifth| ZON| 12| | |123.45|
+##| sixth| NUM| 9| | |0.125000000|
+##| seventh| ZON| 6| | |0.125000|
+
+##!|PgmCallRowFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|ZON|15|106251942736111|fourth|NUM|7,2|32323.44|fifth|ZON|12,2|444333555.66|sixth|NUM|9,9|.000350|seventh|ZON|6,6|.999125|
+##|dataName|dataType|dataLength|dataValue|
+##| firstparm| CHAR| 12| HELLO, WORLD|
+##| secondparm| NUM| 15| 999999999999999|
+##| third| ZON| 15| 999999999999999|
+##| fourth| NUM| 7| 124.45|
+##| fifth| ZON| 12| 123.45|
+##| sixth| NUM| 9| 0.125000000|
+##| seventh| ZON| 6| 0.125000|
+
+
+##!|PgmCallFixture|7|MPATRICK|PARMTEST|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|third|NUM|9|4444|fourth|NUM|6|125000|fifth|NUM|15|88883337773|sixth|NUM|12|125000|seventh|NUM|6|125000|
+##|runpgm|is||

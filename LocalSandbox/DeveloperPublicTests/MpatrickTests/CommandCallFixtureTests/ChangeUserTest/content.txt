@@ -5,7 +5,7 @@
 | Import |
 | com.cds.fitnesse.fixture |
 
-!|CmdCallFixture|
+!|CmdCallSequenceFixture|
 |runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
 |login||user|WWWAUTOT|password|cds999|
 |runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|

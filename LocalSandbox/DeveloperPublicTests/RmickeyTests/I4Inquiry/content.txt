@@ -1,0 +1,6 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/AMSCKI|
+|GET|/410084/?stopPosition=10&numberOfActivities=500&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='410084']|

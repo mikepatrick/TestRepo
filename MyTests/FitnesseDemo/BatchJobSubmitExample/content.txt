@@ -1,33 +1,25 @@
 !lastmodified ----
-##|Import|com.cds.fitnesse.fixture|
-
-!4 This fixture takes three parameters - Library, File, and Member for the
-!4 member containing the job CL.
-##!|com.cds.fitnesse.fixture.CmdCallFixture|
-##|runcmd|CHGCURLIB MPATRICK|is| |
-
+##|Import|
+##|com.cds.fitnesse.fixture|
+!4 The Submit Job Fixture submits a batch job.  The location of the job card (library, file, member) are the only required parameters.  The fixture will return a qualified job name.
 ##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
 
+!5 Connect using DbFit, for general SELECT statements.
 !|dbfit.DB2iTest|
 !|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
 
+!5 Create an alias to access the proper member.
 |Execute| create alias jobcard for TESTCARDS (SHXMSP0001)|
 
-!4 This statement will display the job card you're about to run.
-##|Inspect Query|select * from jobcard|
-
+!5 This statement will display the job card you're about to run.
+|Inspect Query|select * from jobcard|
 
 !4 Get the qualified job name of the submitted job.
-
-##!|com.cds.fitnesse.fixture.SbmJobFixture| | | |
-##|Cell Handler Loader| 
-##|load|SymbolSaveHandler|FitLibrary| 
-##|load|SymbolRecallHandler|FitLibrary| 
-
 !|com.cds.fitnesse.fixture.SbmJobFixture|MPATRICK|TESTCARDS|SHXMSP0001|
 |cmdToRun|returnMsg|
 |SBMDBJOB FILE(MPATRICK/TESTCARDS) MBR(SHXMSP0001)| |
 
+!5 Get the names of this job's spool files and copy the job log into a physical file for easy access.
 !|com.cds.fitnesse.fixture.JobLogFixture|
 |filename|
 | 1021 records copied to file JOBLOGPF in MPATRICK.|
@@ -37,13 +29,12 @@
 | File: QPPGMDMP|
 | File: QPPGMDMP|
 
-
-##|Inspect Query|select * from xfreeform0 |
-
-##|Inspect Query|select TRIM(JOBLOGMSG) from joblogpf where joblogmsg like '%Message%'|
+!5 First, view the job log:
+|Inspect Query|select TRIM(JOBLOGMSG) from joblogpf where joblogmsg like '%Message%'|
 
 ##!|set option|fixed length string parsing|true|
 
+!5 Use the TRIM() function to avoid headaches with fixed length string parsing.  Verify the job log looks the way we think it should.
 !|Ordered Query|select TRIM(JOBLOGMSG) from joblogpf where joblogmsg like '%Message%'|
 | 00001|
 | Message . . . . :   User library list limited to 25 libraries.|
@@ -317,14 +308,3 @@
 | Message . . . . :  -         RMVM FILE(XLTFSORT1 ) MBR(D13252104Y)|
 | Message . . . . :  -CALL   PGM(XFLLPREPC1) PARM('MSP' '7231')|
 | Message . . . . :  -//ENDBCHJOB|
-
-##|show|getJobLog| 
-##|set|jobName|show|submitJob|
-
-##|set|jobName|=|submitJob| 
-##|set|jobName|show|submitJob| 
-##|submitJob|is| |
-##|submitJob|@{jobName}|
- 
-##!|com.cds.fitnesse.fixture.CmdCallFixture|
-##|runcmd|@{jobName}|is| |

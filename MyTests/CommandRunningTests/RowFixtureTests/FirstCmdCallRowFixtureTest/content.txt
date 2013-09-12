@@ -1,0 +1,25 @@
+!3 Start with come basic commands, creating and deleting libraries.
+##!|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
+##|runcmd|CRTLIB TESTINGMSP|
+!define client {MSP}
+!define mylib {TESTXX}
+|Import|
+|com.cds.fitnesse.fixture|
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+##!|ActionFixture|
+##|start|CmdCallFixture|
+##|enter|runcmd|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST23.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+
+!3 CommandCallFixture - issue arbitrary CL commands via FitNesse:
+
+!4 A command with bad syntax:
+!|CmdCallFixture|DLTLIB TESTPF|
+|cmdToRun|returnMsg|
+|DLTLIB TESTPF|Library TESTPF not found.|
+
+!4 Successful commands:
+!|CmdCallFixture|CRTLIB ${mylib}|
+|cmdToRun|returnMsg|
+|CRTLIB TESTXX|Library TESTXX already exists.|

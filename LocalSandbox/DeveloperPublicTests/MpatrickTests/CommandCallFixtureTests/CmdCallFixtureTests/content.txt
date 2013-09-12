@@ -1,0 +1,53 @@
+!3 Start with come basic commands, creating and deleting libraries.
+
+!define client {MSP}
+!define mylib {MPATRICK}
+
+!4 ActionFixture can be used for this, but not does not return a value.
+!|ActionFixture|
+|start|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|enter|runcmd|DLTLIB TESTFF|
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!3 Cmd Call Fixture - Extends Row Fixture; returns a table of data.  Requires a fixture declaration with every command.
+!3 Cmd Call Sequence Fixture - Extends Sequence Fixture; returns a string.  Multiple commands can follow a single fixture declaration.
+
+!4 Examples: (Row Fixture format):
+!|com.cds.fitnesse.fixture.CmdCallFixture|DLTLIBTESTFF|
+|cmdToRun|returnMsg|
+|DLTLIBTESTFF| |
+
+##|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CRTLIB ${mylib}|
+|cmdToRun|returnMsg|
+|CRTLIB MPATRICK| |
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CRTLIB ${mylib}|
+|cmdToRun|returnMsg|
+|CRTLIB MPATRICK|Library MPATRICK created. |
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|DLTLIB TESTDD|
+|cmdToRun|returnMsg|
+|DLTLIB TESTDD|Library TESTDD deleted.|
+
+!4 Upload a file from the iSeries to the FMSERVER:
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST27.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+|cmdToRun|returnMsg|
+|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST27.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|All records copied from file XMLUPLOAD in MPATRICK.|
+
+!4 Copy activity records into redefined files:
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
+|cmdToRun|returnMsg|
+|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|638 records copied from member XACTIVITY0.|
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
+|cmdToRun|returnMsg|
+|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)| |
+
+!4 Add a new prestart job entry in a WEBPFS subsystem:
+!|com.cds.fitnesse.fixture.CmdCallFixture|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|
+|cmdToRun|returnMsg|
+|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)||
+

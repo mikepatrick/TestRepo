@@ -1,0 +1,34 @@
+!lastmodified ----
+!define acct {567890827}
+!define cltlib {CLTLIBMSP}
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitnesseRoot\files\lib\connect.properties|
+
+!4 I sometimes use this to remove a new customer from my CLTLIB, so I can place the same order again without a full REFRESH.
+!4 Simply change the two variables defined above and click Test.
+
+|Execute|delete from ${cltlib}.XORDERSUM0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XORDERDTL0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XACTIVITY0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCUSTSUM0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCUSTGEN0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XNAME0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XEMAILINF0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XPOXREF0 where acctnbr = ${acct}|
+
+|Execute|delete from ${cltlib}.XCRDTCARD0 where acctnbr = ${acct}|
+
+|Commit|
+
+!4 The commit at the end is necessary because we connect with 
+{{{
+transaction isolation=none
+}}}
+Which is the equivalent of saying no commitment control (provided by the jt400 driver). 
