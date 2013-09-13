@@ -1,0 +1,27 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+## with email, with pickem.
+!define client {MSP}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!4 Non Gift order, enrolls in plan.
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody|<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CONTHCSF</promotionKey><sourceCode>10</sourceCode><internetNumber>INET0000009</internetNumber><poNumber>335587PO</poNumber><shippingAndHandlingAmt>3.00</shippingAndHandlingAmt><customer><accountNumber></accountNumber><name>Teddy Roosevelt</name><address1>111 Spruce Dr</address1><city>Des Moines</city> <state>IA</state><zipCode>50316X</zipCode></customer><payment><paymentType>presettled</paymentType> <creditCardType>PY</creditCardType> <creditCardNumber></creditCardNumber> <creditCardExpire>1124</creditCardExpire><authorizationCode>ABC5244Z</authorizationCode><authorizationDate/><authorizationReference>233456789PAYPAL</authorizationReference><authorizationInd>P</authorizationInd><authorizationCode/> <presettledSwitch>Y</presettledSwitch><amountPaid>11.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber> <quantity>1</quantity> <value>8.00</value> <customerGetsRefund>N</customerGetsRefund></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()||
+
+!4 Non Gift order, enrolls in plan, with email.
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody|<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CONTHCSF</promotionKey><sourceCode>10</sourceCode><internetNumber>INET000000010</internetNumber><poNumber>335587PO</poNumber><shippingAndHandlingAmt>3.00</shippingAndHandlingAmt><customer><accountNumber></accountNumber><name>Crazy Horse</name><address1>333 Spruce Dr</address1><city>Des Moines</city> <state>IA</state><zipCode>50315X</zipCode><email>crzhrs@this.net</email></customer><payment><paymentType>presettled</paymentType> <creditCardType>PY</creditCardType> <creditCardNumber></creditCardNumber> <creditCardExpire>1124</creditCardExpire><authorizationCode>ABC5244Z</authorizationCode><authorizationDate/><authorizationReference>233456789PAYPAL</authorizationReference><authorizationInd>P</authorizationInd><authorizationCode/> <presettledSwitch>Y</presettledSwitch><amountPaid>11.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber> <quantity>1</quantity> <value>8.00</value> <customerGetsRefund>N</customerGetsRefund></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()||
+
+!4 Non Gift order, enrolls in plan, with email and pickems.
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody|<order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>CONTHCSF</promotionKey><sourceCode>10</sourceCode><internetNumber>INET0000000011</internetNumber><poNumber>335587PO</poNumber><shippingAndHandlingAmt>3.00</shippingAndHandlingAmt><customer><accountNumber></accountNumber><name>Sue Whee</name><address1>4 Spruce Dr</address1><city>Des Moines</city> <state>IA</state><zipCode>50315X</zipCode><email>crzhrs@this.net</email></customer><payment><paymentType>presettled</paymentType> <creditCardType>PY</creditCardType> <creditCardNumber></creditCardNumber> <creditCardExpire>1124</creditCardExpire><authorizationCode>ABC5244Z</authorizationCode><authorizationDate/><authorizationReference>233456789PAYPAL</authorizationReference><authorizationInd>P</authorizationInd><authorizationCode/> <presettledSwitch>Y</presettledSwitch><amountPaid>11.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber> <quantity>1</quantity> <value>30.50</value> <customerGetsRefund>N</customerGetsRefund><pickem><entry><pickemNbr>1</pickemNbr><productNbr>HCS1311</productNbr></entry><entry><pickemNbr>2</pickemNbr><productNbr>HCS1307</productNbr></entry><entry><pickemNbr>3</pickemNbr><productNbr>HCS1308</productNbr></entry></pickem></orderItem></order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()||
