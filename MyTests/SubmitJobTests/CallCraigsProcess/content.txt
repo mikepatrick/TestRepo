@@ -1,0 +1,22 @@
+!lastmodified ----
+##|Import|com.cds.fitnesse.fixture|
+!4 This fixture takes three parameters - Library, File, and Member for the
+!4 member containing the job CL.
+
+!|dbfit.DB2iTest|
+!|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+|Execute| create alias jobcard for CDDENCKLAU.TESTCARDS (DTXSUP172)|
+
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+|GET| /MSP_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!4 The contents of the CL you've been using:
+!|Inspect Query| select * from jobcard|
+
+##!4 Get the qualified job name of the submitted job
+##!|com.cds.fitnesse.fixture.SbmJobFixture|CDDENCKLAU|TESTCARDS|DTXSUP172|
+##|cmdToRun|returnMsg|
+##|SBMDBJOB FILE(CDDENCKLAU/TESTCARDS) MBR(DTXSUP172)| |

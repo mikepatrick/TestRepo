@@ -1,0 +1,12 @@
+!lastmodified
+
+|Import|
+|com.cds.fitnesse.fixture|
+
+!|PgmCallRowFixture|2|no|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
+|dataName|dataType|dataLength|dataValue|
+|firstparm|CHAR|12|HELLO, WORLD|
+|secondparm|NUM|15|108150856489001|
+
+!|com.cds.fitnesse.fixture.PgmCallRowFixture|0|no|CDDENCKLAU|DTXSUP172|
+|dataName|dataType|dataLength|dataValue|

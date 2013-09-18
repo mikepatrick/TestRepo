@@ -1,0 +1,185 @@
+!lastmodified ----- 
+!|dbfit.DB2iTest|
+!|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+!|set option|fixed length string parsing|true|
+
+!include .ServPfTests.DefaultSettings
+## "regular", with email, with pickem, with both
+!define client {MSP}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!3 Multiple recipients, with emails and gift messages.  Second order adds pickems.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody|<order><transactionSource> <emplId>302</emplId></transactionSource><promotionKey>CONTHCSF</promotionKey><internetNumber>INET000001</internetNumber><sourceCode>10</sourceCode><customer><accountNumber></accountNumber><name>Sid Wishus</name><address1>3318 48th St</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 donor</address3><city>Lenox</city><state>IA</state><zipCode>50851</zipCode><email>yellow11@yahoo.com</email><phoneNumber>5154467798</phoneNumber><phoneNumber2>3341152154</phoneNumber2></customer><payment><paymentType>presettled</paymentType><creditCardNumber></creditCardNumber><creditCardType>PY</creditCardType><creditCardExpire>1124</creditCardExpire><authorizationCode></authorizationCode><authorizationDate>2013-09-13</authorizationDate><authorizationReference>23389PAY33PAL67</authorizationReference> <authorizationInd>P</authorizationInd><presettledSwitch>Y</presettledSwitch><amountPaid>233.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value> </orderItem><orderItem><productNumber>APW2009</productNumber> <quantity>1</quantity> <value>70.00</value> <customerGetsRefund>N</customerGetsRefund></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/> <previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Jonesy!</giftMessage><recipient> <name>hOMELY Joanie</name><address1>22233 shington Blvd</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #1</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>billyblast1323@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Dilly!</giftMessage><recipient><name>gREEN Gene</name><address1>33 rHthyM Ave</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #2</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode><email>llamaman3DD39@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #3</address3><city>Winterset</city><state>IA</state><zipCode>50273</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #4</address3><city>Winterset</city><state>IA</state><zipCode>50273</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem> </order> | 
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |donorAcctNbr| body |//accountNumber/text()||
+
+##!|Dbfit.DB2iTest|
+##|Inspect Query |!- select * from CLTLIBMSP.XORDERSUM0 order by ORDERNBR desc FETCH FIRST 5 ROWS ONLY -!|
+!|Ordered Query| select * from CLTLIBMSP.XORDERSUM0 order by ORDERNBR desc FETCH FIRST 5 ROWS ONLY |
+| ACCTNBR?| PRODABBR| ORDERNBR?| OPERID| PROMKEY| ORDERENTRY| CREDITSTS| ORDSTATUS| ORDSETCODE| SOURCECODE| NBRPRODORD| TOTORDVAL| TOTPRODVAL| TOTTAXES| TOTPOSTHAN| TOTMISC| TOTDISC| AMTDUE| TOTPAID| TOTCOUPON| PONUMBER| DLVRYMETH| MAILRCVDT| DEPOSITDAT?| BATCHNBR| BILLKEY| INVOICENBR| PRVBILLAMT| LASTBILLDT| CONTSW| FASTSHPNBR| INSTALLSW| ANCLLRYSW| INSTALLALW| INSTALLSNT| INSTALLAMT| INSTALLAMD| OSSHMETH| OSOVRSHSW| GFTCERTVAL| SLSREPNUM| ORCURRTYPE| PLANCODE| INETORDNBR| SPPRODAGE| ORDDPN| INCRIND| PAIDDATE| INVOICESTS| BILLGROUP| LFOUTSTAND| WARNEFFORT| TAXTYPE| TAXRATEST| TAXRATECO| TAXRATECI| TAXRATEDI| PREVIEWVAL| PRESETTYP| PRESETAMT| LSTINSRTDT|
+| >>recipAcctA| FCX|>>orderNbr | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| >>recipAcctB| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| >>recipAcctC| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| >>recipAcctD| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| <<donorAcctNbr| FCX| | 910| 'CONTHCSF  '| C| N| A| B| 10| 6| 234.00| 234.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000|  |  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   | S| 0.060000| 0.000000| 0.010000| 0.000000| 0.00| PY| 233.00| 0|
+
+##|Inspect Query|select * from CLTLIBMSP.XORDERDTL0 where ACCTNBR = :donorAcctNbr order by DSACCTNBR|
+!|Ordered Query|select * from CLTLIBMSP.XORDERDTL0 where ACCTNBR = :donorAcctNbr order by DSACCTNBR|
+| ACCTNBR| PRODABBR| ORDERNBR| PRODNBR| PRODSIZE| PRODSTYLE| PRODCOLOR| ORDDETSTAT| SERVICECDE| ORDERTYPE| PAYTYPE| QTYORDERED| PRODVALUE| MISCSW| MISCCHARGE| SERVICEDT| DSACCTNBR| RESHIPDATE| FTC1STDT?| FTC2NDDT| FTCACPTDLY| NOTPULLRSN| SHIPJOBNM| SHIPIND| ODPRODCOST| ODTXEXST| ODASHPDT| ODASHPCST| ODASHPMTD| SHPTRKNUM| CDSTRKNUM| DSTRBCDE| PERSONALZ| ITMSHVAL| ITMSEQNUM| ITMQTYRET| ITMQTYCAN| QTYTORSHP| CNFRMAPDT| PLANCODE| GENSEQNO| PROMKEY| ENLISTSW| PULLCODE| PACKID| PREMPACK| ORIGPRDNBR| ORIGPACKID| PREMEFFT| PREMDAYSHP| PREMPAYTYP| MMPSTATUS| MMPISSUES| MMPVALUE| PRODTAXES| PREVIEWVAL| PREVIEWDYS| DEFRINCDTE| AMTDUE| INSTALLSW| ANCLLRYSW| INSTALLAMT| INSTALLAMD|
+| <<donorAcctNbr| FCX| <<orderNbr| 'HCS1312     '|   |   |   | A| 'A '| N| B| 1| 8.00|  | 0.00| 0| 0| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 1| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+| <<donorAcctNbr| FCX| <<orderNbr| 'APW2009     '|   |   |   | A| 'C '| N| B| 1| 70.00|  | 0.00| 0| 0| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 2| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+| <<donorAcctNbr| FCX| <<orderNbr| 'HCS1312     '|   |   |   | A| 'A '| N| B| 1| 8.00|  | 0.00| 0| <<recipAcctD| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 3| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+| <<donorAcctNbr| FCX| <<orderNbr| 'APW2009     '|   |   |   | A| 'C '| N| B| 1| 70.00|  | 0.00| 0| <<recipAcctC| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 4| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+| <<donorAcctNbr| FCX| <<orderNbr| 'HCS1312     '|   |   |   | A| 'A '| N| B| 1| 8.00|  | 0.00| 0| <<recipAcctB| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 5| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+| <<donorAcctNbr| FCX| <<orderNbr| 'APW2009     '|   |   |   | A| 'C '| N| B| 1| 70.00|  | 0.00| 0| <<recipAcctA| 0| | 0| N| B|           | N| 0.00|  | 0| 0.00|  |                               | 0|    | N| 0.00| 6| 0| 0| 0| 0| HCS| 1| 'CONTHCSF  '|  |     |            |  |             |            |   | 0|  |  | 0| 0.00| 0.00| 0.00| 0| 0| 0.00|  |  | 0.00| 0.00|
+
+##|Inspect Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :donorAcctNbr|
+!|Ordered Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :donorAcctNbr|
+| ACCTNBR| PRODABBR| STRPROMDT?| STRPROMKEY| LSTPROMDT| LSTPROMKEY| BALANCE| TIMESORD| TIMESRTN| TOTRTNVAL| TOTPRODORD| TOTVALUE| TOTPDVALUE| CONTINFO| TAXEXCODE| LSTBILLKEY| MEMBRID| MEMEXPDT| CUSTGFTST| CUSTCNTID| CUSTCRDCD| COLLECTAGY| TOTNPD| LSTNPDDT| MAXSSEFF| MX2SSEFF| MAXFPPEFF| MX2FPPEFF| MAX2PPEFF| MX22PPEFF| MAXSEREFF| MX2SEREFF| LSTCOLLDT| HBSTATUS| MODIFYSW| MODIFYDT| CREDCARDAR|
+| <<donorAcctNbr| FCX| | 'CONTHCSF  '| 0|           | 0.00| 1| 0| 0.00| 6| 234.00| 233.00|                          |                  |           | N| 0| A|  |  |    | 0| 0| 0| 0| 0| 0| 0| 0| 0| 0| 0|  |  | 0| 0.00|
+##|Inspect Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctA|
+
+!|Ordered Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctA|
+| ACCTNBR| PRODABBR| STRPROMDT?| STRPROMKEY| LSTPROMDT| LSTPROMKEY| BALANCE| TIMESORD| TIMESRTN| TOTRTNVAL| TOTPRODORD| TOTVALUE| TOTPDVALUE| CONTINFO| TAXEXCODE| LSTBILLKEY| MEMBRID| MEMEXPDT| CUSTGFTST| CUSTCNTID| CUSTCRDCD| COLLECTAGY| TOTNPD| LSTNPDDT| MAXSSEFF| MX2SSEFF| MAXFPPEFF| MX2FPPEFF| MAX2PPEFF| MX22PPEFF| MAXSEREFF| MX2SEREFF| LSTCOLLDT| HBSTATUS| MODIFYSW| MODIFYDT| CREDCARDAR|
+| <<recipAcctA| FCX| | 'CONTHCSF  '| 0|           | 0.00| 1| 0| 0.00| 0| 0.00| 0.00|                          |                  |           | N| 0| D|  |  |    | 0| 0| 0| 0| 0| 0| 0| 0| 0| 0| 0|  |  | 0| 0.00|
+
+##|Inspect Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctB|
+!|Ordered Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctB|
+| ACCTNBR| PRODABBR| STRPROMDT?| STRPROMKEY| LSTPROMDT| LSTPROMKEY| BALANCE| TIMESORD| TIMESRTN| TOTRTNVAL| TOTPRODORD| TOTVALUE| TOTPDVALUE| CONTINFO| TAXEXCODE| LSTBILLKEY| MEMBRID| MEMEXPDT| CUSTGFTST| CUSTCNTID| CUSTCRDCD| COLLECTAGY| TOTNPD| LSTNPDDT| MAXSSEFF| MX2SSEFF| MAXFPPEFF| MX2FPPEFF| MAX2PPEFF| MX22PPEFF| MAXSEREFF| MX2SEREFF| LSTCOLLDT| HBSTATUS| MODIFYSW| MODIFYDT| CREDCARDAR|
+| <<recipAcctB| FCX| | 'CONTHCSF  '| 0|           | 0.00| 1| 0| 0.00| 0| 0.00| 0.00|                          |                  |           | N| 0| D|  |  |    | 0| 0| 0| 0| 0| 0| 0| 0| 0| 0| 0|  |  | 0| 0.00|
+
+|Inspect Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctC|
+
+!|Ordered Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctC|
+| ACCTNBR| PRODABBR| STRPROMDT?| STRPROMKEY| LSTPROMDT| LSTPROMKEY| BALANCE| TIMESORD| TIMESRTN| TOTRTNVAL| TOTPRODORD| TOTVALUE| TOTPDVALUE| CONTINFO| TAXEXCODE| LSTBILLKEY| MEMBRID| MEMEXPDT| CUSTGFTST| CUSTCNTID| CUSTCRDCD| COLLECTAGY| TOTNPD| LSTNPDDT| MAXSSEFF| MX2SSEFF| MAXFPPEFF| MX2FPPEFF| MAX2PPEFF| MX22PPEFF| MAXSEREFF| MX2SEREFF| LSTCOLLDT| HBSTATUS| MODIFYSW| MODIFYDT| CREDCARDAR|
+| <<recipAcctC| FCX| | 'CONTHCSF  '| 0|           | 0.00| 1| 0| 0.00| 0| 0.00| 0.00|                          |                  |           | N| 0| D|  |  |    | 0| 0| 0| 0| 0| 0| 0| 0| 0| 0| 0|  |  | 0| 0.00|
+
+##|Inspect Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctD|
+
+!|Ordered Query|select * from CLTLIBMSP.XCUSTSUM0 where ACCTNBR = :recipAcctD|
+| ACCTNBR| PRODABBR| STRPROMDT?| STRPROMKEY| LSTPROMDT| LSTPROMKEY| BALANCE| TIMESORD| TIMESRTN| TOTRTNVAL| TOTPRODORD| TOTVALUE| TOTPDVALUE| CONTINFO| TAXEXCODE| LSTBILLKEY| MEMBRID| MEMEXPDT| CUSTGFTST| CUSTCNTID| CUSTCRDCD| COLLECTAGY| TOTNPD| LSTNPDDT| MAXSSEFF| MX2SSEFF| MAXFPPEFF| MX2FPPEFF| MAX2PPEFF| MX22PPEFF| MAXSEREFF| MX2SEREFF| LSTCOLLDT| HBSTATUS| MODIFYSW| MODIFYDT| CREDCARDAR|
+| <<recipAcctD| FCX| | 'CONTHCSF  '| 0|           | 0.00| 1| 0| 0.00| 0| 0.00| 0.00|                          |                  |           | N| 0| D|  |  |    | 0| 0| 0| 0| 0| 0| 0| 0| 0| 0| 0|  |  | 0| 0.00|
+##|Inspect Query|select * from CLTLIBMSP.XCUSTGEN0 where ACCTNBR = :donorAcctNbr|
+
+!|Ordered Query|select * from CLTLIBMSP.XCUSTGEN0 where ACCTNBR = :donorAcctNbr order by DSACCTNBR|
+| PRODABBR| PLANCODE| ACCTNBR| DSACCTNBR| PLANCDDATE?| PLANSTATUS| RESSVCDATE| FUTSUSDATE| ORDERTYPE| QTYORDERED| NEGPOSOPT| SELFREQ| NOUNPCRED| UNPDDLLALL| UNPCRDFILE| UNPDOLLARS| INITORDPD| NORETURNS| NOCNSCRET| NOCANCELS| OBLIGMONEY| COMMPURCH| PTSNOTUSED| PTSEXPDATE| OBLEXPDATE| LSTSHIPDT| LSTPAIDDT?| LSTCYCLEDT| CCTYPE| CCNUMBER| CCEXPIRE| INTERESTS| INITORDNO| LASTORDNO| LDUPNOPROD| LDUPTOPROD| LDUPINSTLL| TRANPLANCD| TOTCONTORD| INITDPN| LSTRATEDPN| PRODPRICE| PRODSHVAL| RECSTATUS| FIRSTFREE| LSTINCRDT?| REDMPTPREM| REDMPTSW| FRSTPAID| DISCREASON| LDUPAUTO| CREDCARDAR| PICKEMSW| PLANGROUP|
+| FCX| HCS| <<donorAcctNbr| 0| | A| 0| 0| B| 1| N| 0| 999| 0.00| 0| 0.00| Y| 0| 0| 0| 0.00| 0| 0| 0| 0| 0| | 0|   | 0| 0|   | <<orderNbr| <<orderNbr| 0|             |  |    | 1| 0| 0| 8.00| 0.00| B| F| |             |  | N|   |  | 1.00|  |    |
+| FCX| HCS| <<donorAcctNbr| <<recipAcctD|| A| 0| 0| B| 1| N| 0| 999| 0.00| 0| 0.00| Y| 0| 0| 0| 0.00| 0| 0| 0| 0| 0| | 0|   | 0| 0|   | <<orderNbr| <<orderNbr| 0|             |  |    | 1| 0| 0| 8.00| 0.00| B| F| |             |  | N|   |  | 1.00|  |    |
+| FCX| HCS| <<donorAcctNbr| <<recipAcctC| | A| 0| 0| B| 1| N| 0| 999| 0.00| 0| 0.00| Y| 0| 0| 0| 0.00| 0| 0| 0| 0| 0| | 0|   | 0| 0|   | <<orderNbr| <<orderNbr| 0|             |  |    | 1| 0| 0| 8.00| 0.00| B| F| |             |  | N|   |  | 1.00|  |    |
+| FCX| HCS| <<donorAcctNbr| <<recipAcctB| | A| 0| 0| B| 1| N| 0| 999| 0.00| 0| 0.00| Y| 0| 0| 0| 0.00| 0| 0| 0| 0| 0| | 0|   | 0| 0|   | <<orderNbr| <<orderNbr| 0|             |  |    | 1| 0| 0| 8.00| 0.00| B| F| |             |  | N|   |  | 1.00|  |    |
+| FCX| HCS| <<donorAcctNbr| <<recipAcctA| | A| 0| 0| B| 1| N| 0| 999| 0.00| 0| 0.00| Y| 0| 0| 0| 0.00| 0| 0| 0| 0| 0| | 0|   | 0| 0|   | <<orderNbr| <<orderNbr| 0|             |  |    | 1| 0| 0| 8.00| 0.00| B| F| |             |  | N|   |  | 1.00|  |    |
+
+##|Inspect Query|select * from CLTLIBMSP.XCUSTPICK0 where ACCTNBR = :donorAcctNbr|
+!|Ordered Query|select * from CLTLIBMSP.XCRDTCARD0 where ACCTNBR = :donorAcctNbr|
+| ACCTNBR| PRODABBR| TRANSNBR| PLANCODE| DSACCTNBR| ORDERNBR| ENCCARDNBR| CRCARDTYPE| CRCARDEXP| CRCARD4| KEYID| ENCRYPTSW| TNSDLTED|
+| <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctA| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+| <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctB| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+| <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctC| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+| <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctD| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+| <<donorAcctNbr| FCX| <<orderNbr| HCS| 0| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+
+##|Inspect Query|select * from CLTLIBMSP.XCRDTCARD0 where ACCTNBR = :donorAcctNbr|
+
+!|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,1) AS CCIND,                 
+    SUBSTR(HEX(ACTMISC),19,7) AS CCAMT,                   
+    SUBSTR(HEX(ACTMISC),27,7) AS CCDATE,               
+    SUBSTR(HEX(ACTMISC),35,5) AS INVOICE,                   
+    SUBSTR(ACTMISC,21,2) AS RJCTRSN,                
+    SUBSTR(HEX(ACTMISC),45,3) AS SEQNBR,                
+    SUBSTR(ACTMISC,25,6) AS AUTHCODE,                   
+    SUBSTR(ACTMISC,31,6) AS AUTHDATE,
+    SUBSTR(ACTMISC,37,14) AS AUTHREFNBR,               
+    SUBSTR(HEX(ACTMISC),101,7) AS ORIGAMT,
+    SUBSTR(ACTMISC,55,2) AS PRESETTYPE
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 16
+         AND ACCTNBR = :donorAcctNbr      
+                      -!|
+| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
+| <<donorAcctNbr| <<orderNbr| 810| 16| <<orderNbr| A| 0023300| | 01000|   | 000|       | 000000|               | 0023300| PY|
+
+
+!|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS CCTYPE,
+    SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,   
+    SUBSTR(ACTMISC,20,4) AS EXPIREDT,                 
+    SUBSTR(ACTMISC,24,10) AS AUTHCODE,
+    SUBSTR(ACTMISC,34,1) AS STS,                   
+    SUBSTR(ACTMISC,35,1) AS ORDPYMTIND,               
+    SUBSTR(ACTMISC,36,1) AS AUTHSTS,                   
+    SUBSTR(ACTMISC,37,6) AS AUTHDATE,                
+    SUBSTR(ACTMISC,43,14) AS AUTHREFNUM,
+    SUBSTR(ACTMISC,57,2) AS RECYCLENBR,
+    SUBSTR(ACTMISC,59,1) AS AUTHSW
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 06
+         AND ACCTNBR = :donorAcctNbr
+                      -!|
+| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCTYPE| CCNBR| EXPIREDT| AUTHCODE| STS| ORDPYMTIND| AUTHSTS| AUTHDATE| AUTHREFNUM| RECYCLENBR| AUTHSW|
+| <<donorAcctNbr| <<orderNbr| 910| 6| <<orderNbr| PY| 00000000000000000| 1124|           | A| A| N| 130913|               | 00| N|
+
+
+!|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+  SUBSTR(HEX(ACTMISC),25,15) AS TRNSNBR,
+  SUBSTR(ACTMISC,21,1) AS RSN,
+  SUBSTR(ACTMISC,22,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(HEX(ACTMISC),51,3)AS SEQNBR, 
+  SUBSTR(ACTMISC,28,1)AS RFNDCHRGSW,
+  SUBSTR(ACTMISC,29,2)AS PRESETTYPE
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 34
+         AND ACCTNBR =  :donorAcctNbr
+                                 -!|
+| ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
+| <<donorAcctNbr| | 810| 34| <<orderNbr| 0023300| <<orderNbr|  |  | 00000| 000| C| PY|
+
+
+##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 |
+!|Ordered Query|select ACCTNBR, TRANSNBR, OPERID, TRANSTYPE, PRODABBR, TRIM(SUBSTR(ACTMISC, 2, 59)) as GMSG from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 order by ACCTNBR|
+| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| PRODABBR| GMSG|
+| <<recipAcctD| <<orderNbr| 910| 27| FCX|ENJOY THE GIFT JONESY!|
+| <<recipAcctC| <<orderNbr| 910| 27| FCX|ENJOY THE GIFT DILLY!|
+| <<recipAcctB| <<orderNbr| 910| 27| FCX|ENJOY THE GIFT STRANGER!|
+| <<recipAcctA| <<orderNbr| 910| 27| FCX|ENJOY THE GIFT STRANGER!|
+                                         
+
+##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 48 |
+!|Ordered Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 48 order by ACCTNBR|
+| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| PRODABBR| ACTMISC|
+| <<donorAcctNbr| <<orderNbr| 910| 48| FCX| 'A                                                           '|
+| <<recipAcctD| <<orderNbr| 910| 48| FCX| 'A                                                           '|
+| <<recipAcctC| <<orderNbr| 910| 48| FCX| 'A                                                           '|
+| <<recipAcctB| <<orderNbr| 910| 48| FCX| 'A                                                           '|
+
+!|Ordered Query|select * from CLTLIBMSP.XEMAILINF0 where ACCTNBR = :donorAcctNbr|
+| ACCTNBR| USERID| PASSWORD| EMAILADDR| EMAILACTV| EMAILFROM?| EMAILTHRU| OPERID| TRANSPERSW| EBILLPERSW| INHOUSESW| OUTHOUSESW| PERMSW5| PERMSW6| PERMSW7| PERMSW8| PERMSW9| PERMSW10|
+| <<donorAcctNbr|                                         |                     | 'yellow11@yahoo.com                                '| Y| | 199365| 910| Y| Y| Y| Y| Y| Y| Y| Y| Y| Y|
+
+##|Inspect Query|select * from CLTLIBMSP.XEMAILINF0 where ACCTNBR = :recipAcctA|
+
+!|Ordered Query|select * from CLTLIBMSP.XEMAILINF0 where ACCTNBR = :recipAcctB|
+| ACCTNBR| USERID| PASSWORD| EMAILADDR| EMAILACTV| EMAILFROM?| EMAILTHRU| OPERID| TRANSPERSW| EBILLPERSW| INHOUSESW| OUTHOUSESW| PERMSW5| PERMSW6| PERMSW7| PERMSW8| PERMSW9| PERMSW10|
+| <<recipAcctB|                                         |                     | 'inthebasin@cdsb-global.com                        '| Y| | 199365| 910| Y| Y| Y| Y| Y| Y| Y| Y| Y| Y|
+
+
+!|Ordered Query|select * from CLTLIBMSP.XEMAILINF0 where ACCTNBR = :recipAcctC|
+| ACCTNBR| USERID| PASSWORD| EMAILADDR| EMAILACTV| EMAILFROM?| EMAILTHRU| OPERID| TRANSPERSW| EBILLPERSW| INHOUSESW| OUTHOUSESW| PERMSW5| PERMSW6| PERMSW7| PERMSW8| PERMSW9| PERMSW10|
+| <<recipAcctC|                                         |                     | 'llamaman3dd39@cds-global.com                      '| Y| | 199365| 910| Y| Y| Y| Y| Y| Y| Y| Y| Y| Y|
+
+!|Ordered Query|select * from CLTLIBMSP.XEMAILINF0 where ACCTNBR = :recipAcctD|
+| ACCTNBR| USERID| PASSWORD| EMAILADDR| EMAILACTV| EMAILFROM?| EMAILTHRU| OPERID| TRANSPERSW| EBILLPERSW| INHOUSESW| OUTHOUSESW| PERMSW5| PERMSW6| PERMSW7| PERMSW8| PERMSW9| PERMSW10|
+| <<recipAcctD|                                         |                     | 'billyblast1323@cds-global.com                     '| Y| | 199365| 910| Y| Y| Y| Y| Y| Y| Y| Y| Y| Y|
+
+##!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+##|setBody|<order><transactionSource> <emplId>302</emplId></transactionSource><promotionKey>CONTHCSF</promotionKey><internetNumber>INET00000002</internetNumber><sourceCode>10</sourceCode><customer><accountNumber></accountNumber><name>Sid vishes</name><address1>181818 8th St</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #2 donor</address3><city>Lenox</city><state>IA</state><zipCode>50851</zipCode><email>mostvishesest@yahoo.com</email><phoneNumber>5154467798</phoneNumber><phoneNumber2>3341152154</phoneNumber2></customer><payment><paymentType>presettled</paymentType><creditCardNumber></creditCardNumber><creditCardType>PY</creditCardType><creditCardExpire>1124</creditCardExpire><authorizationCode></authorizationCode><authorizationDate>2013-09-13</authorizationDate><authorizationReference>23389PAY33PAL67</authorizationReference> <authorizationInd>P</authorizationInd><presettledSwitch>Y</presettledSwitch><amountPaid>210.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value> <pickem><entry><pickemNbr>1</pickemNbr><productNbr>HCS1311</productNbr></entry><entry><pickemNbr>2</pickemNbr><productNbr>HCS1307</productNbr></entry><entry><pickemNbr>3</pickemNbr><productNbr>HCS1308</productNbr></entry></pickem></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/> <previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Jonesy!</giftMessage><recipient> <name>Slick Rick</name><address1>222 Hershington Blvd</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #2 recip #1</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>srick@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient><pickem><entry><pickemNbr>1</pickemNbr><productNbr>HCS1311</productNbr></entry><entry><pickemNbr>2</pickemNbr><productNbr>HCS1307</productNbr></entry><entry><pickemNbr>3</pickemNbr><productNbr>HCS1308</productNbr></entry></pickem></orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/> <previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Jonesy!</giftMessage><recipient> <name>Slick Rick</name><address1>222 Hershington Blvd</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #2 recip #1</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>srick@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Dilly!</giftMessage><recipient><name>Green Jeans</name><address1>33 rHthyM Ave</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #2 recip #2</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode><email>detindemjeans@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient><pickem><entry><pickemNbr>1</pickemNbr><productNbr>HCS1311</productNbr></entry><entry><pickemNbr>2</pickemNbr><productNbr>HCS1307</productNbr></entry><entry><pickemNbr>3</pickemNbr><productNbr>HCS1308</productNbr></entry></pickem></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>Lewis Dewey</name><address1>755 Ashy Elbows Lane</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #2 recip #3</address3><city>Winterset</city><state>IA</state><zipCode>50273</zipCode> <email>lewisdew@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient><pickem><entry><pickemNbr>1</pickemNbr><productNbr>HCS1311</productNbr></entry><entry><pickemNbr>2</pickemNbr><productNbr>HCS1307</productNbr></entry><entry><pickemNbr>3</pickemNbr><productNbr>HCS1308</productNbr></entry></pickem> </orderItem> </order> | 
+##| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+##| let |acctNbr| body |//accountNumber/text()||

@@ -1,0 +1,16 @@
+!lastmodified ----- 
+!contents 
+!include .ServPfTests.DefaultSettings
+
+!define client {MSP}
+!define sendOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupCustomerService {https://qa-service.mycdsglobal.com/ws/service/customer/}
+!define lookupOrderService {https://qa-service.mycdsglobal.com/ws/service/order/}
+!define lookupSeriesService {https://qa-service.mycdsglobal.com/ws/service/series/}
+
+!3 Non gift, single shot, fully paid presettled paypal order.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
+|setBody| <order><transactionSource> <emplId>302</emplId> </transactionSource><promotionKey>WHOLESALEI</promotionKey><internetNumber>INET00000021</internetNumber><customer><name>Sad Staxx</name><address1>6524 Mockingbird Lane</address1><address2>Nongift Single Shot</address2><address3>Order #1</address3><city>ATLANTA</city><state>GA</state><zipCode>30301</zipCode></customer><payment><paymentType>presettled</paymentType><creditCardNumber></creditCardNumber><creditCardType>PY</creditCardType><creditCardExpire></creditCardExpire><authorizationCode></authorizationCode><authorizationDate>2013-09-13</authorizationDate><authorizationReference>PAY PAL 1 4 2    5</authorizationReference> <authorizationInd>P</authorizationInd><presettledSwitch>Y</presettledSwitch><amountPaid>19.50</amountPaid></payment><orderItem><productNumber>CAC1111</productNumber><quantity>1</quantity><value>19.50</value></orderItem></order> |
+| POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
+| let |acctNbr| body |//accountNumber/text()| |

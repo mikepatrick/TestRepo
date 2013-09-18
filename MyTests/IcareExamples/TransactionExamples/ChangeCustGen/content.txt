@@ -1,0 +1,5 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series|
+|PUT|/FCXFCR/001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><series><custCareSwitch>N</custCareSwitch><customer><accountNumber>30114</accountNumber></customer><recipient><accountNumber>0</accountNumber></recipient><planCode>CSJ</planCode><quantity>1</quantity><orderType>C</orderType><payment><creditCardType>PY</creditCardType><creditCardNumber></creditCardNumber><creditCardExpire></creditCardExpire></payment><negPos>%2B</negPos><frequency>0</frequency><interest></interest><suspendSwitch></suspendSwitch><resumeServiceDate></resumeServiceDate><suspendDate></suspendDate><loadUpNbr></loadUpNbr><loadUpProductNbr></loadUpProductNbr><loadUpInstall></loadUpInstall></series></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']| sql:ServPfTests.TestData.ChangeCustomerGenInfoTests.ChangeNegativePositiveFieldWasNegative |

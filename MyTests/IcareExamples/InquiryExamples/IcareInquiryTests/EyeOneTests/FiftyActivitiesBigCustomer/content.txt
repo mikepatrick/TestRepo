@@ -1,7 +1,7 @@
 !lastmodified -----
 !contents -R2 -g -p -f -h
 !include .ServPfTests.DefaultSettings
-!define client {MSPBHE2}
+!define client {FCXFCR}
 !define acctNbr {76208}
 !define appid {iCare}
 !define password {got2know}
