@@ -16,7 +16,7 @@
 !5 Pseudozip Z31AAA is Bath, England.  The actual postal code there is BA22SP
 
 !|smartrics.rest.fitnesse.fixture.CdsRestFixture|${sendOrderService}${client}/|
-|setBody|<order><transactionSource> <emplId>302</emplId></transactionSource><promotionKey>CONTHCSF</promotionKey><internetNumber>INET000001</internetNumber><sourceCode>10</sourceCode><customer><accountNumber></accountNumber><name>Sid Wishus</name><address1>3318 48th St</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 donor</address3><city>Lenox</city><state>IA</state><zipCode>50851</zipCode><email>yellow11@yahoo.com</email><phoneNumber>5154467798</phoneNumber><phoneNumber2>3341152154</phoneNumber2></customer><payment><paymentType>presettled</paymentType><creditCardNumber></creditCardNumber><creditCardType>PY</creditCardType><creditCardExpire>1124</creditCardExpire><authorizationCode></authorizationCode><authorizationDate>2013-09-13</authorizationDate><authorizationReference>23389PAY33PAL67</authorizationReference> <authorizationInd>P</authorizationInd><presettledSwitch>Y</presettledSwitch><amountPaid>234.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value> </orderItem><orderItem><productNumber>APW2009</productNumber> <quantity>1</quantity> <value>70.00</value> <customerGetsRefund>N</customerGetsRefund></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/> <previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Jonesy!</giftMessage><recipient> <name>hOMELY Joanie</name><address1>22233 shington Blvd</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #1</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>billyblast1323@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Dilly!</giftMessage><recipient><name>gREEN Gene</name><address1>33 rHthyM Ave</address1><address2>gift continuity multitem 1 cont</address2><address3>Order #1 recip #2</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode><email>llamaman3DD39@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #3</address3><city>Bath</city><state></state><zipCode>Z31AAA</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #3</address3><city>Bath</city><state></state><zipCode>Z31AAA</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem> </order> | 
+|setBody|<order><transactionSource> <emplId>302</emplId></transactionSource><promotionKey>CONTHCSF</promotionKey><internetNumber>INET000001</internetNumber><sourceCode>10</sourceCode><customer><accountNumber></accountNumber><name>Sid Wishus</name><address1>3318 48th St</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 donor</address3><city>Lenox</city><state>IA</state><zipCode>50851</zipCode><email>yellow11@yahoo.com</email><phoneNumber>5154467798</phoneNumber><phoneNumber2>3341152154</phoneNumber2></customer><payment><paymentType>presettled</paymentType><creditCardNumber></creditCardNumber><creditCardType>PY</creditCardType><creditCardExpire>1124</creditCardExpire><authorizationCode></authorizationCode><authorizationDate>2013-09-13</authorizationDate><authorizationReference>23389PAY33PAL67</authorizationReference> <authorizationInd>P</authorizationInd><presettledSwitch>Y</presettledSwitch><amountPaid>234.00</amountPaid></payment><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value> </orderItem><orderItem><productNumber>APW2009</productNumber> <quantity>1</quantity> <value>70.00</value> <customerGetsRefund>N</customerGetsRefund></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/> <previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund> <giftMessage>Enjoy the gift Jonesy!</giftMessage><recipient> <name>hOMELY Joanie</name><address1>22233 shington Blvd</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #1</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode> <email>billyblast1323@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Dilly!</giftMessage><recipient><name>gREEN Gene</name><address1>33 rHthyM Ave</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #2</address3><city>Winterset</city> <state>IA</state><zipCode>50273</zipCode><email>llamaman3DD39@cds-global.com</email><phoneNumber/><phoneNumber2/></recipient></orderItem><orderItem><productNumber>HCS1312</productNumber><quantity>1</quantity><value>8.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #3</address3><city>Bath</city><state></state><zipCode>Z31AAA</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem><orderItem><productNumber>APW2009</productNumber><quantity>1</quantity><value>70.00</value><orderType/><previewItem/><previewAmt/><previewDays/><customerGetsRefund>N</customerGetsRefund><giftMessage>Enjoy the gift Stranger!</giftMessage><recipient><name>aCEOF Basin</name><address1>75 Ashy Knees Lane</address1><address2>gift cont multitem 1 cont</address2><address3>Order #1 recip #3</address3><city>Bath</city><state></state><zipCode>Z31AAA</zipCode> <email>inthebasin@cdsb-global.com</email><phoneNumber>5152516497</phoneNumber><phoneNumber2/> </recipient> </orderItem> </order> | 
 | POST   | /resources/ | 201 | Content-Type : text/xml|//isSuccess[text()='true']|
 | let |donorAcctNbr| body |//accountNumber/text()||
 | let |orderNbr| body |//orderNumber/text()| |
@@ -79,7 +79,7 @@
 | <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctB| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
 | <<donorAcctNbr| FCX| <<orderNbr| HCS| <<recipAcctC| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
 | <<donorAcctNbr| FCX| <<orderNbr| HCS| 0| <<orderNbr| '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
-| <<donorAcctNbr| FCX| >>secondOrder|'   '| 0|>>secondOrder | '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
+| <<donorAcctNbr| FCX| >>secondOrder|'   '| 0| | '23389PAY33PAL67                 '| PY| 0000| 0| 0| CDS|  |
 
 ##|Inspect Query|select * from CLTLIBMSP.XCRDTCARD0 where ACCTNBR = :donorAcctNbr|
 
@@ -101,7 +101,7 @@
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
 | <<donorAcctNbr| <<orderNbr| 811| 16| <<orderNbr| A| 0015600| | 01000|   | 000|       | 000000|               | 0015600| PY|
-| <<donorAcctNbr| <<secondOrder|811|16|<<secondOrder |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
+| <<donorAcctNbr| <<secondOrder |811|16| <<secondOrder |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
@@ -121,7 +121,7 @@
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCTYPE| CCNBR| EXPIREDT| AUTHCODE| STS| ORDPYMTIND| AUTHSTS| AUTHDATE| AUTHREFNUM| RECYCLENBR| AUTHSW|
 | <<donorAcctNbr| <<orderNbr| 910| 6| <<orderNbr| PY| 00000000000000000| 1124|           | A| A| N| 130913|               | 00| N|
-| <<donorAcctNbr| <<secondOrder|811|6|<<secondOrder |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
+| <<donorAcctNbr| <<secondOrder|811|6| <<secondOrder |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
   SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
@@ -138,7 +138,7 @@
                                  -!|
 | ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
 | <<donorAcctNbr| | 811| 34| <<orderNbr| 0015600| <<orderNbr|  |  | 00000| 000| C| PY|
-| <<donorAcctNbr| <<secondOrder|811|34|  000000000000000|0007800| <<secondOrder| | |00000|000|C|PY|
+| <<donorAcctNbr| <<secondOrder|811|34| <<orderNbr|0007800| | | |00000|000|C|PY|
 
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
@@ -151,12 +151,13 @@
     SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
     SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
     SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
-    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS,
+    SUBSTR(HEX(ACTMISC),51,15) AS ORIGORDER
          FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 05
          AND ACCTNBR = :donorAcctNbr 
                    -!|
-|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|
-| <<donorAcctNbr| | 811| 5| 000000000000000| 0007800| A| D| D| 0000000|  |  |    | B|
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|ORIGORDER?|
+|<<donorAcctNbr| | 811| 5| 000000000000000| 0007800| B| D| D| 0000000|  |  |    | B|<<orderNbr|
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
@@ -195,7 +196,8 @@
          FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
          AND ACCTNBR = :donorAcctNbr                -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
-|<<donorAcctNbr| <<secondOrder| 811| 3| 000000000000000| 0007800| E|           | 01000| A| 0000000| 00000| C|          | PY|
+| <<donorAcctNbr| <<secondOrder| 811| 3| 000000000000000| 0007800| E|           | 01000| A| 0000000| 00000| C|          | PY|
+
 
 ##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 |
 !|Ordered Query|select ACCTNBR, TRANSNBR, OPERID, TRANSTYPE, PRODABBR, TRIM(SUBSTR(ACTMISC, 2, 59)) as GMSG from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 order by ACCTNBR|

@@ -2,12 +2,13 @@
 <properties>
 	<Edit>true</Edit>
 	<Files>true</Files>
-	<LastModifyingUser>mpatrick</LastModifyingUser>
+	<Help></Help>
 	<Properties>true</Properties>
 	<RecentChanges>true</RecentChanges>
 	<Refactor>true</Refactor>
 	<Search>true</Search>
-	<Test/>
+	<Suite/>
+	<Suites></Suites>
 	<Versions>true</Versions>
 	<WhereUsed>true</WhereUsed>
 </properties>

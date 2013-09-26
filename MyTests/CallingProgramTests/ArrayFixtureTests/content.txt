@@ -1,5 +1,29 @@
+##!define TEST_RUNNER {fitlibrary.suite.FitLibraryServer} 
+##!define TEST_SYSTEM {slim} 
+
 |Import|
-|com.cds.fitnesse.fixture|
+|fitnesse.fixtures|
+
+##!|ActionFixture|
+##|start|fitnesse.fixtures.Sleep| 60|
+##|enter|Sleep|60||
+
+!|Sleep |6000| milliseconds |
+
+
+##|Import|
+##|com.cds.fitnesse.fixture|
+
+##!| fitnesse.fixtures.Sleep | 6000 | milliseconds = 6 seconds|
+
+!|fitnesse.fixtures.Sleep|6000|6|5|4|3| 
+
+!| fitnesse.fixtures.Sleep | 
+
+!| fitnesse.fixtures.Sleep | 6 | seconds|
+
+!| fitnesse.fixtures.Sleep |
+|6000| milliseconds|
 
 !|PgmCallArrayFixture|2|MPATRICK|XMICROSECS|firstparm|CHAR|12|MPATRICKMP|secondparm|NUM|15|108150856489001|
 |dataName|dataType|dataLength|dataValue|
