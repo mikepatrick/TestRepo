@@ -1,0 +1,5 @@
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/MSP/113115121024002?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>10025</accountNumber></customer><invoiceNumber>1000</invoiceNumber><orderItem><sequenceNumber>1</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>2</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>3</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>4</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>5</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']||
+

@@ -1,0 +1,122 @@
+!lastmodified ----- 
+!define donorAcctNbr {567910047}
+
+!|dbfit.DB2iTest|
+!|ConnectUsingFile|fitnesseroot/files/lib/connect.properties|
+
+!|set option|fixed length string parsing|true|
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,1) AS CCIND,                 
+    SUBSTR(HEX(ACTMISC),19,7) AS CCAMT,                   
+    SUBSTR(HEX(ACTMISC),27,7) AS CCDATE,               
+    SUBSTR(HEX(ACTMISC),35,5) AS INVOICE,                   
+    SUBSTR(ACTMISC,21,2) AS RJCTRSN,                
+    SUBSTR(HEX(ACTMISC),45,3) AS SEQNBR,                
+    SUBSTR(ACTMISC,25,6) AS AUTHCODE,                   
+    SUBSTR(ACTMISC,31,6) AS AUTHDATE,
+    SUBSTR(ACTMISC,37,14) AS AUTHREFNBR,               
+    SUBSTR(HEX(ACTMISC),101,7) AS ORIGAMT,
+    SUBSTR(ACTMISC,55,2) AS PRESETTYPE
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 16
+         AND ACCTNBR = :donorAcctNbr order by transnbr    
+                      -!|
+##| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
+##| <<donorAcctNbr| <<orderNbr| | 16| <<orderNbr| A| 0015600| | 01000|   | 000|       | 000000|               | 0015600| PY|
+##| <<donorAcctNbr| <<secondOrder ||16| <<secondOrder |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS CCTYPE,
+    SUBSTR(HEX(ACTMISC),21,17) AS CCNBR,   
+    SUBSTR(ACTMISC,20,4) AS EXPIREDT,                 
+    SUBSTR(ACTMISC,24,10) AS AUTHCODE,
+    SUBSTR(ACTMISC,34,1) AS STS,                   
+    SUBSTR(ACTMISC,35,1) AS ORDPYMTIND,               
+    SUBSTR(ACTMISC,36,1) AS AUTHSTS,                   
+    SUBSTR(ACTMISC,37,6) AS AUTHDATE,                
+    SUBSTR(ACTMISC,43,14) AS AUTHREFNUM,
+    SUBSTR(ACTMISC,57,2) AS RECYCLENBR,
+    SUBSTR(ACTMISC,59,1) AS AUTHSW
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 06
+         AND ACCTNBR = :donorAcctNbr order by transnbr
+                      -!|
+##| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCTYPE| CCNBR| EXPIREDT| AUTHCODE| STS| ORDPYMTIND| AUTHSTS| AUTHDATE| AUTHREFNUM| RECYCLENBR| AUTHSW|
+##| <<donorAcctNbr| <<orderNbr| 910| 6| <<orderNbr| PY| 00000000000000000| 1124|           | A| A| N| 130913|               | 00| N|
+##| <<donorAcctNbr| <<secondOrder| |6| <<secondOrder |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
+
+!|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+  SUBSTR(HEX(ACTMISC),25,15) AS TRNSNBR,
+  SUBSTR(ACTMISC,21,1) AS RSN,
+  SUBSTR(ACTMISC,22,1) AS HOWCRTD,
+  SUBSTR(HEX(ACTMISC),45,5) AS INVOICE,
+  SUBSTR(HEX(ACTMISC),51,3)AS SEQNBR, 
+  SUBSTR(ACTMISC,28,1)AS RFNDCHRGSW,
+  SUBSTR(ACTMISC,29,2)AS PRESETTYPE
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 34
+         AND ACCTNBR =  :donorAcctNbr order by transnbr
+                                 -!|
+| ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
+##| <<donorAcctNbr| | | 34| <<orderNbr| 0015600| <<orderNbr|  |  | 00000| 000| C| PY|
+##| <<donorAcctNbr| <<secondOrder||34| 000000000000000|0007800| | | |00000|000|C|PY|
+
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+    SUBSTR(ACTMISC,13,1) AS MTHD,                 
+    SUBSTR(ACTMISC,14,1) AS RSN,                 
+    SUBSTR(ACTMISC,15,1) AS HOWCRTD,
+    SUBSTR(HEX(ACTMISC),31,7) AS RPTDATE,                   
+    SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
+    SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
+    SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS,
+    SUBSTR(HEX(ACTMISC),51,15) AS ORIGORDER
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 05
+         AND ACCTNBR = :donorAcctNbr 
+                   -!|
+##|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|ORIGORDER?|
+##|<<donorAcctNbr| | | 5| 000000000000000| 0007800| B| D| D| 0000000|  |  |    | B|<<orderNbr|
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTYCNCL,               
+    SUBSTR(HEX(ACTMISC),61,7) AS CNCLPRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS CNCLTAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS CNCLSH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS CNCLDISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS CNCLCOUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS CNCLMISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS CNCLINV,
+    SUBSTR(ACTMISC,54,1) AS GIFTKITSW,  
+    SUBSTR(HEX(ACTMISC),109,3) AS ITMSEQ, 
+    SUBSTR(HEX(ACTMISC),113,7) AS PREVIEW
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 2
+         AND ACCTNBR = :donorAcctNbr      
+                                -!|
+##|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|RSN?|PRODNBR?|QTYCNCL?|CNCLPRODVL?|CNCLTAX?|CNCLSH?|CNCLDISC?|CNCLCOUP?|CNCLMISC?|CNCLINV?|GIFTKITSW?|ITMSEQ?|PREVIEW?|
+##|<<donorAcctNbr| <<orderNbr| 910| 2| <<orderNbr| BC| 'APW2009     '| 001| 0007000| 0000000| 00000| 00000| 00000| 00000| 01000|  | 006| 0000000|
+##|<<donorAcctNbr| <<orderNbr| 910| 2| <<orderNbr| BC| 'HCS1312     '| 001| 0000800| 0000000| 00000| 00000| 00000| 00000| 01000|  | 005| 0000000|
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                 
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                   
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                  
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,               
+    SUBSTR((ACTMISC),27,1) AS APPIND,                   
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,  
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,               
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                   
+    SUBSTR((ACTMISC),48,2) AS PRETYP                    
+         FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
+         AND ACCTNBR = :donorAcctNbr                -!|
+##|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
+##| <<donorAcctNbr| <<secondOrder| | 3| 000000000000000| 0007800| E|           | 01000| A| 0000000| 00000| C|          | PY|

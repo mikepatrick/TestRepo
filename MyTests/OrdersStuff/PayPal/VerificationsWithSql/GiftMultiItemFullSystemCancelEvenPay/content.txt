@@ -102,8 +102,8 @@
          AND ACCTNBR = :donorAcctNbr order by transnbr    
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
-| <<donorAcctNbr| <<secondOrder| 811| 16| <<secondOrder| A| 0023400| | 00000|   | 000|       | 000000|               | 0023400| PY|
-##| <<donorAcctNbr| |810|16| |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
+| <<donorAcctNbr| <<secondOrder| | 16| <<secondOrder| A| 0023400| | 00000|   | 000|       | 000000|               | 0023400| PY|
+##| <<donorAcctNbr| | |16| |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
@@ -123,7 +123,7 @@
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCTYPE| CCNBR| EXPIREDT| AUTHCODE| STS| ORDPYMTIND| AUTHSTS| AUTHDATE| AUTHREFNUM| RECYCLENBR| AUTHSW|
 | <<donorAcctNbr| <<orderNbr| 910| 6| <<orderNbr| PY| 00000000000000000| 1124|           | A| A| N| 130913|               | 00| N|
-| <<donorAcctNbr| <<secondOrder| 811| 6| <<secondOrder| PY| 00000000000000000| 0000|           | A| B| N| 130913|               | 00| N|
+| <<donorAcctNbr| <<secondOrder| | 6| <<secondOrder| PY| 00000000000000000| 0000|           | A| B| N| 130913|               | 00| N|
 
 ##| <<donorAcctNbr| |810|6| |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
 
@@ -141,8 +141,8 @@
          AND ACCTNBR =  :donorAcctNbr order by transnbr
                                  -!|
 | ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
-| <<donorAcctNbr| | 811| 34| 000000000000000| 0023400| <<secondOrder|  |  | 00000| 000| C| PY|
-##| <<donorAcctNbr| |810|34| |0007800| | | |00000|000|C|PY|
+| <<donorAcctNbr| | | 34| 000000000000000| 0023400| <<secondOrder|  |  | 00000| 000| C| PY|
+##| <<donorAcctNbr| | |34| |0007800| | | |00000|000|C|PY|
 
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
@@ -160,7 +160,7 @@
          AND ACCTNBR = :donorAcctNbr 
                    -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|
-| <<donorAcctNbr| <<secondOrder| 811| 5| 000000000000000| 0023400| A| D| D| 0000000|  |  |    | B|
+| <<donorAcctNbr| <<secondOrder| | 5| 000000000000000| 0023400| A| D| D| 0000000|  |  |    | B|
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
@@ -198,7 +198,7 @@
          FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
          AND ACCTNBR = :donorAcctNbr                -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
-|<<donorAcctNbr| <<secondOrder| 811| 3| 000000000000000| 0023400| E|           | 01000| A| 0000000| 00000| C|          | PY|
+|<<donorAcctNbr| <<secondOrder| | 3| 000000000000000| 0023400| E|           | 01000| A| 0000000| 00000| C|          | PY|
 
 ##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 |
 !|Ordered Query|select ACCTNBR, TRANSNBR, OPERID, TRANSTYPE, PRODABBR, TRIM(SUBSTR(ACTMISC, 2, 59)) as GMSG from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 order by ACCTNBR|

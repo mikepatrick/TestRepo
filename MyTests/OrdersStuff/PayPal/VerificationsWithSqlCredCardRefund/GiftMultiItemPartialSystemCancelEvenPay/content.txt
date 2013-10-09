@@ -24,10 +24,10 @@
 ##|Inspect Query |!- select * from CLTLIBMSP.XORDERSUM0 order by ORDERNBR desc FETCH FIRST 5 ROWS ONLY -!|
 !|Ordered Query| select * from CLTLIBMSP.XORDERSUM0 where ordernbr = :orderNbr order by ACCTNBR desc  |
 | ACCTNBR?| PRODABBR| ORDERNBR?| OPERID| PROMKEY| ORDERENTRY| CREDITSTS| ORDSTATUS| ORDSETCODE| SOURCECODE| NBRPRODORD| TOTORDVAL| TOTPRODVAL| TOTTAXES| TOTPOSTHAN| TOTMISC| TOTDISC| AMTDUE| TOTPAID| TOTCOUPON| PONUMBER| DLVRYMETH| MAILRCVDT| DEPOSITDAT?| BATCHNBR| BILLKEY| INVOICENBR| PRVBILLAMT| LASTBILLDT| CONTSW| FASTSHPNBR| INSTALLSW| ANCLLRYSW| INSTALLALW| INSTALLSNT| INSTALLAMT| INSTALLAMD| OSSHMETH| OSOVRSHSW| GFTCERTVAL| SLSREPNUM| ORCURRTYPE| PLANCODE| INETORDNBR| SPPRODAGE| ORDDPN| INCRIND| PAIDDATE| INVOICESTS| BILLGROUP| LFOUTSTAND| WARNEFFORT| TAXTYPE| TAXRATEST| TAXRATECO| TAXRATECI| TAXRATEDI| PREVIEWVAL| PRESETTYP| PRESETAMT| LSTINSRTDT|
-| >>recipAcctA| FCX|>>orderNbr | 910| 'CONTHCSF  '| C| N| B| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| N| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  |'   ' | 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.000000| 0.000000| 0.000000| 0.000000| 0.00|   | 0.00| 0|
-| >>recipAcctB| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
-| >>recipAcctC| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
-| <<donorAcctNbr| FCX| | 910| 'CONTHCSF  '| C| N| E| B| 10| 6| 234.00| 234.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | 1000|           | 1000| 0.00| 0| A| 0000000000|  |  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   | S| 0.060000| 0.000000| 0.010000| 0.000000| 0.00| PY| 234.00| 0|
+| >>recipAcctA| FCX|>>orderNbr | 910| 'CONTHCSF  '| C| N| B| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | |           | 1000| 0.00| 0| N| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  |'   ' | 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.000000| 0.000000| 0.000000| 0.000000| 0.00|   | 0.00| 0|
+| >>recipAcctB| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | |           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| >>recipAcctC| FCX| | 910| 'CONTHCSF  '| C| N| A| C| 10| 0| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | |           | 1000| 0.00| 0| A| 0000000000| N|  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   |  | 0.060000| 0.000000| 0.010000| 0.000000| 0.00|   | 0.00| 0|
+| <<donorAcctNbr| FCX| | 910| 'CONTHCSF  '| C| N| E| B| 10| 6| 234.00| 234.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00| 0.00|                     |  | 0| | |           | 1000| 0.00| 0| A| 0000000000|  |  |   |   | 0.00| 0.00| A| N| 0.00| 0|  | HCS| 'INET000001       '| 0| 0|  | 0|  |       | 0.00|   | S| 0.060000| 0.000000| 0.010000| 0.000000| 0.00| PY| 234.00| 0|
 
 ##|Inspect Query|select * from CLTLIBMSP.XORDERDTL0 where ACCTNBR = :donorAcctNbr order by DSACCTNBR|
 !|Ordered Query|select * from CLTLIBMSP.XORDERDTL0 where ACCTNBR = :donorAcctNbr order by DSACCTNBR|
@@ -100,8 +100,8 @@
          AND ACCTNBR = :donorAcctNbr order by transnbr    
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
-| <<donorAcctNbr| <<orderNbr| 811| 16| <<orderNbr| A| 0015600| | 01000|   | 000|       | 000000|               | 0015600| PY|
-| <<donorAcctNbr| <<secondOrder |811|16| <<secondOrder |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
+| <<donorAcctNbr| <<orderNbr| | 16| <<orderNbr| A| 0015600| | 01000|   | 000|       | 000000|               | 0015600| PY|
+| <<donorAcctNbr| <<secondOrder ||16| <<secondOrder |A|0007800| |00000|  |000|      |000000|              |0007800|PY|
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
@@ -121,7 +121,7 @@
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCTYPE| CCNBR| EXPIREDT| AUTHCODE| STS| ORDPYMTIND| AUTHSTS| AUTHDATE| AUTHREFNUM| RECYCLENBR| AUTHSW|
 | <<donorAcctNbr| <<orderNbr| 910| 6| <<orderNbr| PY| 00000000000000000| 1124|           | A| A| N| 130913|               | 00| N|
-| <<donorAcctNbr| <<secondOrder|811|6| <<secondOrder |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
+| <<donorAcctNbr| <<secondOrder| |6| <<secondOrder |PY|00000000000000000|0000|          |A|B| |000000|              |  | |
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
   SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
@@ -137,8 +137,8 @@
          AND ACCTNBR =  :donorAcctNbr order by transnbr
                                  -!|
 | ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
-| <<donorAcctNbr| | 811| 34| <<orderNbr| 0015600| <<orderNbr|  |  | 00000| 000| C| PY|
-| <<donorAcctNbr| <<secondOrder|811|34| <<orderNbr|0007800| | | |00000|000|C|PY|
+| <<donorAcctNbr| | | 34| <<orderNbr| 0015600| <<orderNbr|  |  | 00000| 000| C| PY|
+| <<donorAcctNbr| <<secondOrder||34| 000000000000000|0007800| | | |00000|000|C|PY|
 
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
@@ -157,7 +157,7 @@
          AND ACCTNBR = :donorAcctNbr 
                    -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|ORIGORDER?|
-|<<donorAcctNbr| | 811| 5| 000000000000000| 0007800| B| D| D| 0000000|  |  |    | B|<<orderNbr|
+|<<donorAcctNbr| | | 5| 000000000000000| 0007800| B| D| D| 0000000|  |  |    | B|<<orderNbr|
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
@@ -196,7 +196,7 @@
          FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 3  
          AND ACCTNBR = :donorAcctNbr                -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMTPD?|PAYMTD?|BILKEY?|INVOICE?|APPIND?|DEPDAT?|BATNBR?|HOWCRTD?|CHKNBR?|PRETYP?|
-| <<donorAcctNbr| <<secondOrder| 811| 3| 000000000000000| 0007800| E|           | 01000| A| 0000000| 00000| C|          | PY|
+| <<donorAcctNbr| <<secondOrder| | 3| 000000000000000| 0007800| E|           | 01000| A| 0000000| 00000| C|          | PY|
 
 
 ##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 |
