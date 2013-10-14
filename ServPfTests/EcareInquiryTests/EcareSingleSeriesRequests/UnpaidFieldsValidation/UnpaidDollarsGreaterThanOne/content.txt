@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Unpaid dollars greater than one 
+!4 Plan PZU, acct 325011468, dsacct 365977115, UNPCRDFILE = 4 and UNPDOLLARS = 53.72 
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/PZU?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=325011468&shipToAccountNumber=365977115|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp02| body |//series/orderType/text() |B|
+| let | qty02| body |//series/quantity/text() |1|
+| let | planCd02| body |//series/planCode/text() |PZU|
+| let | freq02| body |//series/frequency/text() |1|
+| let | planDesc02| body |//series/planDescription/text() |PUZZLEMANIA US|
+| let | planSts02| body |//series/planStatus/text() |L|
+| let | unpdCnt02| body |//series/unpaids/text() |4|
+| let | unpdDollars02| body |//series/unpaidDollars/text() |53.72|
+| let | donorAcct02| body |//series/customer/accountNumber/text() |325011468|
+| let | recipientAcct02| body |//series/recipient/accountNumber/text() |365977115|

@@ -1,0 +1,10 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate credit status of 'E' WRITTEN OFF (invoice 1005)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/107045?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |107045|
+| let | creditSts01| body |//orderSummary[1]/creditStatus/text() |E|
+| let | invoiceNbr01| body |//orderSummary[1]/invoiceNumber/text() |1005|

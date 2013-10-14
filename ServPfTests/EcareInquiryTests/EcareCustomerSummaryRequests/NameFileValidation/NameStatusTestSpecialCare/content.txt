@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate name status fields for Special Care
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/30106?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |30106|
+| let | custSts| body |//customerStatus/text() |K|
+| let | teleSts| body |//telemarketingStatus/text() |N|
+| let | sweepsSts| body |//sweepstakesStatus/text() |N|
+| let | envirSts| body |//environmentStatus/text() |N|
+| let | contSts| body |//continuityStatus/text() |N|
+| let | delivSw| body |//deliverySwitch/text() |A|

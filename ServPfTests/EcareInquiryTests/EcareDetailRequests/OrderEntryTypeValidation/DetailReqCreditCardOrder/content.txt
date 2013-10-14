@@ -1,0 +1,88 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Credit Card order with 4 different recipients, 20 items
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112228090317001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=276071| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |276071|
+| let | orderNbr| body |//order/orderNumber/text() |112228090317001|
+| let | name | body |//customer/name/text() | MCF|
+| let | addrLine01 | body |//customer/address1/text() |702 ALLEGHENY AVE|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |BALTIMORE|
+| let | state | body |//customer/state/text() |MD|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |21204|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$1,488.50|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |80.50|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |P050B34129EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 08-15-2012   via UPS 2nd Day Air|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |100.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690204817517|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |E|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() | 276089|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |MEGHAN MACMILLAN|
+| let | rcptAddrLine01 | body |//orderItem[1]/recipient/address1/text() |6803 C YORK RD|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |BALTIMORE|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |MD|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |21212|
+| let | rcptCntry1 | body |//orderItem[1]/recipient/country/text() |UNITED STATES|
+| let | orderType06| body |//orderItem[6]/orderTypeCode/text() |N|
+| let | prodNbr06| body |//orderItem[6]/productNumber/text() |P050B34129EN|
+| let | orderSts06| body |//orderItem[6]/orderStatus/text() |Shipped 08-16-2012   via UPS Next Day Air|
+| let | qty06| body |//orderItem[6]/quantity/text() |1|
+| let | prodVal06| body |//orderItem[6]/value/text() |100.00|
+| let | trkNbr06| body |//orderItem[6]/trackingNumber/text() |1Z0434690104821077|
+| let | seqNbr06| body |//orderItem[6]/sequenceNumber/text() |6|
+| let | carrierCd06| body |//orderItem[6]/carrier/text() |D|
+| let | rcptAcctNbr06| body |//orderItem[6]/recipient/accountNumber/text() | 276097|
+| let | rcptName06 | body |//orderItem[6]/recipient/name/text() |LISA SYDNESS|
+| let | rcptAddrLine106 | body |//orderItem[6]/recipient/address1/text() |CAMP OWATONNA|
+| let | rcptAddrLine206 | body |//orderItem[6]/recipient/address2/text() |4 CAMP NEWFOUND RD|
+| let | rcptCity06 | body |//orderItem[6]/recipient/city/text() |HARRISON|
+| let | rcptstate06 | body |//orderItem[6]/recipient/state/text() |ME|
+| let | rcptCntry06 | body |//orderItem[6]/recipient/country/text() |UNITED STATES|
+| let | orderType11| body |//orderItem[11]/orderTypeCode/text() |N|
+| let | prodNbr11| body |//orderItem[11]/productNumber/text() |P050B34129EN|
+| let | orderSts11| body |//orderItem[11]/orderStatus/text() |Shipped 08-16-2012   via UPS Next Day Air|
+| let | qty11| body |//orderItem[11]/quantity/text() |1|
+| let | prodVal11| body |//orderItem[11]/value/text() |100.00|
+| let | trkNbr11| body |//orderItem[11]/trackingNumber/text() |1Z0434690104821095|
+| let | seqNbr11| body |//orderItem[11]/sequenceNumber/text() |11|
+| let | carrierCd11| body |//orderItem[11]/carrier/text() |D|
+| let | rcptAcctNbr11| body |//orderItem[11]/recipient/accountNumber/text() | 276105|
+| let | rcptName11 | body |//orderItem[11]/recipient/name/text() |JEN MCPHEE|
+| let | rcptAddrLine111 | body |//orderItem[11]/recipient/address1/text() |CAMP OWATONNA|
+| let | rcptAddrLine211 | body |//orderItem[11]/recipient/address2/text() |4 CAMP NEWFOUND RD|
+| let | rcptCity11 | body |//orderItem[11]/recipient/city/text() |HARRISON|
+| let | rcptstate11 | body |//orderItem[11]/recipient/state/text() |ME|
+| let | rcptzipCode11 | body |//orderItem[11]/recipient/zipCode/text() |04040|
+| let | rcptCntry11 | body |//orderItem[11]/recipient/country/text() |UNITED STATES|
+| let | orderType16| body |//orderItem[16]/orderTypeCode/text() |N|
+| let | prodNbr16| body |//orderItem[16]/productNumber/text() |P050B34129EN|
+| let | orderSts16| body |//orderItem[16]/orderStatus/text() |Shipped 08-16-2012   via UPS Next Day Air|
+| let | qty16| body |//orderItem[16]/quantity/text() |1|
+| let | prodVal16| body |//orderItem[16]/value/text() |100.00|
+| let | trkNbr16| body |//orderItem[16]/trackingNumber/text() |1Z0434690104821068|
+| let | seqNbr16| body |//orderItem[16]/sequenceNumber/text() |16|
+| let | carrierCd16| body |//orderItem[16]/carrier/text() |D|
+| let | rcptAcctNbr16| body |//orderItem[16]/recipient/accountNumber/text() | 276113|
+| let | rcptName16 | body |//orderItem[16]/recipient/name/text() |MATT HOFMAN|
+| let | rcptAddrLine116 | body |//orderItem[16]/recipient/address1/text() |CAMP OWATONNA|
+| let | rcptAddrLine216 | body |//orderItem[16]/recipient/address2/text() |4 CAMP NEWFOUND RD|
+| let | rcptCity16 | body |//orderItem[16]/recipient/city/text() |HARRISON|
+| let | rcptstate16 | body |//orderItem[16]/recipient/state/text() |ME|
+| let | rcptzipCode16 | body |//orderItem[16]/recipient/zipCode/text() |04040|
+| let | rcptCntry16 | body |//orderItem[16]/recipient/country/text() |UNITED STATES|
+

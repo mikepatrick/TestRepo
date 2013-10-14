@@ -1,3 +1,5 @@
+!lastmodified ----
+
 !include .ServPfTestDevelopment.DbFitExamples.GetConnection
 !|set option|fixed length string parsing|true|
 
@@ -16,12 +18,13 @@ front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
     SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
     SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
     SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
-    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS,
+    SUBSTR(HEX(ACTMISC),51,15) AS ORIGORDER 
          FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 05
          AND ACCTNBR = 25391038  
          AND TRANSNBR > 112003000000001                        -!|
-|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|
-|        |         |       |          |       |    |     |    |        |        |          |          |            |          |        
+|ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|ORDNBR?|AMT?|MTHD?|RSN?|HOWCRTD?|RPTDATE?|RPTUNDELV?|REAPPLIED?|MIGPRODABBR?|REFUNDSTS?|ORIGORDER?|
+|        |         |       |          |       |    |     |    |        |        |          |          |            |          |          |
 
 
 
@@ -37,10 +40,11 @@ front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
     SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
     SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
     SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
-    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS,
+    SUBSTR(HEX(ACTMISC),51,16) AS ORIGORDER 
          FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 05
          AND ACCTNBR = 25391038  
          AND TRANSNBR > 112003000000001                         -!|
-|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMT|MTHD|RSN|HOWCRTD|RPTDATE|RPTUNDELV|REAPPLIED|MIGPRODABBR|REFUNDSTS|
-|25391038||2384| 5| 111301111714056| 0000005| A| A| A| 0112007| A| Y| '   '| ' '|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMT|MTHD|RSN|HOWCRTD|RPTDATE|RPTUNDELV|REAPPLIED|MIGPRODABBR|REFUNDSTS|ORIGORDER?|
+|25391038||2384| 5| 111301111714056| 0000005| A| A| A| 0112007| A| Y| '   '| ' '| |
 

@@ -1,0 +1,53 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = D (discontinued)
+!4 Plan JCW, acct 138149, dsacct 0
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/JCW?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=138149&shipToAccountNumber=0|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp02| body |//series/orderType/text() |B|
+| let | qty02| body |//series/quantity/text() |1|
+| let | planCd02| body |//series/planCode/text() |JCW|
+| let | freq02| body |//series/frequency/text() |0|
+| let | planDesc02| body |//series/planDescription/text() |ADDITIONAL ANNUAL JOURNAL AD|
+| let | planSts02| body |//series/planStatus/text() |D|
+| let | intCd02| body |//series/interest/text() |null|
+| let | unpdCnt02| body |//series/unpaids/text() |0|
+| let | unpdDollars02| body |//series/unpaidDollars/text() |0.00|
+| let | shipDt02| body |//series/shipDate/text() |2009-06-12|
+| let | paidDt02| body |//series/paidDate/text() |2009-07-21|
+| let | cycleDt02| body |//series/cycleDate/text() |2009-06-11|
+| let | suspendDt02| body |//series/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt02| body |//series/planCodeDate/text() |2008-06-10|
+| let | chgIntSw02| body |//series/changeInterestSwitch/text() |null|
+| let | donorAcct02| body |//series/customer/accountNumber/text() |138149|
+| let | donorName01| body |//series/customer/name/text() |RON LOVE CS|
+| let | Addr101| body |//series/customer/address1/text() |1900 S OCEAN DR #1702|
+| let | Addr201| body |//series/customer/address2/text() |null|
+| let | Addr301| body |//series/customer/address3/text() |null|
+| let | State01| body |//series/customer/state/text() |FL|
+| let | Zip01| body |//series/customer/zipCode/text() |33316|
+| let | ExpCntry01| body |//series/customer/expandedCountry/text() |null|
+| let | ExpCity01| body |//series/customer/expandedCity/text() |null|
+| let | ForgnPostalCd01| body |//series/customer/foreignPostalCode/text() |null|
+| let | lastPymtDt02| body |//series/customer/lastPaymentDate/text() |2009-07-21|
+| let | recipientAcct02| body |//series/recipient/accountNumber/text() |0|
+| let | recipientName02| body |//series/recipient/name/text() |null|
+| let | recipientAddr102| body |//series/recipient/address1/text() |null|
+| let | recipientAddr202| body |//series/recipient/address2/text() |null|
+| let | recipientAddr302| body |//series/recipient/address3/text() |null|
+| let | recipientCity02| body |//series/recipient/city/text() |null|
+| let | recipientState02| body |//series/recipient/state/text() |null|
+| let | recipientZip02| body |//series/recipient/zipCode/text() |null|
+| let | recipientCntry02| body |//series/recipient/country/text() |null|
+| let | recipientCntryCd02| body |//series/recipient/countryCode/text() |null|
+| let | recipientExpCountry02| body |//series/recipient/expandedCountry/text() |null|
+| let | recipientExpCity02| body |//series/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd02| body |//series/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType02| body |//series/payment/creditCardType/text() |null|
+| let | pymtCcNbr02| body |//series/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm02| body |//series/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy02| body |//series/payment/creditCardExpireYear/text() |00|

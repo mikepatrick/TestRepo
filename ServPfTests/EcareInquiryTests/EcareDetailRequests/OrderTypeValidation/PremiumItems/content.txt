@@ -1,0 +1,96 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Order with Kit, Components, Normal, and Premium Items.  Items are pending.
+!4 Order also has misc charges, discounts, and coupons.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/113161115859001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=376543443| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543443|
+| let | orderNbr| body |//order/orderNumber/text() |113161115859001|
+| let | name | body |//name/text() |SUSAN CREDIT|
+| let | addrLine01 | body |//address1/text() |1010 CREDIT LANE|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |DES MOINES|
+| let | state | body |//state/text() |IA|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |50315|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PBZ|
+| let | ordVal| body |//order/totalOrderValue/text() |$37.43|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |15.96|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PB001|
+| let | prodDesc01| body |//orderItem[1]/productDesc/text() |DOG WALKER/ICE CREAM TOWER|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PB261|
+| let | prodDesc02| body |//orderItem[2]/productDesc/text() |DOG WALKER|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |null|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PB262|
+| let | prodDesc03| body |//orderItem[3]/productDesc/text() |ICE CREAM TOWER|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |4.49|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |null|
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |N|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |PB264|
+| let | prodDesc04| body |//orderItem[4]/productDesc/text() |PEANUT FACTORY|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty04| body |//orderItem[4]/quantity/text() |1|
+| let | prodVal04| body |//orderItem[4]/value/text() |4.49|
+| let | trkNbr04| body |//orderItem[4]/trackingNumber/text() |null|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |null|
+| let | orderType05| body |//orderItem[5]/orderTypeCode/text() |N|
+| let | prodNbr05| body |//orderItem[5]/productNumber/text() |PB266|
+| let | prodDesc05| body |//orderItem[5]/productDesc/text() |ANIMAL GYM|
+| let | orderSts05| body |//orderItem[5]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty05| body |//orderItem[5]/quantity/text() |1|
+| let | prodVal05| body |//orderItem[5]/value/text() |4.49|
+| let | trkNbr05| body |//orderItem[5]/trackingNumber/text() |null|
+| let | seqNbr05| body |//orderItem[5]/sequenceNumber/text() |5|
+| let | carrierCd05| body |//orderItem[5]/carrier/text() |null|
+| let | rcptAcctNbr05| body |//orderItem[5]/recipient/accountNumber/text() |null|
+| let | orderType06| body |//orderItem[6]/orderTypeCode/text() |N|
+| let | prodNbr06| body |//orderItem[6]/productNumber/text() |PB269|
+| let | prodDesc06| body |//orderItem[6]/productDesc/text() |SOCCER SHOE HUNT|
+| let | orderSts06| body |//orderItem[6]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty06| body |//orderItem[6]/quantity/text() |1|
+| let | prodVal06| body |//orderItem[6]/value/text() |4.49|
+| let | trkNbr06| body |//orderItem[6]/trackingNumber/text() |null|
+| let | seqNbr06| body |//orderItem[6]/sequenceNumber/text() |6|
+| let | carrierCd06| body |//orderItem[6]/carrier/text() |null|
+| let | rcptAcctNbr06| body |//orderItem[6]/recipient/accountNumber/text() |null|
+| let | orderType07| body |//orderItem[7]/orderTypeCode/text() |C|
+| let | prodNbr07| body |//orderItem[7]/productNumber/text() |P4097|
+| let | prodDesc07| body |//orderItem[7]/productDesc/text() |CHECKER TOTE BAG|
+| let | orderSts07| body |//orderItem[7]/orderStatus/text() |Suspended   Contact Customer Service|
+| let | qty07| body |//orderItem[7]/quantity/text() |1|
+| let | prodVal07| body |//orderItem[7]/value/text() |0.00|
+| let | trkNbr07| body |//orderItem[7]/trackingNumber/text() |null|
+| let | seqNbr07| body |//orderItem[7]/sequenceNumber/text() |7|
+| let | carrierCd07| body |//orderItem[7]/carrier/text() |null|
+| let | rcptAcctNbr07| body |//orderItem[7]/recipient/accountNumber/text() |null|

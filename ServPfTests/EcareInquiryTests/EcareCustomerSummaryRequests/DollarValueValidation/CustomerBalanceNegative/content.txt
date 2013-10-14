@@ -1,0 +1,7 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/30288?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+| let | accountNumber| body |//accountNumber/text() |30288|
+| let | custBal | body |//customerBalance/text() |$2,109.69-|

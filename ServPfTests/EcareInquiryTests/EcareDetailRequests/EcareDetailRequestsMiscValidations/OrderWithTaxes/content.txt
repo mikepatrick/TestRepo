@@ -1,0 +1,61 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Tax Value
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/112268123552001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=375624194 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375624194 |
+| let | orderNbr| body |//order/orderNumber/text() |112268123552001|
+| let | name | body |//name/text() |SHANNON PRENTICE|
+| let | addrLine01 | body |//address1/text() |1031 PRENTISKOKA HTS|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |MINDEN|
+| let | state | body |//state/text() |ON|
+| let | country | body |//country/text() |CANADA|
+| let | zipCode | body |//zipCode/text() |K0M2K0|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PBC|
+| let | ordVal| body |//order/totalOrderValue/text() |$11.83|
+| let | ordTax| body |//order/totalOrderTax/text() |1.36|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |3.98|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PC901|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In Process|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |360510762|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PZ505|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |In Process|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |360510762|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PZ506|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |In Process|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |6.49|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |360510762|
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |A|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |P4278|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |In Process|
+| let | qty04| body |//orderItem[4]/quantity/text() |1|
+| let | prodVal04| body |//orderItem[4]/value/text() |0.00|
+| let | trkNbr04| body |//orderItem[4]/trackingNumber/text() |null|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |360510762|

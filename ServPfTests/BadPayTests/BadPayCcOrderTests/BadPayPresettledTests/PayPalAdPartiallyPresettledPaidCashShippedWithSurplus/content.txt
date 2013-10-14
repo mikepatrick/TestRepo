@@ -1,0 +1,75 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/567890801?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AW</reasonCode><transactionNbr>113275072148001</transactionNbr><badPayAmount>75.00</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']||
+
+
+!3 Now verify the 14 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR,OPERID, TRANSTYPE,                 
+  SUBSTR(HEX(ACTMISC),1,15) AS BPORDNBR,
+  SUBSTR(ACTMISC,9,1) AS BPPYMTIND,
+  SUBSTR(HEX(ACTMISC),19,7) AS BPAMT,
+  SUBSTR(ACTMISC,14,1) AS BPTYPE,
+  SUBSTR(ACTMISC,15,2) AS BPRSN,
+  SUBSTR(ACTMISC,17,10) AS BILLKEY,
+  SUBSTR(HEX(ACTMISC),53,5) AS BPINVC, 
+  SUBSTR(HEX(ACTMISC),59,15) AS BPORDER,
+  SUBSTR(HEX(ACTMISC),75,7) AS BPLATEFEE,
+  SUBSTR(HEX(ACTMISC),83,7) AS ORIGAMT
+    FROM CLTLIBD9X.XACTIVITY0 WHERE TRANSTYPE = 14
+          AND ACCTNBR = 567890801
+          AND TRANSNBR > 113273000000001                   -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|BPORDNBR|BPPYMTIND|BPAMT|BPTYPE|BPRSN|BILLKEY|BPINVC|BPORDER|BPLATEFEE|ORIGAMT|
+|567890801||302|14|113275072148001|A|0007500|B|AW|'          '|01001|113275072148001|0000000|0000000|
+
+
+!3 Now verify the 03 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,                    
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                      
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                        
+    SUBSTR((ACTMISC),14,10) AS BILLKEY,                       
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,                    
+    SUBSTR((ACTMISC),27,1) AS APPIND,                        
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                        
+    SUBSTR((ACTMISC),48,2) AS PRETYP                         
+    FROM CLTLIBD9X.XACTIVITY0 WHERE TRANSTYPE = 3
+         AND ACCTNBR = 567890801
+         AND TRANSNBR > 113275120000001                          
+         AND OPERID = 302                              -!|
+|ACCTNBR |TRANSNBR?| OPERID| TRANSTYPE| ORDNBR        | AMTPD | PAYMTD| BILLKEY |INVOICE| APPIND |HOWCRTD|CHKNBR|PRETYP|
+|567890801||302|3|113275072148001|0001000|E|'          '|01001|D|E|'         '| '  '|
+
+!3 Now verify the XCUSTSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, BALANCE, TOTPDVALUE, CREDCARDAR,
+          MAXSSEFF, MX2SSEFF, MAXFPPEFF, MX2FPPEFF, MAX2PPEFF, MX22PPEFF, MAXSEREFF, MX2SEREFF
+         FROM CLTLIBd9x.XCUSTSUM0 
+        WHERE ACCTNBR =  567890801
+          AND PRODABBR = 'TLU'                     -!|
+|ACCTNBR|PRODABBR|BALANCE| TOTPDVALUE|CREDCARDAR|MAXSSEFF|MX2SSEFF|MAXFPPEFF|MX2FPPEFF|MAX2PPEFF|MX22PPEFF|MAXSEREFF|MX2SEREFF|
+|567890801|TLU|-65.00|95.18|0.00|0|0|0|0|0|0|0|0|
+
+!3 Now verify the XORDERSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, ORDERNBR, INVOICENBR, AMTDUE, CREDITSTS, ORDSTATUS, LASTBILLDT,
+                  INSTALLSW, ANCLLRYSW, INSTALLALW, INSTALLSNT, INSTALLAMT, INSTALLAMD, LFOUTSTAND
+         FROM CLTLIBd9x.XORDERSUM0 
+        WHERE ACCTNBR = 567890801
+          AND ORDERNBR = 113275072148001                           -!|
+|ACCTNBR|PRODABBR|ORDERNBR|INVOICENBR |AMTDUE|CREDITSTS |ORDSTATUS |LASTBILLDT|INSTALLSW |ANCLLRYSW |INSTALLALW |INSTALLSNT  |INSTALLAMT |INSTALLAMD |LFOUTSTAND|
+|567890801|TLU|113275072148001|1001|65.00|A|A|0|N|A|02|02|80.09|0.00|0.00|
+
+
+!3 Now verify the XORDERDTL0 file
+!|Query|!- SELECT ACCTNBR, DSACCTNBR, PRODABBR, ORDERNBR, ITMSEQNUM, PRODNBR, ORDERTYPE, QTYORDERED, 
+                  ORDDETSTAT, SERVICECDE, SHIPIND, ITMQTYRET, ITMQTYCAN, QTYTORSHP
+         FROM CLTLIBd9x.XORDERDTL0 
+        WHERE ACCTNBR = 567890801
+          AND ORDERNBR = 113275072148001                             -!|
+|ACCTNBR| DSACCTNBR| PRODABBR| ORDERNBR|ITMSEQNUM| PRODNBR|ORDERTYPE|QTYORDERED|ORDDETSTAT|SERVICECDE?|SHIPIND| ITMQTYRET| ITMQTYCAN|QTYTORSHP|
+|567890801|0|TLU|113275072148001|1|'4430212602  '|N|1|A|'I '|Y|0|0|0|
+

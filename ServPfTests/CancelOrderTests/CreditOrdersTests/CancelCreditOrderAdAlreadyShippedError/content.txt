@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D6X_CKI2/113127111515001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>23559644</accountNumber></customer><invoiceNumber>1002</invoiceNumber><orderItem><sequenceNumber>1</sequenceNumber><reasonCode>AA</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0664')]||
+
+!4 Test #105 - Error returned, no DB files to verify.

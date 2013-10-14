@@ -1,0 +1,42 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Bill-To/Ship-To Order - Acct 70243, invoice 01754
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113206085510005?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=70243| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |70243|
+| let | orderNbr| body |//order/orderNumber/text() |113206085510005|
+| let | name | body |//customer/name/text() |KAREN GAUTHIER|
+| let | addrLine01 | body |//customer/address1/text() |2309 HIGHLAND DRIVE|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |SALT LAKE CTY|
+| let | state | body |//customer/state/text() |UT|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |84106|
+| let | phone1| body |//customer/phoneNumber/text() |8014663518|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |STL|
+| let | ordVal| body |//order/totalOrderValue/text() |$3.90|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |STL1335C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In the warehouse to ship|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |1.95|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |70268|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |CHRISTIAN SCIENCE READING ROOM|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |2309 S HIGHLAND DR|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |SALT LAKE CTY|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |UT|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |84106|
+| let | rcptCntry1 | body |//orderItem[1]/recipient/country/text() |UNITED STATES|
+

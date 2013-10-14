@@ -1,0 +1,55 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate a partially returned order  - Item # 6 was Returned with reason of Did-Not-Want on invoice 1579
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113057130146001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=72322 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |72322|
+| let | orderNbr| body |//order/orderNumber/text() |113057130146001|
+| let | name | body |//customer/name/text() |FIRST CHURCH OF CHRIST,|
+| let | addrLine01 | body |//customer/address1/text() |SCIENTIST|
+| let | addrLine02 | body |//customer/address2/text() |PO BOX 216|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |GIG HARBOR|
+| let | state | body |//customer/state/text() |WA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |98335|
+| let | phone1| body |//customer/phoneNumber/text() |2535497777|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$182.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |11.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |G425A51415EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Returned|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |50.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |59261|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |LISA WHITTAKER|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |N|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |G600G50593EN|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Shipped 02-28-2013   via UPS Ground|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |35.50|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |1Z0434690305482205 |
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |3|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |59261|
+| let | rcptName02 | body |//orderItem[2]/recipient/name/text() |LISA WHITTAKER|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |N|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |G600G50594EN|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Shipped 02-28-2013   via UPS Ground|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |35.50|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |1Z0434690305482205 |
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |3|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |59261|
+| let | rcptName03 | body |//orderItem[3]/recipient/name/text() |LISA WHITTAKER|

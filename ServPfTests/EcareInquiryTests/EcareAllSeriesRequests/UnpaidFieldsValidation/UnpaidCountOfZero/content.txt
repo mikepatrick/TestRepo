@@ -1,0 +1,28 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Unpaid count equal zero, but has unpaid dollars (under min bill amt)
+!4 Plan WWU, acct 348571118 , dsacct 348571126  has UNPCRDFILE = 0 and UNPDOLLARS = 1.40
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=348571118 |200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |MAT|
+| let | freq01| body |//series[1]/frequency/text() |1|
+| let | planSts01| body |//series[1]/planStatus/text() |F|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |0|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |0.00|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |348571118|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |348571126|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |WWU|
+| let | freq02| body |//series[2]/frequency/text() |24|
+| let | planDesc02| body |//series[2]/planDescription/text() |WHICH WAY USA|
+| let | planSts02| body |//series[2]/planStatus/text() |F|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |0|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |1.40|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |348571118|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |348571126|

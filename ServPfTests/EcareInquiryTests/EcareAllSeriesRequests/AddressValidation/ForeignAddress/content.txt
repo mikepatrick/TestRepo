@@ -1,0 +1,78 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Foreign Address of recipient
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=92262|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |6|
+| let | planCd01| body |//series[1]/planCode/text() |CQE|
+| let | freq01| body |//series[1]/frequency/text() |15|
+| let | planDesc01| body |//series[1]/planDescription/text() |SPANISH STUDY ED QUARTERLY|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |11|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |561.00|
+| let | shipDt01| body |//series[1]/shipDate/text() |2011-12-30|
+| let | paidDt01| body |//series[1]/paidDate/text() |2011-03-17|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |2011-12-28|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2009-04-05|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |92262|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |2011-03-17|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |92270|
+| let | recipientName01| body |//series[1]/recipient/name/text() |CIENTIFICOS CRISTIANOS DE|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |MANAGUA|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |C/O TERESA HORBATY|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |APARTADO POSTAL 5732|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |MANAGUA|
+| let | recipientState01| body |//series[1]/recipient/state/text() |null|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |null|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |NICARAGUA|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |NI|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |NICARAGUA|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |MANAGUA|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignPostalCode/text() |MANAGUA |
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |8|
+| let | planCd02| body |//series[2]/planCode/text() |HCS|
+| let | freq02| body |//series[2]/frequency/text() |1|
+| let | planDesc02| body |//series[2]/planDescription/text() |SPANISH HERALD|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | intCd02| body |//series[2]/interest/text() |null|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |6|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |168.00|
+| let | shipDt02| body |//series[2]/shipDate/text() |2011-12-20|
+| let | paidDt02| body |//series[2]/paidDate/text() |2011-03-17|
+| let | cycleDt02| body |//series[2]/cycleDate/text() |2011-12-16|
+| let | suspendDt02| body |//series[2]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series[2]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt02| body |//series[2]/planCodeDate/text() |2009-04-05|
+| let | chgIntSw02| body |//series[2]/changeInterestSwitch/text() |null|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |92262|
+| let | lastPymtDt02| body |//series[2]/customer/lastPaymentDate/text() |2011-03-17|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |92270|
+| let | recipientName02| body |//series[2]/recipient/name/text() |CIENTIFICOS CRISTIANOS DE|
+| let | recipientAddr102| body |//series[2]/recipient/address1/text() |MANAGUA|
+| let | recipientAddr202| body |//series[2]/recipient/address2/text() |C/O TERESA HORBATY|
+| let | recipientAddr302| body |//series[2]/recipient/address3/text() |APARTADO POSTAL 5732|
+| let | recipientCity02| body |//series[2]/recipient/city/text() |MANAGUA|
+| let | recipientState02| body |//series[2]/recipient/state/text() |null|
+| let | recipientZip02| body |//series[2]/recipient/zipCode/text() |null|
+| let | recipientCntry02| body |//series[2]/recipient/country/text() |NICARAGUA|
+| let | recipientCntryCd02| body |//series[2]/recipient/countryCode/text() |NI|
+| let | recipientExpCountry02| body |//series[2]/recipient/expandedCountry/text() |NICARAGUA|
+| let | recipientExpCity02| body |//series[2]/recipient/expandedCity/text() |MANAGUA|
+| let | recipientForgnPostalCd02| body |//series[2]/recipient/foreignPostalCode/text() |MANAGUA |
+| let | pymtCcType02| body |//series[2]/payment/creditCardType/text() |null|
+| let | pymtCcNbr02| body |//series[2]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm02| body |//series[2]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy02| body |//series[2]/payment/creditCardExpireYear/text() |00|

@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate name status fields for a No Orders account
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/213256?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |213256|
+| let | custSts| body |//customerStatus/text() |D|
+| let | teleSts| body |//telemarketingStatus/text() |E|
+| let | sweepsSts| body |//sweepstakesStatus/text() |H|
+| let | envirSts| body |//environmentStatus/text() |N|
+| let | contSts| body |//continuityStatus/text() |2|
+| let | delivSw| body |//deliverySwitch/text() |A|

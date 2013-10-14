@@ -1,0 +1,40 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate a fully returned order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCX/|
+|GET|/112006040016002?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=90027| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |90027|
+| let | orderNbr| body |//order/orderNumber/text() |112006040016002|
+| let | name | body |//customer/name/text() |CHRISTIAN SCIENCE SOCIETY|
+| let | addrLine01 | body |//customer/address1/text() |NELSON M S NYACHWAYA|
+| let | addrLine02 | body |//customer/address2/text() |PO BOX 95|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |ISIBANIA|
+| let | state | body |//customer/state/text() |null|
+| let | country | body |//customer/country/text() |KENYA|
+| let | zipCode | body |//customer/zipCode/text() |null|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |KENYA|
+| let | expndcity | body |//customer/expandedCity/text() |ISIBANIA|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |ISIBANIA|
+| let | planCode| body |//order/planCode/text() |STL|
+| let | ordVal| body |//order/totalOrderValue/text() |$36.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |STL1207C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Returned|
+| let | qty01| body |//orderItem[1]/quantity/text() |20|
+| let | prodVal01| body |//orderItem[1]/value/text() |1.80|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|

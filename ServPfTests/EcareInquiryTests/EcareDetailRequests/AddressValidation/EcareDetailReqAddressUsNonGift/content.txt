@@ -1,0 +1,42 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112130132626001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=241091| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |241091|
+| let | orderNbr| body |//order/orderNumber/text() |112130132626001|
+| let | name | body |//name/text() |PITNEY BOWES COMPANY|
+| let | addrLine01 | body |//address1/text() |ATTN:MICHELE MARRERO|
+| let | addrLine02 | body |//address2/text() |158 MOUNT OLIVET AVENUE|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |NEWARK|
+| let | state | body |//state/text() |NJ|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |07114|
+| let | phone1| body |//phoneNumber/text() |9733686324|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$0.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |CQE1207|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 05-10-2012   via UPS Ground|
+| let | qty01| body |//orderItem[1]/quantity/text() |35|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690304474421|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |A|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|
+

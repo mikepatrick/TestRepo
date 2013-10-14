@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan CQF, acct 80093, dsacct 0 have LDUPTOPROD = CQF1401C and LDUPINSTLL = Y 
+!4 Load Up information is not returned back for eCare/Stores inquiries
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=80093|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |40|
+| let | planCd01| body |//series[1]/planCode/text() |CQF|
+| let | freq01| body |//series[1]/frequency/text() |75|
+| let | planDesc01| body |//series[1]/planDescription/text() |FRENCH CITATION EDITION QRTLY|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | interest01| body |//series[1]/interest/text() |null|
+| let | chginterestSw01| body |//series[1]/changeInterestSwitch/text() |Y|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |80093|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|

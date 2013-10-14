@@ -1,0 +1,88 @@
+!3 Start with come basic commands, creating and deleting libraries.
+##!|smartrics.rest.fitnesse.fixture.ProgramCallFixture|
+##|runcmd|CRTLIB TESTINGMSP|
+!define client {MSP}
+!define mylib {MPATRICK}
+## ActionFixture removed, because it sucks.
+!4 ActionFixture can be used for this, but not does not return a value.
+!|ActionFixture|
+|start|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|enter|runcmd|DLTLIB TESTFF|
+
+##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
+
+!3 Cmd Call Fixture - Extends Row Fixture; returns a table of data.  Requires a fixture declaration with every command.
+!3 Cmd Call Sequence Fixture - Extends Sequence Fixture; returns a string.  Multiple commands can follow a single fixture declaration.
+
+!4 Examples: (Row Fixture format):
+!|com.cds.fitnesse.fixture.CmdCallFixture|DLTLIBTESTFF|
+|cmdToRun|returnMsg|
+|DLTLIBTESTFF| |
+
+##|runcmd|DLTLIBTESTFF|is|String beginning 'DLTLIBTEST' not valid command name.|
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CRTLIB ${mylib}|
+|cmdToRun|returnMsg|
+|CRTLIB MPATRICK| |
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CRTLIB ${mylib}|
+|cmdToRun|returnMsg|
+|CRTLIB MPATRICK|Library MPATRICK created. |
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|DLTLIB TESTDD|
+|cmdToRun|returnMsg|
+|DLTLIB TESTDD|Library TESTDD deleted.|
+
+!4 Upload a file from the iSeries to the FMSERVER:
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST27.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|
+|cmdToRun|returnMsg|
+|CPYTOIMPF FROMFILE(MPATRICK/XMLUPLOAD) TOSTMF('/FMSERVER/MPATRICK/XMLTEST27.TXT') STMFCCSID(*PCASCII) RCDDLM(*CRLF) DTAFMT(*DLM) STRDLM(*NONE) RMVBLANK(*TRAILING)|All records copied from file XMLUPLOAD in MPATRICK.|
+
+!4 Copy activity records into redefined files:
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
+|cmdToRun|returnMsg|
+|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|638 records copied from member XACTIVITY0.|
+
+!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
+|cmdToRun|returnMsg|
+|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)| |
+
+##!|com.cds.fitnesse.fixture.CmdCallFixture|CPYF FROMFILE(CLTLIB${client}/XACTIVITY0) TOFILE(MPATRICK/XACTT160) MBROPT(*REPLACE) INCREL((*IF TRANSTYPE *EQ 16)) FMTOPT(*NOCHK)|
+
+!3 Sequence Fixture format examples -
+!4 Copy some data over from System A (Test bed accounts, in this case):
+!|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|runcmd|CLRPFM MPATRICK/XTSTBEDACT|is|Member XTSTBEDACT file XTSTBEDACT in MPATRICK cleared.|
+|runcmd|DLTF MPATRICK/SYSAACTS|is|Object SYSAACTS in MPATRICK type *FILE deleted.|
+|runcmd|CRTDDMF FILE(MPATRICK/DDMTEST1) RMTFILE(MPATRICK/XTSTBEDACT) RMTLOCNAME(*RDB) RDB(SYSA400)|is|File DDMTEST1 created in library MPATRICK.|
+|runcmd|CPYF FROMFILE(MPATRICK/DDMTEST1) TOFILE(MPATRICK/SYSAACTS) FROMMBR(*FIRST) CRTFILE(*YES)|is|Physical file SYSAACTS created in library MPATRICK.|   
+|runcmd|DLTF MPATRICK/DDMTEST1|is|Object DDMTEST1 in MPATRICK type *FILE deleted.|
+
+!4 Recompile the WEBPFS error handling service programs, and bounce my jobs:
+!|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|runcmd|CRTCBLMOD MODULE(MPATRICK/XWEBERRHL3) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL3) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
+|runcmd|CRTCBLMOD MODULE(MPATRICK/XWEBERRHL4) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL4) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
+|runcmd|CRTCBLMOD MODULE(WEBTRANS/XWEBERRHL3) SRCFILE(SOURCES/QCBLPFSRC) SRCMBR(XWEBERRHL3) OPTION(*NOMONOPRC) DBGVIEW(*ALL) OPTIMIZE(*FULL) REPLACE(*YES)|is| |
+|runcmd|RMVBNDDIRE BNDDIR(BNDDIRSRV) OBJ((XWEBERRHDL))|is| |
+|runcmd|CRTSRVPGM SRVPGM(CLTLIB${client}/XWEBERRHDL) MODULE(*LIBL/XWEBERRHL3 XWEBERRHL4 XWEBERRHL5) EXPORT(*ALL) BNDDIR(*LIBL/BNDDIRSRV)|is| |
+|runcmd|ADDBNDDIRE BNDDIR(BNDDIRSRV) OBJ((XWEBERRHDL))|is| |
+|runcmd|ENDPJ SBS(WEBPFS2) PGM(CLTLIB${client}XWEB200MSP) DELAY(02)|is| |
+|runcmd|ENDPJ SBS(WEBPFS3) PGM(CLTLIB${client}/XWEB300MSP) DELAY(02)|is| |
+|runcmd|ENDPJ SBS(WEBPFS4) PGM(CLTLIB${client}/XWEB400MSP) DELAY(02)|is| |
+|runcmd|ENDPJ SBS(WEBPFS5) PGM(CLTLIB${client}/XWEB500MSP) DELAY(02)|is| |
+|runcmd|DLYJOB DLY(4)|is| |
+|runcmd|STRPJ SBS(WEBPFS2) PGM(CLTLIB${client}/XWEB200MSP)|is| |
+|runcmd|STRPJ SBS(WEBPFS3) PGM(CLTLIB${client}/XWEB300MSP)|is| |
+|runcmd|STRPJ SBS(WEBPFS4) PGM(CLTLIB${client}/XWEB400MSP)|is| |
+|runcmd|STRPJ SBS(WEBPFS5) PGM(CLTLIB${client}/XWEB500MSP)|is| |
+
+!4 Add a new prestart job entry in a WEBPFS subsystem:
+!|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+|runcmd|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|is| |
+
+!4 Notice above, the returned messages are simply concatenated together.  Below, we use Cmd Call Fixture to do the same thing:
+!4 Add a new prestart job entry in a WEBPFS subsystem:
+!|com.cds.fitnesse.fixture.CmdCallFixture|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)|
+|cmdToRun|returnMsg|
+|ADDPJE SBSD(WEBPFS2) PGM(CLTLIBDXX/XWEB200DXX) USER(PFSWEBUSR2) INLJOBS(1) THRESHOLD(1) ADLJOBS(1) JOB(XWEB000DXX) CLS(QINTER)||
+

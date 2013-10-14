@@ -1,0 +1,73 @@
+!lastmodified ----
+##|Import|com.cds.fitnesse.fixture|
+
+!4 This fixture takes three parameters - Library, File, and Member for the
+!4 member containing the job CL.
+
+!|dbfit.DB2Test|
+!|ConnectUsingFile|FitNesseRoot/files/lib/connect.properties|
+
+##|Execute| create alias jobcard for CLTLIBDTX.TESTCARDS (DTXSUP172)|
+
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+|GET| /DTX_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+
+!4 The contents of the CL you've been using:
+!|Inspect Query| select * from jobcard|
+
+!4 Get the qualified job name of the submitted job
+!|com.cds.fitnesse.fixture.SbmJobFixture|CLTLIBDTX|TESTCARDS|DTXSUP172|
+|cmdToRun|returnMsg|
+|SBMDBJOB FILE(CLTLIBDTX/TESTCARDS) MBR(DTXSUP172)| |
+
+##!| fitnesse.fixtures.Sleep | 15000 | milliseconds = 15 seconds |
+
+!|CmdCallSequenceFixture|
+|waitForXseconds| 10|is|ok|
+
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaa
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAab
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAac
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAad
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAae
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaf
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAag
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAah
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAai
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaj
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAak
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAal
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAam
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAan
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAao
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAap
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaq
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAar
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAas
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAat
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAau
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAav
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaw
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAax
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAay
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAaz
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAba
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbb
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbc
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbd
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbe
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbf
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbg
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbh
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbi
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbj
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbk
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbl
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbm
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbn
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbo
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbp
+!include .ServPfTests.TestData.ReturnFilefromEccVerifySqls.EccReturnFileTestSqlAbq

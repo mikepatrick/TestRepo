@@ -1,0 +1,20 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/375578077?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375578077|
+| let | name | body |//name/text() |JILL GOSSE|
+| let | addrLine01 | body |//address1/text() |PO BOX 1326|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |BAY ROBERTS|
+| let | state | body |//state/text() |NL|
+| let | country | body |//country/text() |CANADA|
+| let | zipCode | body |//zipCode/text() |A0A1G0|
+| let | phone1| body |//phoneNumber/text() |7097861044|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|

@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = V)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112265133719001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=41269| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |41269|
+| let | orderNbr| body |//order/orderNumber/text() |112265133719001 |
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$26.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |11.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |Q450B50928EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 09-28-2012   via USPS Standard Mail|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |15.00|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |V|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |219881|

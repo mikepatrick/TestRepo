@@ -1,0 +1,39 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Proven Adj Order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/111140113018001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=337979728 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |337979728 |
+| let | orderNbr| body |//order/orderNumber/text() |111140113018001|
+| let | name | body |//customer/name/text() |RYAN BECKER|
+| let | addrLine01 | body |//customer/address1/text() |10068 DARROW AVE NE|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |MONTICELLO|
+| let | state | body |//customer/state/text() |MN|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |55362|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$17.40|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |3.45|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |TSA05|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 05-23-2011   via USPS Bound Printed Matter|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |13.95|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |B|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine01 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|

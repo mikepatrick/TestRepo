@@ -1,0 +1,27 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+##!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh/D8X_REFRESH|
+##|GET| | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|  
+|PUT|/D8X_CKI2/112110134240011?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37042967</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+|PUT|/D8X_CKI2/112110134240023?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37043106</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0248-Cannot do Whse Non-ship for a partial quantity.')]||
+|PUT|/D8X_CKI2/112110134518001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37043460</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>3</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+|PUT|/D8X_CKI2/112110140201001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37044344</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+|PUT|/D8X_CKI2/112110134240002?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37042876</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+|PUT|/D8X_CKI2/113190093834001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1001</invoiceNumber><return>Y</return><customer><accountNumber>37046174</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+|PUT|/D8X_CKI2/113190082034001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1002</invoiceNumber><return>Y</return><customer><accountNumber>25096249</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AP</reasonCode><moneyInd>S</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] ||
+
+
+
+
+##1 - CC order warehouse non-ship
+##2 - Credit order warehouse non-ship
+##3 - CC, already confirmed item warehouse non-ship
+##4 - CC, preview warehouse non-ship
+##5 - CC with reship date warehouse non-ship
+##6 - Partial qty warehouse non-ship   
+##7 - CC, pre-settled warehouse non-ship   
+

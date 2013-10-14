@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = N)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112296152058001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=72322| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |72322|
+| let | orderNbr| body |//order/orderNumber/text() |112296152058001|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$0.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |STL1245 |
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 10-23-2012   via Standard Delivery|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |01069354413007694008|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |N|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |72330 |

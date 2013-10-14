@@ -1,0 +1,184 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Parent/Child/Recipient Order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/112268063548001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=375538535| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375538535|
+| let | orderNbr| body |//order/orderNumber/text() |112268063548001|
+| let | name | body |//customer/name/text() |WALLINGTON FAMILY|
+| let | addrLine01 | body |//customer/address1/text() |PO BOX 3303|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |NIPAWIN|
+| let | state | body |//customer/state/text() |SK|
+| let | country | body |//customer/country/text() |CANADA|
+| let | zipCode | body |//customer/zipCode/text() |S0E1E0|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PBC|
+| let | ordVal| body |//order/totalOrderValue/text() |$22.24|
+| let | ordTax| body |//order/totalOrderTax/text() |1.30|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |7.96|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |BC001|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In Process|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |375538543|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |KOOPER WALLINGTON|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |PO BOX 3303|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |NIPAWIN|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |SK|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry01 | body |//orderItem[1]/recipient/country/text() |CANADA|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PB261|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |In Process|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |375538543|
+| let | rcptName02 | body |//orderItem[2]/recipient/name/text() |KOOPER WALLINGTON|
+| let | rcptAddrLine102 | body |//orderItem[2]/recipient/address1/text() |PO BOX 3303|
+| let | rcptAddrLine202 | body |//orderItem[2]/recipient/address2/text() |null|
+| let | rcptCity02 | body |//orderItem[2]/recipient/city/text() |NIPAWIN|
+| let | rcptstate02 | body |//orderItem[2]/recipient/state/text() |SK|
+| let | rcptzipCode02 | body |//orderItem[2]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry02 | body |//orderItem[2]/recipient/country/text() |CANADA|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PB262|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |In Process|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |6.49|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |375538543|
+| let | rcptName03 | body |//orderItem[3]/recipient/name/text() |KOOPER WALLINGTON|
+| let | rcptAddrLine103 | body |//orderItem[3]/recipient/address1/text() |PO BOX 3303|
+| let | rcptAddrLine203 | body |//orderItem[3]/recipient/address2/text() |null|
+| let | rcptCity03 | body |//orderItem[3]/recipient/city/text() |NIPAWIN|
+| let | rcptstate03 | body |//orderItem[3]/recipient/state/text() |SK|
+| let | rcptzipCode03 | body |//orderItem[3]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry03 | body |//orderItem[3]/recipient/country/text() |CANADA|
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |A|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |P4308|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |In Process|
+| let | qty04| body |//orderItem[4]/quantity/text() |1|
+| let | prodVal04| body |//orderItem[4]/value/text() |0.00|
+| let | trkNbr04| body |//orderItem[4]/trackingNumber/text() |null|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |375538543|
+| let | rcptName04 | body |//orderItem[4]/recipient/name/text() |KOOPER WALLINGTON|
+| let | rcptAddrLine104 | body |//orderItem[4]/recipient/address1/text() |PO BOX 3303|
+| let | rcptAddrLine204 | body |//orderItem[4]/recipient/address2/text() |null|
+| let | rcptCity04 | body |//orderItem[4]/recipient/city/text() |NIPAWIN|
+| let | rcptstate04 | body |//orderItem[4]/recipient/state/text() |SK|
+| let | rcptzipCode04 | body |//orderItem[4]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry04 | body |//orderItem[4]/recipient/country/text() |CANADA|
+| let | orderType05| body |//orderItem[5]/orderTypeCode/text() |A|
+| let | prodNbr05| body |//orderItem[5]/productNumber/text() |P4309|
+| let | orderSts05| body |//orderItem[5]/orderStatus/text() |In Process|
+| let | qty05| body |//orderItem[5]/quantity/text() |1|
+| let | prodVal05| body |//orderItem[5]/value/text() |0.00|
+| let | trkNbr05| body |//orderItem[5]/trackingNumber/text() |null|
+| let | seqNbr05| body |//orderItem[5]/sequenceNumber/text() |5|
+| let | carrierCd05| body |//orderItem[5]/carrier/text() |null|
+| let | rcptAcctNbr05| body |//orderItem[5]/recipient/accountNumber/text() |375538543|
+| let | rcptName05 | body |//orderItem[5]/recipient/name/text() |KOOPER WALLINGTON|
+| let | rcptAddrLine105 | body |//orderItem[5]/recipient/address1/text() |PO BOX 3303|
+| let | rcptAddrLine205 | body |//orderItem[5]/recipient/address2/text() |null|
+| let | rcptCity05 | body |//orderItem[5]/recipient/city/text() |NIPAWIN|
+| let | rcptstate05 | body |//orderItem[5]/recipient/state/text() |SK|
+| let | rcptzipCode05 | body |//orderItem[5]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry05 | body |//orderItem[5]/recipient/country/text() |CANADA|
+| let | orderType06| body |//orderItem[6]/orderTypeCode/text() |B|
+| let | prodNbr06| body |//orderItem[6]/productNumber/text() |BC001|
+| let | orderSts06| body |//orderItem[6]/orderStatus/text() |In Process|
+| let | qty06| body |//orderItem[6]/quantity/text() |1|
+| let | prodVal06| body |//orderItem[6]/value/text() |0.00|
+| let | trkNbr06| body |//orderItem[6]/trackingNumber/text() |null|
+| let | seqNbr06| body |//orderItem[6]/sequenceNumber/text() |6|
+| let | carrierCd06| body |//orderItem[6]/carrier/text() |null|
+| let | rcptAcctNbr06| body |//orderItem[6]/recipient/accountNumber/text() |375538550|
+| let | rcptName06 | body |//orderItem[6]/recipient/name/text() |RAYDAR WALLINGTON|
+| let | rcptAddrLine106 | body |//orderItem[6]/recipient/address1/text() |PO BOX 1071|
+| let | rcptAddrLine206 | body |//orderItem[6]/recipient/address2/text() |null|
+| let | rcptCity06 | body |//orderItem[6]/recipient/city/text() |NIPAWIN|
+| let | rcptstate06 | body |//orderItem[6]/recipient/state/text() |SK|
+| let | rcptzipCode06 | body |//orderItem[6]/recipient/zipCode/text() |S0E1E0|
+| let | orderType07| body |//orderItem[7]/orderTypeCode/text() |A|
+| let | prodNbr07| body |//orderItem[7]/productNumber/text() |PB261|
+| let | orderSts07| body |//orderItem[7]/orderStatus/text() |In Process|
+| let | qty07| body |//orderItem[7]/quantity/text() |1|
+| let | prodVal07| body |//orderItem[7]/value/text() |0.00|
+| let | trkNbr07| body |//orderItem[7]/trackingNumber/text() |null|
+| let | seqNbr07| body |//orderItem[7]/sequenceNumber/text() |7|
+| let | carrierCd07| body |//orderItem[7]/carrier/text() |null|
+| let | rcptAcctNbr07| body |//orderItem[7]/recipient/accountNumber/text() |375538550|
+| let | rcptName07 | body |//orderItem[7]/recipient/name/text() |RAYDAR WALLINGTON|
+| let | rcptAddrLine107 | body |//orderItem[7]/recipient/address1/text() |PO BOX 1071|
+| let | rcptAddrLine207 | body |//orderItem[7]/recipient/address2/text() |null|
+| let | rcptCity07 | body |//orderItem[7]/recipient/city/text() |NIPAWIN|
+| let | rcptstate07 | body |//orderItem[7]/recipient/state/text() |SK|
+| let | rcptzipCode07 | body |//orderItem[7]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry07 | body |//orderItem[7]/recipient/country/text() |CANADA|
+| let | orderType08| body |//orderItem[8]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[8]/productNumber/text() |PB262|
+| let | orderSts03| body |//orderItem[8]/orderStatus/text() |In Process|
+| let | qty03| body |//orderItem[8]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[8]/value/text() |6.49|
+| let | trkNbr03| body |//orderItem[8]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[8]/sequenceNumber/text() |8|
+| let | carrierCd03| body |//orderItem[8]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[8]/recipient/accountNumber/text() |375538550|
+| let | rcptName03 | body |//orderItem[8]/recipient/name/text() |RAYDAR WALLINGTON|
+| let | rcptAddrLine103 | body |//orderItem[8]/recipient/address1/text() |PO BOX 1071|
+| let | rcptAddrLine203 | body |//orderItem[8]/recipient/address2/text() |null|
+| let | rcptCity03 | body |//orderItem[8]/recipient/city/text() |NIPAWIN|
+| let | rcptstate03 | body |//orderItem[8]/recipient/state/text() |SK|
+| let | rcptzipCode08 | body |//orderItem[8]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry08 | body |//orderItem[8]/recipient/country/text() |CANADA|
+| let | orderType09| body |//orderItem[9]/orderTypeCode/text() |A|
+| let | prodNbr04| body |//orderItem[9]/productNumber/text() |P4308|
+| let | orderSts04| body |//orderItem[9]/orderStatus/text() |In Process|
+| let | qty04| body |//orderItem[9]/quantity/text() |1|
+| let | prodVal04| body |//orderItem[9]/value/text() |0.00|
+| let | trkNbr04| body |//orderItem[9]/trackingNumber/text() |null|
+| let | seqNbr04| body |//orderItem[9]/sequenceNumber/text() |9|
+| let | carrierCd04| body |//orderItem[9]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[9]/recipient/accountNumber/text() |375538550|
+| let | rcptName09 | body |//orderItem[9]/recipient/name/text() |RAYDAR WALLINGTON|
+| let | rcptAddrLine109 | body |//orderItem[9]/recipient/address1/text() |PO BOX 1071|
+| let | rcptAddrLine209 | body |//orderItem[9]/recipient/address2/text() |null|
+| let | rcptCity09 | body |//orderItem[9]/recipient/city/text() |NIPAWIN|
+| let | rcptstate09 | body |//orderItem[9]/recipient/state/text() |SK|
+| let | rcptzipCode09 | body |//orderItem[9]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry09 | body |//orderItem[9]/recipient/country/text() |CANADA|
+| let | orderType10| body |//orderItem[10]/orderTypeCode/text() |A|
+| let | prodNbr10| body |//orderItem[10]/productNumber/text() |P4309|
+| let | orderSts10| body |//orderItem[10]/orderStatus/text() |In Process|
+| let | qty10| body |//orderItem[10]/quantity/text() |1|
+| let | prodVal0| body |//orderItem[10]/value/text() |0.00|
+| let | trkNbr10| body |//orderItem[10]/trackingNumber/text() |null|
+| let | seqNbr10| body |//orderItem[10]/sequenceNumber/text() |10|
+| let | carrierCd10| body |//orderItem[10]/carrier/text() |null|
+| let | rcptAcctNbr10| body |//orderItem[10]/recipient/accountNumber/text() |375538550|
+| let | rcptName10 | body |//orderItem[10]/recipient/name/text() |RAYDAR WALLINGTON|
+| let | rcptAddrLine110 | body |//orderItem[10]/recipient/address1/text() |PO BOX 1071|
+| let | rcptAddrLine210 | body |//orderItem[10]/recipient/address2/text() |null|
+| let | rcptCity10 | body |//orderItem[10]/recipient/city/text() |NIPAWIN|
+| let | rcptstate10 | body |//orderItem[10]/recipient/state/text() |SK|
+| let | rcptzipCode10 | body |//orderItem[10]/recipient/zipCode/text() |S0E1E0|
+| let | rcptCntry10 | body |//orderItem[10]/recipient/country/text() |CANADA|

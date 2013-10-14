@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum with CONTSW = A for intro invoice 1000-PZC & 1001-PBC
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/362474694?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |362474694|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1001|
+| let | orderEntry01 | body |//orderSummary[1]/orderEntry/text() |Series|
+| let | planCode01 | body |//orderSummary[1]/planCode/text() |PBC|
+| let | invoiceNbr02 | body |//orderSummary[2]/invoiceNumber/text() |1000|
+| let | orderEntry02 | body |//orderSummary[2]/orderEntry/text() |Series|
+| let | planCode02 | body |//orderSummary[2]/planCode/text() |PZC|

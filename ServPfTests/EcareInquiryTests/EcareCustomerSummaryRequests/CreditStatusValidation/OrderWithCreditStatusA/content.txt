@@ -1,0 +1,13 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate credit status of 'A' unpaid
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/111021?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |111021|
+| let | creditSts01| body |//orderSummary[1]/creditStatus/text() |A|
+| let | creditSts02| body |//orderSummary[2]/creditStatus/text() |A|
+| let | creditSts03| body |//orderSummary[3]/creditStatus/text() |A|
+| let | creditSts04| body |//orderSummary[4]/creditStatus/text() |N|
+| let | creditSts05| body |//orderSummary[5]/creditStatus/text() |A|

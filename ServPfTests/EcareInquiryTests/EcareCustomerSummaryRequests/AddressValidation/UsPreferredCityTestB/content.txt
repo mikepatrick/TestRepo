@@ -1,0 +1,21 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+!4 Preferred City Code = 2 for zip 3302, which is MIRAMAR, FL
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/375486396?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375486396|
+| let | name | body |//name/text() |JULIA PUERTO|
+| let | addrLine01 | body |//address1/text() |8552 MIRAMAR PKWY|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |MIRAMAR|
+| let | state | body |//state/text() |FL|
+| let | zipCode | body |//zipCode/text() |33025|
+| let | country | body |//country/text() |UNITED STATES|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|

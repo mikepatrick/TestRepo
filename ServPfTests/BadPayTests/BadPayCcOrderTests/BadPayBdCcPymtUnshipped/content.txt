@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/567890470?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AZ</reasonCode><transactionNbr>113170094518001</transactionNbr><badPayAmount>177.53</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest30 |
+
+##Bad pay CC pymt on CC order with unshipped items. 
+##BP $177.53. Order cancelled, item 4413218482, qty 2, PV $151.92, Tax $9.12, S/H $16.49. Amtdue = 0.

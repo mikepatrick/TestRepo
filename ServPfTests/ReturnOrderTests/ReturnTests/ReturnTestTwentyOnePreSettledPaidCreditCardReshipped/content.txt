@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/113115120820018?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37046505</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>2</quantity><reasonCode>AL</reasonCode><moneyInd>R</moneyInd><errorSwitch>O</errorSwitch></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest21Sql|
+
+##Test #21:Pre-settled cc order - part charged, suspend, pay CC to resume, shipped, reshipped & shipped again

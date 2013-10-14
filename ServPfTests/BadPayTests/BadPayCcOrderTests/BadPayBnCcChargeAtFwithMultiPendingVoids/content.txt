@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300015146?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AU</reasonCode><transactionNbr>110154131518000</transactionNbr><badPayAmount>156.92</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest40 |
+
+
+##CC Charge at 'F' w/ multiple pending voids (2 pending voids - $111.34 & )
+##BP $156.92 on cc chrg - 03JUN10 131518 000, invoice 1001. Cncl'd 2 pending voids.  Amtdue = zero, fully rtn'd.

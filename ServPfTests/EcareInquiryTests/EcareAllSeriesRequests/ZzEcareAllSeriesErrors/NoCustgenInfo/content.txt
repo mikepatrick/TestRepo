@@ -1,0 +1,8 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+!define prodID {DIXHF1}
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=367148780|404|Content-Type : text/xml|//isSuccess[text()='false'] |
+| let | messageCd| body |//message/text() |0697-Customer not found in customer generation file.|

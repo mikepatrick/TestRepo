@@ -1,0 +1,28 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = L (suspend over limit)
+!4 Plan PBZ, acct 329358584, dsacct 0 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=329358584|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PBZ|
+| let | freq01| body |//series[1]/frequency/text() |25|
+| let | planDesc01| body |//series[1]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let | planSts01| body |//series[1]/planStatus/text() |L|
+| let | planStsDesc01| body |//series[1]/planStatusDescription/text() |Suspended over credit limit|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |329358584|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |HPP|
+| let | freq02| body |//series[2]/frequency/text() |24|
+| let | planDesc02| body |//series[2]/planDescription/text() |LET'S PLAY|
+| let | planSts02| body |//series[2]/planStatus/text() |F|
+| let | planStsDesc02| body |//series[2]/planStatusDescription/text() |Finished|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |329358584|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |0|

@@ -1,0 +1,52 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Pre-settled CC order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/113106104014001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=376543328 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543328|
+| let | orderNbr| body |//order/orderNumber/text() |113106104014001|
+| let | name | body |//name/text() |ROBBIE O'REILLY|
+| let | addrLine01 | body |//address1/text() |3048 N LUCAS DRIVE|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |LENOX|
+| let | state | body |//state/text() |IA|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |50851|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PBZ|
+| let | ordVal| body |//order/totalOrderValue/text() |$6.94|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |2.45|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PB001|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 06-05-2013   via USPS Bound Printed Matter|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |B|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PB261|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Shipped 06-05-2013   via USPS Bound Printed Matter|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |B|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |null|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PB262|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Shipped 06-05-2013   via USPS Bound Printed Matter|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |4.49|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |B|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |null|

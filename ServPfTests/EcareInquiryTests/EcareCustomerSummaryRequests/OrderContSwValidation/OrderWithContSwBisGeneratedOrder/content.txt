@@ -1,0 +1,23 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum with CONTSW = B for gen'd order (invoice 1001 thru 1004)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/361079189?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |361079189|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1004|
+| let | orderEntry01 | body |//orderSummary[1]/orderEntry/text() |Series|
+| let | planCode01 | body |//orderSummary[1]/planCode/text() |PBZ|
+| let | invoiceNbr02 | body |//orderSummary[2]/invoiceNumber/text() |1003|
+| let | orderEntry02 | body |//orderSummary[2]/orderEntry/text() |Series|
+| let | planCode02 | body |//orderSummary[2]/planCode/text() |HPP|
+| let | invoiceNbr03 | body |//orderSummary[3]/invoiceNumber/text() |1002|
+| let | orderEntry03 | body |//orderSummary[3]/orderEntry/text() |Series|
+| let | planCode03 | body |//orderSummary[3]/planCode/text() |HPP|
+| let | invoiceNbr04 | body |//orderSummary[4]/invoiceNumber/text() |1001|
+| let | orderEntry04 | body |//orderSummary[4]/orderEntry/text() |Series|
+| let | planCode04 | body |//orderSummary[4]/planCode/text() |HPP|
+| let | invoiceNbr05 | body |//orderSummary[5]/invoiceNumber/text() |1000|
+| let | orderEntry05 | body |//orderSummary[5]/orderEntry/text() |Series|
+| let | planCode05 | body |//orderSummary[5]/planCode/text() |HPP|

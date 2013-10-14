@@ -1,0 +1,21 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+!4 Preferred City Code = 5 for zip 04605, which is OTIS, ME
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/335746418?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |335746418|
+| let | name | body |//name/text() |DEDORAH THOMAS|
+| let | addrLine01 | body |//address1/text() |47 LEDGES RD|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |OTIS|
+| let | state | body |//state/text() |ME|
+| let | zipCode | body |//zipCode/text() |04605|
+| let | country | body |//country/text() |UNITED STATES|
+| let | phone1| body |//phoneNumber/text() |2075373763|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|

@@ -1,0 +1,34 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Multiple Plans
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=277891008|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PZU|
+| let | freq01| body |//series[1]/frequency/text() |1|
+| let | planDesc01| body |//series[1]/planDescription/text() |PUZZLEMANIA US|
+| let | planSts01| body |//series[1]/planStatus/text() |D|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |277891008|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |277891016|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |WWU|
+| let | freq02| body |//series[2]/frequency/text() |24|
+| let | planDesc02| body |//series[2]/planDescription/text() |WHICH WAY USA|
+| let | planSts02| body |//series[2]/planStatus/text() |D|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |277891008|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |277891016|
+| let | ordTyp03| body |//series[3]/orderType/text() |B|
+| let | qty03| body |//series[3]/quantity/text() |1|
+| let | planCd03| body |//series[3]/planCode/text() |TSA|
+| let | freq03| body |//series[3]/frequency/text() |24|
+| let | planDesc03| body |//series[3]/planDescription/text() |TOP SECRET ADVENTURES|
+| let | planSts03| body |//series[3]/planStatus/text() |U|
+| let | donorAcct03| body |//series[3]/customer/accountNumber/text() |277891008|
+| let | recipientAcct03| body |//series[3]/recipient/accountNumber/text() |277891016|
+

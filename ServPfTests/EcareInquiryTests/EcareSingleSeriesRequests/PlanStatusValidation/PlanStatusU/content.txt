@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = U (suspend undeliverable)
+!4 Plan WWU, acct 351945555 , dsacct 351945563 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/WWU?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=351945555&shipToAccountNumber=351945563|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |WWU|
+| let | freq01| body |//series[1]/frequency/text() |24|
+| let | planDesc01| body |//series[1]/planDescription/text() |WHICH WAY USA|
+| let | planSts01| body |//series[1]/planStatus/text() |U|
+| let | planStsDesc01| body |//series[1]/planStatusDescription/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |351945555|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |351945563|

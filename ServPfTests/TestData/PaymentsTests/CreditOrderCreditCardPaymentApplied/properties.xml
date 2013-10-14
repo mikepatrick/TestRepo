@@ -9,7 +9,7 @@
 	<WhereUsed>true</WhereUsed>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.TestData.PaymentsTests.CreditOrderCreditCardPaymentApplied</Source>
-		<LastRemoteModification>20130121155030</LastRemoteModification>
+		<LastRemoteModification>20130409113516</LastRemoteModification>
 		<AutoUpdate/>
 	</WikiImport>
 </properties>

@@ -1,0 +1,44 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate 499 items are returned.  499 items are on file.
+!4 Orders with 500+ items will not return any items back to WSG.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/110341110345001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=69914 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |69914 |
+| let | orderNbr| body |//order/orderNumber/text() |110341110345001|
+| let | name | body |//name/text() |CHRISTIAN SCIENCE READING ROOM|
+| let | addrLine01 | body |//address1/text() |5927 BROADWAY|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |SAN ANTONIO|
+| let | state | body |//state/text() |TX|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |78209|
+| let | phone1| body |//phoneNumber/text() |2108228870|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$1,971.49|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |96.25|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |P025B34396EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 12-08-2010   via Standard Delivery|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |14.40|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690202551923|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |N|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType499| body |//orderItem[499]/orderTypeCode/text() |C|
+| let | prodNbr499| body |//orderItem[499]/productNumber/text() |MNS2010|
+| let | orderSts499| body |//orderItem[499]/orderStatus/text() |Shipped 12-08-2010   via Standard Delivery|
+| let | qty499| body |//orderItem[499]/quantity/text() |1|
+| let | prodVal499| body |//orderItem[499]/value/text() |0.00|
+| let | trkNbr499| body |//orderItem[499]/trackingNumber/text() |1Z0434690202551914|
+| let | seqNbr499| body |//orderItem[499]/sequenceNumber/text() |499|
+| let | carrierCd499| body |//orderItem[499]/carrier/text() |N|
+| let | rcptAcctNbr499| body |//orderItem[499]/recipient/accountNumber/text() |null|

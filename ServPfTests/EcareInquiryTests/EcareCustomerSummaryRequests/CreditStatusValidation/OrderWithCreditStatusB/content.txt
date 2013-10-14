@@ -1,0 +1,10 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate credit status of 'B' paid cash (invoice 1742)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/70243?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |70243|
+| let | creditSts14| body |//orderSummary[14]/creditStatus/text() |B|
+| let | invoiceNbr14| body |//orderSummary[14]/invoiceNumber/text() |1742|

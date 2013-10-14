@@ -1,0 +1,29 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Ship Freq = 0, get freq from XBUILD0 card
+!4 Plan HCF, acct 250852, dsacct 361689300 has SELFREQ = 0, has no master build card
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=250852|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |5|
+| let | planCd01| body |//series[1]/planCode/text() |CSJ|
+| let | freq01| body |//series[1]/frequency/text() |1|
+| let | planDesc01| body |//series[1]/planDescription/text() |THE CHRISTIAN SCIENCE JOURNAL|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |3|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |115.50|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |250852|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |79970|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |40|
+| let | planCd02| body |//series[2]/planCode/text() |HCF|
+| let | freq02| body |//series[2]/frequency/text() |0|
+| let | planDesc02| body |//series[2]/planDescription/text() |FRENCH HERALD|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |5|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |1150.96|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |250852|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |79970|

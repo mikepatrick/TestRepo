@@ -1,0 +1,54 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Items
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/112032135306001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=367463080| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |367463080|
+| let | orderNbr| body |//order/orderNumber/text() |112032135306001|
+| let | planCode| body |//order/planCode/text() |PBZ|
+| let | ordVal| body |//order/totalOrderValue/text() |$23.82|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |7.35|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PB001|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Cancelled|
+| let | qty01| body |//orderItem[1]/quantity/text() |3|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |367463098|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PB261|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Cancelled|
+| let | qty02| body |//orderItem[2]/quantity/text() |3|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |367463098|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PB262|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Cancelled|
+| let | qty03| body |//orderItem[3]/quantity/text() |3|
+| let | prodVal03| body |//orderItem[3]/value/text() |5.49|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |367463098|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |P4308|
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |A|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |Cancelled|
+| let | qty04| body |//orderItem[4]/quantity/text() |3|
+| let | prodVal04| body |//orderItem[4]/value/text() |0.00|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |367463098|
+| let | prodNbr05| body |//orderItem[5]/productNumber/text() |P4309|
+| let | orderType05| body |//orderItem[5]/orderTypeCode/text() |A|
+| let | orderSts05| body |//orderItem[5]/orderStatus/text() |Cancelled|
+| let | qty05| body |//orderItem[5]/quantity/text() |3|
+| let | prodVal05| body |//orderItem[5]/value/text() |0.00|
+| let | seqNbr05| body |//orderItem[5]/sequenceNumber/text() |5|
+| let | carrierCd05| body |//orderItem[5]/carrier/text() |null|
+| let | rcptAcctNbr05| body |//orderItem[5]/recipient/accountNumber/text() |367463098|

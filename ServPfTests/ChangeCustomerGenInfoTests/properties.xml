@@ -10,6 +10,7 @@
 	<WhereUsed>true</WhereUsed>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.ChangeCustomerGenInfoTests</Source>
-		<LastRemoteModification>20130124163825</LastRemoteModification>
+		<LastRemoteModification>20131011081409</LastRemoteModification>
+		<AutoUpdate/>
 	</WikiImport>
 </properties>

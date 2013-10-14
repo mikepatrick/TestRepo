@@ -29,7 +29,7 @@ front of the activity record.  We could also query on ACCTNBR and TRANSTYPE.
 
 !3 Now verify the 02 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
 
-!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+!|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
 SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
     SUBSTR(ACTMISC,9,1) AS CCIND,                 
     SUBSTR(HEX(ACTMISC),19,7) AS CCAMT,                   

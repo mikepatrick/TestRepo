@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Ship Freq = 0, get freq from XBUILD0 card
+!4 Plan HCF, acct 250852, dsacct 79970 has SELFREQ = 0, has no master build card
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/HCF?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=250852&shipToAccountNumber=79970|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp02| body |//series/orderType/text() |B|
+| let | qty02| body |//series/quantity/text() |40|
+| let | planCd02| body |//series/planCode/text() |HCF|
+| let | freq02| body |//series/frequency/text() |0|
+| let | planDesc02| body |//series/planDescription/text() |FRENCH HERALD|
+| let | planSts02| body |//series/planStatus/text() |A|
+| let | unpdCnt02| body |//series/unpaids/text() |5|
+| let | unpdDollars02| body |//series/unpaidDollars/text() |1150.96|
+| let | donorAcct02| body |//series/customer/accountNumber/text() |250852|
+| let | recipientAcct02| body |//series/recipient/accountNumber/text() |79970|

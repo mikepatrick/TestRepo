@@ -1,0 +1,15 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum  ORDER ENTRY TYPE = B (credit) invoice 1000
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1|
+|GET|/375624491?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375624491|
+| let | lastPymtDate| body |//lastPaymentDate/text() |null|
+| let | lastPymtAmt| body |//lastPaymentAmount/text() |0.00|
+| let | lastRtnDate| body |//lastReturnDate/text() |null|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1000|
+| let | amountDue01  | body |//orderSummary[1]/amountDue/text() |6.94|
+| let | orderVal01  | body |//orderSummary[1]/orderValue/text() |6.94|
+| let | creditStatus01 | body |//orderSummary[1]/creditStatus/text() |A|

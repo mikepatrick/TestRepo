@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300016227?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AW</reasonCode><transactionNbr>113239101335001</transactionNbr><badPayAmount>120.00</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest44 |
+
+
+##Presettled order.  CC Chrg $120 was presettled.  Forgive w.o. $4.18.  
+##$5 & $3 cash pymt to surplus, and refunded.  
+##$1 cash pymt to surplus, and still there before bp.

@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/112110145824006?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37045689</accountNumber></customer><orderItem><sequenceNumber>2</sequenceNumber><quantity>2</quantity><reasonCode>CP</reasonCode><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest09Sql|
+
+
+
+## Test:CC non-installment, multiple shipments, mulit cc charges.  CC at 'G' $24.95, CC at 'E' $29.95, CC at 'B' $49.

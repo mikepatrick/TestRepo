@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Unpaid count equal zero, but has unpaid dollars (under min bill amt)
+!4 Plan WWU, acct 348571118 , dsacct 348571126  has UNPCRDFILE = 0 and UNPDOLLARS = 1.40
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/WWU?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=348571118&shipToAccountNumber=348571126 |200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp02| body |//series/orderType/text() |B|
+| let | qty02| body |//series/quantity/text() |1|
+| let | planCd02| body |//series/planCode/text() |WWU|
+| let | freq02| body |//series/frequency/text() |24|
+| let | planDesc02| body |//series/planDescription/text() |WHICH WAY USA|
+| let | planSts02| body |//series/planStatus/text() |F|
+| let | unpdCnt02| body |//series/unpaids/text() |0|
+| let | unpdDollars02| body |//series/unpaidDollars/text() |1.40|
+| let | donorAcct02| body |//series/customer/accountNumber/text() |348571118|
+| let | recipientAcct02| body |//series/recipient/accountNumber/text() |348571126|

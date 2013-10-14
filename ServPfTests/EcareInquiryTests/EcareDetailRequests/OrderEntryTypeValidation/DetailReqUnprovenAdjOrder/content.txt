@@ -1,0 +1,90 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Proven Adj Order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/111222195250001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=351767926 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |351767926 |
+| let | orderNbr| body |//order/orderNumber/text() |111222195250001|
+| let | name | body |//customer/name/text() |DORIS REYNOLDS|
+| let | addrLine01 | body |//customer/address1/text() |4321 ALICIA DR|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |AMARILLO|
+| let | state | body |//customer/state/text() |TX|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |79109|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PZU|
+| let | ordVal| body |//order/totalOrderValue/text() |$7.94|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |2.45|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PZ901|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 08-09-2011|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |343234894|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |YOOJIN REYNOLDS|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |4321 ALICIA DR|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |AMARILLO|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |TX|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |79109|
+| let | rcptCntry01 | body |//orderItem[1]/recipient/country/text() |UNITED STATES|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |A|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |PZ505|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Shipped 08-09-2011|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |343234894|
+| let | rcptName02 | body |//orderItem[2]/recipient/name/text() |YOOJIN REYNOLDS|
+| let | rcptAddrLine202 | body |//orderItem[2]/recipient/address1/text() |4321 ALICIA DR|
+| let | rcptAddrLine202 | body |//orderItem[2]/recipient/address2/text() |null|
+| let | rcptCity02 | body |//orderItem[2]/recipient/city/text() |AMARILLO|
+| let | rcptstate02 | body |//orderItem[2]/recipient/state/text() |TX|
+| let | rcptzipCode02 | body |//orderItem[2]/recipient/zipCode/text() |79109|
+| let | rcptCntry02 | body |//orderItem[2]/recipient/country/text() |UNITED STATES|
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |A|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |PZ506|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Shipped 08-09-2011|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |5.49|
+| let | trkNbr03| body |//orderItem[3]/trackingNumber/text() |null|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |null|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |343234894|
+| let | rcptName03 | body |//orderItem[3]/recipient/name/text() |YOOJIN REYNOLDS|
+| let | rcptAddrLine103 | body |//orderItem[3]/recipient/address1/text() |4321 ALICIA DR|
+| let | rcptAddrLine203 | body |//orderItem[3]/recipient/address2/text() |null|
+| let | rcptCity03 | body |//orderItem[3]/recipient/city/text() |AMARILLO|
+| let | rcptstate03 | body |//orderItem[3]/recipient/state/text() |TX|
+| let | rcptzipCode03 | body |//orderItem[3]/recipient/zipCode/text() |79109|
+| let | rcptCntry03 | body |//orderItem[3]/recipient/country/text() |UNITED STATES|
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |A|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |P4278|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |Shipped 08-09-2011|
+| let | qty04| body |//orderItem[4]/quantity/text() |1|
+| let | prodVal04| body |//orderItem[4]/value/text() |0.00|
+| let | trkNbr04| body |//orderItem[4]/trackingNumber/text() |null|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |null|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |343234894|
+| let | rcptName04 | body |//orderItem[4]/recipient/name/text() |YOOJIN REYNOLDS|
+| let | rcptAddrLine104 | body |//orderItem[4]/recipient/address1/text() |4321 ALICIA DR|
+| let | rcptAddrLine204 | body |//orderItem[4]/recipient/address2/text() |null|
+| let | rcptCity04 | body |//orderItem[4]/recipient/city/text() |AMARILLO|
+| let | rcptstate04 | body |//orderItem[4]/recipient/state/text() |TX|
+| let | rcptzipCode04 | body |//orderItem[4]/recipient/zipCode/text() |79109|
+| let | rcptCntry04 | body |//orderItem[4]/recipient/country/text() |UNITED STATES|
+

@@ -1,0 +1,19 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/126102?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |126102|
+| let | name | body |//name/text() |PORT DE PAIX|
+| let | addrLine01 | body |//address1/text() |BP 39|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |PORT DE PAIX|
+| let | state | body |//state/text() |null|
+| let | country | body |//country/text() |HAITI|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |HAITI|
+| let | expndcity | body |//expandedCity/text() |HT3110 PORT DE PAIX|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |3110|

@@ -1,0 +1,10 @@
+!contents !contents 
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CKI2/112110150237007?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>37046026</accountNumber></customer><orderItem><sequenceNumber>2</sequenceNumber><quantity>1</quantity><reasonCode>AO</reasonCode><moneyInd>R</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true'] |sql:ServPfTests.TestData.ReturnsVerifySql.ReturnTest14Sql|
+
+
+
+##Test:Confirmed & Reshipped.  CCAR at $132.73.  CC at 'E' $132.73.

@@ -1,0 +1,23 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Customer had 3 series records.  Two for the same recipient and one is a non-gift series.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/344774138?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |344774138|
+| let | planCode01| body |//customer/seriesSummary[1]/planCode/text() |WWU|
+| let | planStatus01| body |//customer/seriesSummary[1]/planStatus/text() |F|
+| let | planPrice01| body |//customer/seriesSummary[1]/productPrice/text() |11.90|
+| let | planShipHandl01| body |//customer/seriesSummary[1]/shippingAmount/text() |2.45|
+| let | recipAcct01| body |//customer/seriesSummary[1]/recipient/accountNumber/text() |344774146|
+| let | planCode02| body |//customer/seriesSummary[2]/planCode/text() |MAT|
+| let | planStatus02| body |//customer/seriesSummary[2]/planStatus/text() |F|
+| let | planPrice02| body |//customer/seriesSummary[2]/productPrice/text() |12.98|
+| let | planShipHandl02| body |//customer/seriesSummary[2]/shippingAmount/text() |0.00|
+| let | recipAcct02| body |//customer/seriesSummary[2]/recipient/accountNumber/text() |0|
+| let | planCode03| body |//customer/seriesSummary[3]/planCode/text() |TSA|
+| let | planStatus03| body |//customer/seriesSummary[3]/planStatus/text() |A|
+| let | planPrice03| body |//customer/seriesSummary[3]/productPrice/text() |13.95|
+| let | planShipHandl03| body |//customer/seriesSummary[3]/shippingAmount/text() |3.45|
+| let | recipAcct03| body |//customer/seriesSummary[3]/recipient/accountNumber/text() |344774146|

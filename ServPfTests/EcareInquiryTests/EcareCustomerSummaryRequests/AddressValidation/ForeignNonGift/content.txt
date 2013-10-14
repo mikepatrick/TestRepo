@@ -1,0 +1,19 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/376543591?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543591|
+| let | name | body |//name/text() |KEV MORRISON|
+| let | addrLine01 | body |//address1/text() |6134 L ROAD|
+| let | addrLine02 | body |//address2/text() |APT #5E|
+| let | addrLine03 | body |//address3/text() |ATTN: KEVIN|
+| let | city | body |//city/text() |ARACAJU|
+| let | state | body |//state/text() |null|
+| let | country | body |//country/text() |BRAZIL|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |BRAZIL|
+| let | expndcity | body |//expandedCity/text() |49039-100 ARACAJU SE|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |49039100|

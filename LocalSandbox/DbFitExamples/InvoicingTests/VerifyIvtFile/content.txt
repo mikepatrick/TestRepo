@@ -1,6 +1,6 @@
 !contents -R2 -g -p -f -h
 !define client {A3X}
-!define member {Y132260N31}
+!define member {Y132801G7D}
 
 !include .ServPfTestDevelopment.DbFitExamples.GetConnection
 !|set option|fixed length string parsing|true|

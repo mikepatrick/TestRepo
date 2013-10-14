@@ -1,0 +1,8 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order number is not correct
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113057130146009?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=72322 | 404 |Content-Type : text/xml|//isSuccess[text()='false'] |
+| let | messageCd| body |//message/text() |0414-Order not found on detail file.|

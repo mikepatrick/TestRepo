@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = B)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113189082904004?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=70243| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |70243|
+| let | orderNbr| body |//order/orderNumber/text() |113189082904004|
+| let | planCode| body |//order/planCode/text() |CSJ|
+| let | ordVal| body |//order/totalOrderValue/text() |$16.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |CSJ1309C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 07-10-2013   via USPS Bound Printed Matter|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |8.00|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |B|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |70268 |

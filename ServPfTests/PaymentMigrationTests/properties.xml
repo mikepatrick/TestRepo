@@ -10,6 +10,7 @@
 	<WhereUsed>true</WhereUsed>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.PaymentMigrationTests</Source>
-		<LastRemoteModification>20130124170112</LastRemoteModification>
+		<LastRemoteModification>20130421105009</LastRemoteModification>
+		<AutoUpdate/>
 	</WikiImport>
 </properties>

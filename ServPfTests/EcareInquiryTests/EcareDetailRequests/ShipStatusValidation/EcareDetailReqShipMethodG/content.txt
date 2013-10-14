@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = G)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112004013646014?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=39834 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |39834 |
+| let | orderNbr| body |//order/orderNumber/text() |112004013646014|
+| let | planCode| body |//order/planCode/text() |CSX|
+| let | ordVal| body |//order/totalOrderValue/text() |$2.30|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |CSX1204C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 01-05-2012   via USPS Surface Mail|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |2.30|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |G|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |39859 |

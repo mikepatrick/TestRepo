@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 One series has a plan status of SSPND UNDELIVER (U), and one series has a plan status of ACTIVE (A).
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/360824429?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |360824429|
+| let | planCode01| body |//customer/seriesSummary[1]/planCode/text() |HPP|
+| let | planStatus01| body |//customer/seriesSummary[1]/planStatus/text() |U|
+| let | recipAcct01| body |//customer/seriesSummary[1]/recipient/accountNumber/text() |360824437|
+| let | planCode02| body |//customer/seriesSummary[2]/planCode/text() |WWU|
+| let | planStatus02| body |//customer/seriesSummary[2]/planStatus/text() |A|
+| let | recipAcct02| body |//customer/seriesSummary[2]/recipient/accountNumber/text() |375590361|

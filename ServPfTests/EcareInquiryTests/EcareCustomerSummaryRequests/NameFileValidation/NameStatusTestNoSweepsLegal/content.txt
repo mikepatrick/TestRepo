@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate name status fields for No Sweeps Legal
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/253997?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |253997|
+| let | custSts| body |//customerStatus/text() |N|
+| let | teleSts| body |//telemarketingStatus/text() |N|
+| let | sweepsSts| body |//sweepstakesStatus/text() |I|
+| let | envirSts| body |//environmentStatus/text() |N|
+| let | contSts| body |//continuityStatus/text() |N|
+| let | delivSw| body |//deliverySwitch/text() |A|

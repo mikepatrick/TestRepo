@@ -1,0 +1,57 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate a partially cancelled order  - Item # 6 was Cancelled with reason of Discontinued
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/111325154948002?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=41129| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |41129|
+| let | orderNbr| body |//order/orderNumber/text() |111325154948002|
+| let | name | body |//customer/name/text() |CHRISTIAN SCIENCE READING ROOM|
+| let | addrLine01 | body |//customer/address1/text() |3315 VIA LIDO|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |NEWPORT BEACH|
+| let | state | body |//customer/state/text() |CA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |92663|
+| let | phone1| body |//customer/phoneNumber/text() |9496736150|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$399.05|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |26.25|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |G750B50699EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 11-23-2011   via UPS Ground|
+| let | qty01| body |//orderItem[1]/quantity/text() |8|
+| let | prodVal01| body |//orderItem[1]/value/text() |26.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690303930813|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |A|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|
+| let | rcptCntry01 | body |//orderItem[1]/recipient/country/text() |null|
+| let | orderType06| body |//orderItem[6]/orderTypeCode/text() |N|
+| let | prodNbr06| body |//orderItem[6]/productNumber/text() |G425A50598EN|
+| let | orderSts06| body |//orderItem[6]/orderStatus/text() |Cancelled   Discontinued|
+| let | qty06| body |//orderItem[6]/quantity/text() |1|
+| let | prodVal06| body |//orderItem[6]/value/text() |12.00|
+| let | trkNbr06| body |//orderItem[6]/trackingNumber/text() |null|
+| let | seqNbr06| body |//orderItem[6]/sequenceNumber/text() |6|
+| let | carrierCd06| body |//orderItem[6]/carrier/text() |null|
+| let | rcptAcctNbr06| body |//orderItem[6]/recipient/accountNumber/text() |null|
+| let | rcptName06 | body |//orderItem[6]/recipient/name/text() |null|
+| let | rcptAddrLine106 | body |//orderItem[6]/recipient/address1/text() |null|
+| let | rcptAddrLine206 | body |//orderItem[6]/recipient/address2/text() |null|
+| let | rcptCity06 | body |//orderItem[6]/recipient/city/text() |null|
+| let | rcptstate06 | body |//orderItem[6]/recipient/state/text() |null|
+| let | rcptzipCode06 | body |//orderItem[6]/recipient/zipCode/text() |null|
+| let | rcptCntry06 | body |//orderItem[6]/recipient/country/text() |null|

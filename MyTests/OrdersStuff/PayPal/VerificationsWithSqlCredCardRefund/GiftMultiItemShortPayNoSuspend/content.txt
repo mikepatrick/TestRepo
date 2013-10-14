@@ -104,7 +104,7 @@
          AND ACCTNBR = :donorAcctNbr      
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
-| <<donorAcctNbr| <<orderNbr| 811| 16| <<orderNbr| A| 0023300| | 01000|   | 000|       | 000000|               | 0023300| PY|
+| <<donorAcctNbr| <<orderNbr| | 16| <<orderNbr| A| 0023300| | 01000|   | 000|       | 000000|               | 0023300| PY|
 
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
@@ -141,7 +141,7 @@
          AND ACCTNBR =  :donorAcctNbr
                                  -!|
 | ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
-| <<donorAcctNbr| | 811| 34| <<orderNbr| 0023300| <<orderNbr|  |  | 00000| 000| C| PY|
+| <<donorAcctNbr| | | 34| <<orderNbr| 0023300| <<orderNbr|  |  | 00000| 000| C| PY|
 
 !|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
     SUBSTR(HEX(ACTMISC),1 ,7) AS WOAMT,               
@@ -153,7 +153,7 @@
          AND ACCTNBR = :donorAcctNbr  
                  -!|
 |ACCTNBR?|TRANSNBR?|OPERID?|TRANSTYPE?|WOAMT?|WOIND?|ORDNBR?|ENTRYTYPE?|SRVCFEECNT?|
-| <<donorAcctNbr| | 811| 21| 0000100| FORGIVE| <<orderNbr| C|   |
+| <<donorAcctNbr| | | 21| 0000100| FORGIVE| <<orderNbr| C|   |
 
 
 ##!|Inspect Query|select * from CLTLIBMSP.XACTIVITY0 where TRANSNBR = :orderNbr and TRANSTYPE = 27 |

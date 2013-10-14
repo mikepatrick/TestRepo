@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300017225?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AZ</reasonCode><transactionNbr>111159091651000</transactionNbr><badPayAmount>186.94</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest26 |
+
+##1 CC Charge at 'E' ($186.94) CC order – cancel of a reshipped order (CC AR $159.96 before BP)
+##BP $186.94. Chg changed to D - rejected. Cont ULS suspended. CCAR is $159.96 after BP.  $159.96 was in CCAR before bad pay due to partially cancelled item.  
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.
+

@@ -1,0 +1,24 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Ancillary Sw of 'D' AND 'E'
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/376543591?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543591|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1002|
+| let | amountDue01  | body |//orderSummary[1]/amountDue/text() |129.98|
+| let | creditStatus01 | body |//orderSummary[1]/creditStatus/text() |A|
+| let | installAmount01 | body |//orderSummary[1]/installmentAmount/text() |9.99|
+| let | installAlw01 | body |//orderSummary[1]/installmentAllowed/text() |03|
+| let | installSnt01 | body |//orderSummary[1]/installmentSent/text() |02|
+| let | installDue01 | body |//orderSummary[1]/installmentDue/text() |0.00|
+| let | billEffort01 | body |//orderSummary[1]/billEffort/text() |XE|
+| let | invoiceNbr03 | body |//orderSummary[3]/invoiceNumber/text() |1000|
+| let | amountDue03  | body |//orderSummary[3]/amountDue/text() |0.00|
+| let | creditStatus03 | body |//orderSummary[3]/creditStatus/text() |N|
+| let | installAlw03 | body |//orderSummary[3]/installmentAllowed/text() |04|
+| let | installSnt03 | body |//orderSummary[3]/installmentSent/text() |01|
+| let | installDue03 | body |//orderSummary[3]/installmentDue/text() |139.96|
+| let | installAmount03 | body |//orderSummary[3]/installmentAmount/text() |34.99|
+| let | billEffort03 | body |//orderSummary[3]/billEffort/text() |XD|

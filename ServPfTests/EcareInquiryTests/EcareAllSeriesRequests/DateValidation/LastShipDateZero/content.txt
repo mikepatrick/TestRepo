@@ -1,0 +1,44 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate last ship date of zero
+!4 Plan PBC, acct 375614393, dsacct 375614401 has LSTSHIPDT = 0
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=375614393|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PBC|
+| let | freq01| body |//series[1]/frequency/text() |25|
+| let | planDesc01| body |//series[1]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB CANADA|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |1|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |11.83|
+| let | shipDt01| body |//series[1]/shipDate/text() |0000-00-00|
+| let | paidDt01| body |//series[1]/paidDate/text() |0000-00-00|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |0000-00-00|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2012-09-24|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |375614393|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |0000-00-00|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |375614401|
+| let | recipientName01| body |//series[1]/recipient/name/text() |TARYN LEWEEN|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |68 CORPORATE DR APT 1221|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |SCARBOROUGH|
+| let | recipientState01| body |//series[1]/recipient/state/text() |ON|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |M1H3H3|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |CANADA|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|

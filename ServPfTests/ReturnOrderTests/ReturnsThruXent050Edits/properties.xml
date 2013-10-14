@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<properties>
+	<Help/>
+	<Properties/>
+	<Refactor/>
+	<Static/>
+	<Suites/>
+	<Versions/>
+	<WhereUsed/>
+	<WikiImport>
+		<Source>http://test-mag3.buysub.com:8090/ServPfTests.ReturnOrderTests.ReturnsThruXent050Edits</Source>
+		<LastRemoteModification>20130719142855</LastRemoteModification>
+		<AutoUpdate/>
+	</WikiImport>
+</properties>

@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300017266?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>CW</reasonCode><transactionNbr>111159081053001</transactionNbr><badPayAmount>50.00</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest31 |
+
+##BP Credit Card Payments at 'E' on cc order - $50.00.  Also has a CC charge at 'E' - $85.21.  (CC AR $241.39 before BP)
+##BP $50.00. Chg changed to D - rejected.  Amtdue = $241.39.  Customer marked bad pay.

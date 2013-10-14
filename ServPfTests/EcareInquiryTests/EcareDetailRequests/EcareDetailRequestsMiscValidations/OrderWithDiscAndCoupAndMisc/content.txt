@@ -1,0 +1,73 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order has Discounts, Coupons, and Misc charges
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/113161115840001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=376543419| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543419|
+| let | orderNbr| body |//order/orderNumber/text() |113161115840001|
+| let | name | body |//customer/name/text() |RACHEL BARTELL|
+| let | addrLine01 | body |//customer/address1/text() |1505 WEST MAIN ST|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |PERU|
+| let | state | body |//customer/state/text() |IA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |50222|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |PBZ|
+| let | ordVal| body |//order/totalOrderValue/text() |$15.47|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |12.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |B|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |PB001|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In Process|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptCntry01 | body |//orderItem[1]/recipient/country/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|
+| let | orderType05| body |//orderItem[5]/orderTypeCode/text() |B|
+| let | prodNbr05| body |//orderItem[5]/productNumber/text() |PB001|
+| let | orderSts05| body |//orderItem[5]/orderStatus/text() |In Process|
+| let | qty05| body |//orderItem[5]/quantity/text() |1|
+| let | prodVal05| body |//orderItem[5]/value/text() |0.00|
+| let | trkNbr05| body |//orderItem[5]/trackingNumber/text() |null|
+| let | seqNbr05| body |//orderItem[5]/sequenceNumber/text() |5|
+| let | carrierCd05| body |//orderItem[5]/carrier/text() |null|
+| let | rcptAcctNbr05| body |//orderItem[5]/recipient/accountNumber/text() |376543427|
+| let | rcptName05 | body |//orderItem[5]/recipient/name/text() |NANCY BARTELL|
+| let | rcptAddrLine105 | body |//orderItem[5]/recipient/address1/text() |5100 160TH ST|
+| let | rcptAddrLine205 | body |//orderItem[5]/recipient/address2/text() |null|
+| let | rcptCity05 | body |//orderItem[5]/recipient/city/text() |LENOX|
+| let | rcptstate05 | body |//orderItem[5]/recipient/state/text() |IA|
+| let | rcptzipCode05 | body |//orderItem[5]/recipient/zipCode/text() |50851|
+| let | rcptCntry05 | body |//orderItem[5]/recipient/country/text() |UNITED STATES|
+| let | orderType109| body |//orderItem[9]/orderTypeCode/text() |B|
+| let | prodNbr1091| body |//orderItem[9]/productNumber/text() |PB001|
+| let | orderSts109| body |//orderItem[9]/orderStatus/text() |In Process|
+| let | qty109| body |//orderItem[9]/quantity/text() |1|
+| let | prodVal09| body |//orderItem[9]/value/text() |0.00|
+| let | trkNbr09| body |//orderItem[9]/trackingNumber/text() |null|
+| let | seqNbr09| body |//orderItem[9]/sequenceNumber/text() |9|
+| let | carrierCd09| body |//orderItem[9]/carrier/text() |null|
+| let | rcptAcctNbr09| body |//orderItem[9]/recipient/accountNumber/text() | 376543435|
+| let | rcptName09 | body |//orderItem[9]/recipient/name/text() |JIM BARTELL|
+| let | rcptAddrLine109 | body |//orderItem[9]/recipient/address1/text() |3100 NW 25TH ST|
+| let | rcptAddrLine209 | body |//orderItem[9]/recipient/address2/text() |null|
+| let | rcptCity09 | body |//orderItem[9]/recipient/city/text() |ANKENY|
+| let | rcptstate09 | body |//orderItem[9]/recipient/state/text() |IA|
+| let | rcptzipCode09 | body |//orderItem[9]/recipient/zipCode/text() |50021|
+| let | rcptCntry09 | body |//orderItem[9]/recipient/country/text() |UNITED STATES|

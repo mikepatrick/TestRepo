@@ -1,0 +1,16 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum  ORDER ENTRY TYPE = E (UNPROVEN ADJ) invoice 1002
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR|
+|GET|/230524?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |230524|
+| let | lastPymtDate| body |//lastPaymentDate/text() |null|
+| let | lastPymtAmt| body |//lastPaymentAmount/text() |0.00|
+| let | lastRtnDate| body |//lastReturnDate/text() |null|
+| let | invoiceNbr16 | body |//orderSummary[16]/invoiceNumber/text() |1003|
+| let | amountDue16  | body |//orderSummary[16]/amountDue/text() |0.00|
+| let | orderVal16  | body |//orderSummary[16]/orderValue/text() |31.60|
+| let | creditStatus16 | body |//orderSummary[16]/creditStatus/text() |N|

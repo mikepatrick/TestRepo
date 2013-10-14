@@ -1,0 +1,92 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D6X_CKI2/112332092721001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>37046380</accountNumber></customer><invoiceNumber>1000</invoiceNumber><orderItem><sequenceNumber>1</sequenceNumber><reasonCode>AN</reasonCode><quantity>2</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>2</sequenceNumber><reasonCode>AN</reasonCode><quantity>3</quantity><moneyInd>C</moneyInd></orderItem><orderItem><sequenceNumber>4</sequenceNumber><reasonCode>AN</reasonCode><quantity>1</quantity><moneyInd>C</moneyInd></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']||
+
+!4 Test #67
+
+!3 Now verify the 02 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+     SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTYCNCL,               
+    SUBSTR(HEX(ACTMISC),61,7) AS CNCLPRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS CNCLTAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS CNCLSH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS CNCLDISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS CNCLCOUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS CNCLMISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS CNCLINV,
+    SUBSTR(ACTMISC,54,1) AS GIFTKITSW,  
+    SUBSTR(HEX(ACTMISC),109,3) AS ITMSEQ, 
+    SUBSTR(HEX(ACTMISC),113,7) AS PREVIEW
+         FROM CLTLIBd6x.XACTIVITY0 WHERE TRANSTYPE = 2
+        AND ACCTNBR = 37046380
+  AND TRANSNBR > 113255000000001            -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|RSN|PRODNBR|QTYCNCL|CNCLPRODVL|CNCLTAX|CNCLSH|CNCLDISC|CNCLCOUP|CNCLMISC|CNCLINV|GIFTKITSW|ITMSEQ|PREVIEW|
+|37046380||602|2|112332092721001|AN|'CH18        '|002|0003990|0000324|00050|00000|00000|00000|01000|N|001|0000000|
+|37046380||602|2|112332092721001|AN|'CH17        '|003|0007350|0000596|00098|00000|00000|00000|01000|N|002|0000000|
+|37046380||602|2|112332092721001|AN|'CH15        '|001|0002495|0000208|00101|00000|00000|00000|01000|N|004|0000000|
+
+!3 Now verify the 03 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,                    
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                      
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                        
+    SUBSTR((ACTMISC),14,10) AS BILLKEY,                       
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,                    
+    SUBSTR((ACTMISC),27,1) AS APPIND,                        
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                        
+    SUBSTR((ACTMISC),48,2) AS PRETYP                         
+    FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 3
+         AND ACCTNBR = 37046380    
+         AND TRANSNBR > 113261000000001                          -!|
+|ACCTNBR |TRANSNBR?| OPERID| TRANSTYPE| ORDNBR        | AMTPD | PAYMTD| BILLKEY |INVOICE| APPIND |HOWCRTD|CHKNBR|PRETYP|
+|37046380||602|3|112332092721001|0015212|E|'          '|01000|B|B|'         '| '  '|
+
+!3 Now verify the 18 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,                 
+  SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,
+  SUBSTR(HEX(ACTMISC),17,5) AS INVOICE
+    FROM CLTLIBD6X.XACTIVITY0 WHERE TRANSTYPE = 18
+         AND ACCTNBR = 37046380
+         AND TRANSNBR > 113260000000001                          -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|INVOICE|
+|37046380||602|18|112332092721001|01000|
+
+
+!3 Now verify the XCUSTSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, BALANCE, TOTPDVALUE, CREDCARDAR,
+          MAXSSEFF, MX2SSEFF, MAXFPPEFF, MX2FPPEFF, MAX2PPEFF, MX22PPEFF, MAXSEREFF, MX2SEREFF
+         FROM CLTLIBd6x.XCUSTSUM0 
+        WHERE ACCTNBR =  37046380
+          AND PRODABBR = 'CKI'                     -!|
+|ACCTNBR|PRODABBR|BALANCE| TOTPDVALUE|CREDCARDAR|MAXSSEFF|MX2SSEFF|MAXFPPEFF|MX2FPPEFF|MAX2PPEFF|MX22PPEFF|MAXSEREFF|MX2SEREFF|
+|37046380|CKI|-70.51|0.00|0.00|0|0|0|0|0|0|0|0|
+
+!3 Now verify the XORDERSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, ORDERNBR, INVOICENBR, AMTDUE, CREDITSTS, ORDSTATUS, LASTBILLDT,
+                  INSTALLSW, ANCLLRYSW, INSTALLALW, INSTALLSNT, INSTALLAMT, INSTALLAMD, LFOUTSTAND, CONTSW
+         FROM CLTLIBd6x.XORDERSUM0 
+        WHERE ACCTNBR = 37046380
+          AND ORDERNBR = 112332092721001                                -!|
+|ACCTNBR|PRODABBR|ORDERNBR|INVOICENBR |AMTDUE|CREDITSTS |ORDSTATUS |LASTBILLDT|INSTALLSW |ANCLLRYSW |INSTALLALW |INSTALLSNT  |INSTALLAMT |INSTALLAMD |LFOUTSTAND|CONTSW?|
+|37046380|CKI|112332092721001|1000|70.51|A|E|0|Y|' '|02|00|0.00|0.00|0.00||
+
+!3 Now verify the XORDERDTL0 file
+!|Query|!- SELECT ACCTNBR, DSACCTNBR, PRODABBR, ORDERNBR, ITMSEQNUM, PRODNBR, ORDERTYPE, QTYORDERED, 
+                  ORDDETSTAT, SERVICECDE, SHIPIND, ITMQTYRET, ITMQTYCAN, QTYTORSHP, PLANCODE
+         FROM CLTLIBd6x.XORDERDTL0 
+        WHERE ACCTNBR = 37046380
+          AND ORDERNBR = 112332092721001                              -!|
+|ACCTNBR| DSACCTNBR| PRODABBR| ORDERNBR|ITMSEQNUM| PRODNBR|ORDERTYPE|QTYORDERED|ORDDETSTAT|SERVICECDE?|SHIPIND| ITMQTYRET| ITMQTYCAN|QTYTORSHP|PLANCODE?|
+|37046380|0|CKI|112332092721001|1|'CH18        '|N|4|E|'C '|N|0|2|0||
+|37046380|0|CKI|112332092721001|2|'CH17        '|N|3|B|'C '|Y|0|3|0||
+|37046380|0|CKI|112332092721001|3|'P-CH16      '|N|2|A|'C '|N|0|0|0||
+|37046380|0|CKI|112332092721001|4|'CH15        '|N|1|B|'C '|Y|0|1|0||
+

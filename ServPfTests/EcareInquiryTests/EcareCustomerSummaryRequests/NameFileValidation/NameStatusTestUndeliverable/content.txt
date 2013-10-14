@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate name status fields for a Undeliverable account
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/192922?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |192922|
+| let | custSts| body |//customerStatus/text() |C|
+| let | teleSts| body |//telemarketingStatus/text() |N|
+| let | sweepsSts| body |//sweepstakesStatus/text() |N|
+| let | envirSts| body |//environmentStatus/text() |N|
+| let | contSts| body |//continuityStatus/text() |N|
+| let | delivSw| body |//deliverySwitch/text() |N|

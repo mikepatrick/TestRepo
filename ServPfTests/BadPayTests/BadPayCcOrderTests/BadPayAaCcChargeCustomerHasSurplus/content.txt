@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/12468?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1003</invoice><reasonCode>AU</reasonCode><transactionNbr>110035123445000</transactionNbr><badPayAmount>49.59</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest01 |
+
+##CC order - $ in surplus 1 cc at 'E'  (Has surplus $.  Has multi cc chrg for same dollar value at 'E' & 'A'.) 
+##BP $49.59 cc chrg - 04FEB10 123445 000, invoice 1003. $49.59 came out of surplus, leaving $6.36 in surplus.  Invoice 1003 has amtdue = zero, credit sts = paid cash.

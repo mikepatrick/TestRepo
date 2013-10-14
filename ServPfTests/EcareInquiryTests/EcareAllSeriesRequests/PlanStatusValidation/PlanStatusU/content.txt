@@ -1,0 +1,37 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = U (suspend undeliverable)
+!4 Plan WWU, acct 351945555 , dsacct 351945563 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=351945555 |200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |WWU|
+| let | freq01| body |//series[1]/frequency/text() |24|
+| let | planDesc01| body |//series[1]/planDescription/text() |WHICH WAY USA|
+| let | planSts01| body |//series[1]/planStatus/text() |U|
+| let | planStsDesc01| body |//series[1]/planStatusDescription/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |351945555|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |351945563|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |PZU|
+| let | freq02| body |//series[2]/frequency/text() |1|
+| let | planDesc02| body |//series[2]/planDescription/text() |PUZZLEMANIA US|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | planStsDesc02| body |//series[2]/planStatusDescription/text() |Active|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |351945555|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |0|
+| let | ordTyp03| body |//series[3]/orderType/text() |B|
+| let | qty03| body |//series[3]/quantity/text() |1|
+| let | planCd03| body |//series[3]/planCode/text() |TSA|
+| let | freq03| body |//series[3]/frequency/text() |24|
+| let | planDesc03| body |//series[3]/planDescription/text() |TOP SECRET ADVENTURES|
+| let | planSts03| body |//series[3]/planStatus/text() |A|
+| let | planStsDesc03| body |//series[3]/planStatusDescription/text() |Active|
+| let | donorAcct03| body |//series[3]/customer/accountNumber/text() |351945555|
+| let | recipientAcct03| body |//series[3]/recipient/accountNumber/text() |375580032|

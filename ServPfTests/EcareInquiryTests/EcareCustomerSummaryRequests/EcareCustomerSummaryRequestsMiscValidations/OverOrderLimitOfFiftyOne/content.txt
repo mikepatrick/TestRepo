@@ -1,0 +1,11 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Acct is over the limit of 51 orders
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/76208?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |76208|
+| let | custBal| body |//customerBalance/text() |$7,367.32-|
+| let | invoiceNbr01| body |//orderSummary[1]/invoiceNumber/text() |1942|
+| let | invoiceNbr51| body |//orderSummary[51]/invoiceNumber/text() |1892|

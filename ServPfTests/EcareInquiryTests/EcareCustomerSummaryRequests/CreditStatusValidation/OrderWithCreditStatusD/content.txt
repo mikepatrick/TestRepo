@@ -1,0 +1,10 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate credit status of 'D' paid adjust (invoice 1124)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/31096?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |31096|
+| let | creditSts11| body |//orderSummary[11]/creditStatus/text() |D|
+| let | invoiceNbr11| body |//orderSummary[11]/invoiceNumber/text() |1124|

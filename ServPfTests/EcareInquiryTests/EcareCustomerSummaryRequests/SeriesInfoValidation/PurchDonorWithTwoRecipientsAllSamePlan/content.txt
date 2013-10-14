@@ -1,0 +1,55 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order has Discounts, Coupons, and Misc charges and 3 recipients for the same plancode
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/376543419?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |376543419|
+| let | name | body |//customer/name/text() |RACHEL BARTELL|
+| let | addrLine01 | body |//customer/address1/text() |1505 WEST MAIN ST|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |PERU|
+| let | state | body |//customer/state/text() |IA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |50222|
+| let | phone1| body |//customer/phoneNumber/text() |0|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | lastPymtDate | body |//customer/lastPaymentDate/text() |null|
+| let | lastPymtAmt | body |//customer/lastPaymentAmount/text() |0.00|
+| let | lastRtrnDate | body |//customer/lastReturnDate/text() |null|
+| let | custBal| body |//customer/customerBalance/text() |$.00+|
+| let | orderNbr01| body |//orderSummary[1]/orderNumber/text() |113161115840001|
+| let | amtDue01| body |//orderSummary[1]/amountDue/text() |0.00|
+| let | invoiceNbr01| body |//orderSummary[1]/invoiceNumber/text() |1000|
+| let | prevBillAmt01| body |//orderSummary[1]/previousBillAmount/text() |0.00|
+| let | orderEntry01| body |//orderSummary[1]/orderEntry/text() |Series|
+| let | creditStatus01| body |//orderSummary[1]/creditStatus/text() |N|
+| let | orderValue01| body |//orderSummary[1]/orderValue/text() |15.47|
+| let | billEffort01| body |//orderSummary[1]/billEffort/text() |null|
+| let | installAlw01| body |//orderSummary[1]/installmentAllowed/text() |00|
+| let | installSnt01| body |//orderSummary[1]/installmentSent/text() |00|
+| let | installDue01| body |//orderSummary[1]/installmentDue/text() |15.47|
+| let | installAmt01| body |//orderSummary[1]/installmentAmount/text() |0.00|
+| let | planCode01| body |//orderSummary[1]/planCode/text() |PBZ|
+| let | planCode01| body |//customer/seriesSummary[1]/planCode/text() |PBZ|
+| let | planStatus01| body |//customer/seriesSummary[1]/planStatus/text() |A|
+| let | planPrice01| body |//customer/seriesSummary[1]/productPrice/text() |8.98|
+| let | planShipHandl01| body |//customer/seriesSummary[1]/shippingAmount/text() |2.45|
+| let | recipAcct01| body |//customer/seriesSummary[1]/recipient/accountNumber/text() |0|
+| let | recipName01| body |//customer/seriesSummary[1]/recipient/name/text() |null|
+| let | planCode02| body |//customer/seriesSummary[2]/planCode/text() |PBZ|
+| let | planStatus02| body |//customer/seriesSummary[2]/planStatus/text() |A|
+| let | planPrice02| body |//customer/seriesSummary[2]/productPrice/text() |8.98|
+| let | planShipHandl02| body |//customer/seriesSummary[2]/shippingAmount/text() |2.45|
+| let | recipAcct02| body |//customer/seriesSummary[2]/recipient/accountNumber/text() |376543427|
+| let | recipName02| body |//customer/seriesSummary[2]/recipient/name/text() |NANCY BARTELL|
+| let | planCode03| body |//customer/seriesSummary[3]/planCode/text() |PBZ|
+| let | planStatus03| body |//customer/seriesSummary[3]/planStatus/text() |A|
+| let | planPrice03| body |//customer/seriesSummary[3]/productPrice/text() |8.98|
+| let | planShipHandl03| body |//customer/seriesSummary[3]/shippingAmount/text() |2.45|
+| let | recipAcct03| body |//customer/seriesSummary[3]/recipient/accountNumber/text() |376543435|
+| let | recipName03| body |//customer/seriesSummary[3]/recipient/name/text() |JIM BARTELL|

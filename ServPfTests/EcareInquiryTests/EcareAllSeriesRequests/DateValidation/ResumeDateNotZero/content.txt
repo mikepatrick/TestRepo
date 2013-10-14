@@ -1,0 +1,79 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate resume service date
+!4 Plan WWU, acct 369161302, dsacctnbr 375589736 has RESSVCDATE = 112320 (Nov 15, 2012)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=369161302|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |HPP|
+| let | freq01| body |//series[1]/frequency/text() |24|
+| let | planDesc01| body |//series[1]/planDescription/text() |LET'S PLAY|
+| let | planSts01| body |//series[1]/planStatus/text() |D|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |2|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |24.70|
+| let | shipDt01| body |//series[1]/shipDate/text() |2012-09-02|
+| let | paidDt01| body |//series[1]/paidDate/text() |2012-08-07|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |2012-08-31|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2012-03-05|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |369161302|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |2012-08-07|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |369161310|
+| let | recipientName01| body |//series[1]/recipient/name/text() |ELIANA MILLSAP|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |9141 CHERRY AVE|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |ORANGEVALE|
+| let | recipientState01| body |//series[1]/recipient/state/text() |CA|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |95662|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |UNITED STATES|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |WWU|
+| let | freq02| body |//series[2]/frequency/text() |24|
+| let | planDesc02| body |//series[2]/planDescription/text() |WHICH WAY USA|
+| let | planSts02| body |//series[2]/planStatus/text() |R|
+| let | intCd02| body |//series[2]/interest/text() |null|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |1|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |11.39|
+| let | shipDt02| body |//series[2]/shipDate/text() |2012-09-26|
+| let | paidDt02| body |//series[2]/paidDate/text() |0000-00-00|
+| let | cycleDt02| body |//series[2]/cycleDate/text() |0000-00-00|
+| let | suspendDt02| body |//series[2]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series[2]/resumeServiceDate/text() |2012-11-15|
+| let | planCdDt02| body |//series[2]/planCodeDate/text() |2012-09-24|
+| let | chgIntSw02| body |//series[2]/changeInterestSwitch/text() |null|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |369161302|
+| let | lastPymtDt02| body |//series[2]/customer/lastPaymentDate/text() |0000-00-00|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |375589736|
+| let | recipientName02| body |//series[2]/recipient/name/text() |AMY ELLISON|
+| let | recipientAddr102| body |//series[2]/recipient/address1/text() |9141 CHERRY AVE|
+| let | recipientAddr202| body |//series[2]/recipient/address2/text() |null|
+| let | recipientAddr302| body |//series[2]/recipient/address3/text() |null|
+| let | recipientCity02| body |//series[2]/recipient/city/text() |ORANGEVALE|
+| let | recipientState02| body |//series[2]/recipient/state/text() |CA|
+| let | recipientZip02| body |//series[2]/recipient/zipCode/text() |95662|
+| let | recipientCntry02| body |//series[2]/recipient/country/text() |UNITED STATES|
+| let | recipientCntryCd02| body |//series[2]/recipient/countryCode/text() |null|
+| let | recipientExpCountry02| body |//series[2]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity02| body |//series[2]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd02| body |//series[2]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType02| body |//series[2]/payment/creditCardType/text() |null|
+| let | pymtCcNbr02| body |//series[2]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm02| body |//series[2]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy02| body |//series[2]/payment/creditCardExpireYear/text() |00|

@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300017027?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AU</reasonCode><transactionNbr>111159091651000</transactionNbr><badPayAmount>153.10</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest21|
+
+##BP 1 Credit card charge at 'A' - $153.10.  Has another charges at 'E' - 121.31.  (CC AR $121.31 before BP).
+##BP $153.10. Changed $121.31 chg to F - pending void. Cont BAS suspended.  Amtdue is $274.41 now.
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.

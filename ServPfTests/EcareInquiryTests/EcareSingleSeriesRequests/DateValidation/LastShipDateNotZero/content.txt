@@ -1,0 +1,53 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate last ship date 
+!4 Plan PBZ, acct 375624566, dsacct 311887806 has LSTSHIPDT = 112270, Sept 26, 2012
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/PBZ?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=375624566&shipToAccountNumber=311887806|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PBZ|
+| let | freq01| body |//series[1]/frequency/text() |25|
+| let | planDesc01| body |//series[1]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |1|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |7.94|
+| let | shipDt01| body |//series[1]/shipDate/text() |2012-09-26|
+| let | paidDt01| body |//series[1]/paidDate/text() |0000-00-00|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |0000-00-00|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2012-09-24|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |375624566|
+| let | donorName01| body |//series[1]/customer/name/text() |AMBER HORBOVETZ|
+| let | Addr101| body |//series[1]/customer/address1/text() |157 PEMBROKE DR W|
+| let | Addr201| body |//series[1]/customer/address2/text() |null|
+| let | Addr301| body |//series[1]/customer/address3/text() |null|
+| let | State01| body |//series[1]/customer/state/text() |IN|
+| let | Zip01| body |//series[1]/customer/zipCode/text() |46342|
+| let | ExpCntry01| body |//series[1]/customer/expandedCountry/text() |null|
+| let | ExpCity01| body |//series[1]/customer/expandedCity/text() |null|
+| let | ForgnPostalCd01| body |//series/customer/foreignPostalCode/text() |null|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |0000-00-00|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |311887806|
+| let | recipientName01| body |//series[1]/recipient/name/text() |GAGE HORBOVETZ|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |157 PEMBROKE DR|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |HOBART|
+| let | recipientState01| body |//series[1]/recipient/state/text() |IN|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |46342|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |UNITED STATES|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|

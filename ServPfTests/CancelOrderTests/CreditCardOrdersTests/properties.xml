@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<properties>
+	<Help/>
+	<Properties/>
+	<Suite/>
+	<Suites/>
+	<WikiImport>
+		<Source>http://test-mag3.buysub.com:8090/ServPfTests.CancelOrderTests.CreditCardOrdersTests</Source>
+		<LastRemoteModification>20130913114544</LastRemoteModification>
+		<AutoUpdate/>
+	</WikiImport>
+</properties>

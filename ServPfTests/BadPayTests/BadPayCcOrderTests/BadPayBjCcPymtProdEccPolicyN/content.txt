@@ -1,0 +1,8 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLC2/77534873?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AY</reasonCode><transactionNbr>113206114523001</transactionNbr><badPayAmount>88.28</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest36 |
+
+##PRODECCSW = N - set acct to bad pay and a cc pymt.  Invoice 1000 had installamd = $206.85 & invoice 1001 had installamd = $132.47 - before bp.
+##BP $88.28 cc pymt to invoice 1000 (that also paided against invoice 1001).  Invoice 1000 amtdue = 206.85.  Invoice 1001 amtdue = 132.47.  Customer bal = $339.32.  Customer is marked bad pay, cc pymt.

@@ -1,0 +1,10 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300017274?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AU</reasonCode><transactionNbr>111159091653000</transactionNbr><badPayAmount>170.42</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest27 |
+
+
+##BP Credit Card Charge at 'E' on cc order - $170.42.  Also a CC Pymt at 'E' - $200.00.  (CC AR $382.78 before BP).
+##BP $170.42. Chg changed to D - rejected. Amtdue is now $382.78 (=$582.78 - $200 cc pymt).
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.

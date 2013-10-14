@@ -1,0 +1,19 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Ship Freq = 0, get freq from XBUILD0 card
+!4 Plan HPP, acct 361689292, dsacct 361689300 has SELFREQ = 0
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/HPP?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=361689292&shipToAccountNumber=361689300|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |HPP|
+| let | freq01| body |//series[1]/frequency/text() |24|
+| let | planDesc01| body |//series[1]/planDescription/text() |LET'S PLAY|
+| let | planSts01| body |//series[1]/planStatus/text() |D|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |0|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |0.00|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |361689292|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |361689300|

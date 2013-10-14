@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 One series has a plan status of Discontinued (D), and one series has a plan status of Finished (F).
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/341536969?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |341536969|
+| let | planCode01| body |//customer/seriesSummary[1]/planCode/text() |PZU|
+| let | planStatus01| body |//customer/seriesSummary[1]/planStatus/text() |D|
+| let | recipAcct01| body |//customer/seriesSummary[1]/recipient/accountNumber/text() |341536977|
+| let | planCode02| body |//customer/seriesSummary[2]/planCode/text() |MAT|
+| let | planStatus02| body |//customer/seriesSummary[2]/planStatus/text() |F|
+| let | recipAcct02| body |//customer/seriesSummary[2]/recipient/accountNumber/text() |341536977|

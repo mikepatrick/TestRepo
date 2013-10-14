@@ -1,0 +1,14 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate name status fields for No Contact acct
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/44909?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |44909|
+| let | custSts| body |//customerStatus/text() |F|
+| let | teleSts| body |//telemarketingStatus/text() |E|
+| let | sweepsSts| body |//sweepstakesStatus/text() |H|
+| let | envirSts| body |//environmentStatus/text() |J|
+| let | contSts| body |//continuityStatus/text() |T|
+| let | delivSw| body |//deliverySwitch/text() |A|

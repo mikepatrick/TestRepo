@@ -1,0 +1,35 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Item cancelled with the reason "Invalid Item".  Product Number was not on XINVENT0 file (invoice 1116, prodnbr = SRE940C)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/109293122726001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=86686| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |86686|
+| let | orderNbr| body |//order/orderNumber/text() |109293122726001|
+| let | name | body |//name/text() |FIRST CHURCH OF CHRIST,|
+| let | addrLine01 | body |//address1/text() |SCIENTIST|
+| let | addrLine02 | body |//address2/text() |141C LAURIER AVE WEST|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |OTTAWA|
+| let | state | body |//state/text() |ON|
+| let | country | body |//country/text() |CANADA|
+| let | zipCode | body |//zipCode/text() |K1P5J3|
+| let | phone1| body |//phoneNumber/text() |6132331427|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$0.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |SRE940C|
+| let | prodDesc01| body |//orderItem[1]/productDesc/text() |Other|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Cancelled   Invalid Item|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |0.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|

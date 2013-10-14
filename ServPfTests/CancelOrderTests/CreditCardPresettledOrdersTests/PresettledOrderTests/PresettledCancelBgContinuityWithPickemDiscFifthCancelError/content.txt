@@ -1,0 +1,7 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D6X_CKI2/113121065757001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>21304027</accountNumber></customer><invoiceNumber>1016</invoiceNumber><orderItem><sequenceNumber>5</sequenceNumber><reasonCode>AC</reasonCode><quantity>1</quantity><moneyInd>C</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0663')]||
+
+# 181 

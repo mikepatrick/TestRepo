@@ -1,0 +1,11 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate last payment date and last payment amount
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/76208?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+| let | accountNumber| body |//accountNumber/text() |76208|
+| let | lastPymtDate| body |//lastPaymentDate/text() |2013-08-09|
+| let | lastPymtAmt| body |//lastPaymentAmount/text() |25.00|
+| let | lastRtnDate| body |//lastReturnDate/text() |2011-11-30|

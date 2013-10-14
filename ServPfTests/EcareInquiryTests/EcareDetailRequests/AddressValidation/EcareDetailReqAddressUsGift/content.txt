@@ -1,0 +1,42 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address Information
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/112251052318001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=339216715| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |339216715|
+| let | name | body |//name/text() | SMITH FAMILY|
+| let | addrLine01 | body |//address1/text() |8488 HUNTS POINT LN|
+| let | addrLine02 | body |//address2/text() |null|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |HUNTS POINT|
+| let | state | body |//state/text() |WA|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |98004|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |339216723|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |ELEANOR SMITH|
+| let | rcptAddrLine01 | body |//orderItem[1]/recipient/address1/text() |8488 HUNTS POINT LN|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |HUNTS POINT|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |WA|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |98004|
+| let | rcptzipCntry01 | body |//orderItem[1]/recipient/country/text() |UNITED STATES|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |339216723|
+| let | rcptName02 | body |//orderItem[2]/recipient/name/text() |ELEANOR SMITH|
+| let | rcptAddrLine02 | body |//orderItem[2]/recipient/address1/text() |8488 HUNTS POINT LN|
+| let | rcptCity02 | body |//orderItem[2]/recipient/city/text() |HUNTS POINT|
+| let | rcptstate02 | body |//orderItem[2]/recipient/state/text() |WA|
+| let | rcptzipCode02 | body |//orderItem[2]/recipient/zipCode/text() |98004|
+| let | rcptzipCntry02 | body |//orderItem[2]/recipient/country/text() |UNITED STATES|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |339216723|
+| let | rcptName03 | body |//orderItem[3]/recipient/name/text() |ELEANOR SMITH|
+| let | rcptAddrLine03 | body |//orderItem[3]/recipient/address1/text() |8488 HUNTS POINT LN|
+| let | rcptCity03 | body |//orderItem[3]/recipient/city/text() |HUNTS POINT|
+| let | rcptstate03 | body |//orderItem[3]/recipient/state/text() |WA|
+| let | rcptzipCode03 | body |//orderItem[3]/recipient/zipCode/text() |98004|
+| let | rcptzipCntry03 | body |//orderItem[3]/recipient/country/text() |UNITED STATES|

@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/300017050?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1000</invoice><reasonCode>AV</reasonCode><transactionNbr>111159091651000</transactionNbr><badPayAmount>343.87</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest22 |
+
+##CC Charge at 'E'  that is partially voided (void is accepted) - CC Order (CC AR $343.87 before BP)
+##BP $343.87. Chg changed to D - rejected. Amtdue is $343.87
+##Customer status is not changed to bad pay due to PRODECCSW = 'B' and this is a cc chrg.

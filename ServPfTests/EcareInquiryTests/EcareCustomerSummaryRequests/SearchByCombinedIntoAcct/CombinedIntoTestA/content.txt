@@ -1,0 +1,9 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Acct 362364953 was combined into acct 361422850.  Acct 361422850's information is returned.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/362354953?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |361422850|
+| let | custName | body |//name/text() |GORAN ILIEV|

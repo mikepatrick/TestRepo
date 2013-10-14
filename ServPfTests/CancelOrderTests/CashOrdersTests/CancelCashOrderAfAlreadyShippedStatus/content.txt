@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D6X_CKI2/113127111606001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>27081926</accountNumber></customer><invoiceNumber>1001</invoiceNumber><orderItem><sequenceNumber>1</sequenceNumber><reasonCode>AE</reasonCode><quantity>3</quantity><moneyInd>C</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0664')]||
+
+!3 Test #79
+
+!3 No data base verifications.  Cannot cancel an already shipped order.

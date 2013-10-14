@@ -1,0 +1,11 @@
+!contents
+!include .ServPfTests.DefaultSettings
+
+#!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/refresh|
+#|GET| /D9X_REFRESH | 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer|
+|PUT|/D9X_TLU2/16526535?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><customer><badPay>Y</badPay><invoice>1001</invoice><reasonCode>AX</reasonCode><transactionNbr>110008185948000</transactionNbr><badPayAmount>29.99</badPayAmount><badPayIndicator>B</badPayIndicator></customer></transaction> | 201 |Content-Type : text/xml|//isSuccess[text()='true']|sql:ServPfTests.TestData.BadPayVerifySqls.BadPayCcTest05 |
+
+##CC Charge at 'A', with other cc chrgs (BP $29.99 cc chrg at 'A'.  Another cc chrg $42.98 at 'A', and another cc chrg at 'E' for $29.99.)
+##BP cc chrg at 'A' $29.99 - 08JAN10.  Other cc chrg at 'E' was voided (pending).  Amtdue = 89.97.

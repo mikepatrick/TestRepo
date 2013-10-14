@@ -10,7 +10,7 @@
 	<WhereUsed>true</WhereUsed>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTestDevelopment.DbFitExamples.InvoicingTests.VerifyIvtFile</Source>
-		<LastRemoteModification>20130821095735</LastRemoteModification>
+		<LastRemoteModification>20131010095117</LastRemoteModification>
 		<AutoUpdate/>
 	</WikiImport>
 </properties>

@@ -1,0 +1,9 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D6X_CKI2/113115120821007?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>602</emplId></transactionSource><order><cancel>Y</cancel><customer><accountNumber>37046562</accountNumber></customer><invoiceNumber>1000</invoiceNumber><orderItem><sequenceNumber>1</sequenceNumber><reasonCode>AA</reasonCode><quantity>1</quantity><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>2</sequenceNumber><reasonCode>AA</reasonCode><quantity>1</quantity><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>3</sequenceNumber><reasonCode>AA</reasonCode><quantity>1</quantity><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>4</sequenceNumber><reasonCode>AA</reasonCode><quantity>1</quantity><moneyInd>R</moneyInd></orderItem><orderItem><sequenceNumber>5</sequenceNumber><reasonCode>AA</reasonCode><quantity>1</quantity><moneyInd>R</moneyInd></orderItem></order></transaction>| 400 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0663')]||
+
+!4 Test #146 - No database verification, transaction returns an error code.

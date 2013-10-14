@@ -103,7 +103,7 @@
          AND ACCTNBR = :donorAcctNbr      
                       -!|
 | ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDNBR| CCIND| CCAMT| CCDATE?| INVOICE| RJCTRSN| SEQNBR| AUTHCODE| AUTHDATE| AUTHREFNBR| ORIGAMT| PRESETTYPE|
-| <<donorAcctNbr| <<orderNbr| 811| 16| <<orderNbr| A| 0023223| | 01000|   | 000|       | 000000|               | 0023223| PY|
+| <<donorAcctNbr| <<orderNbr| | 16| <<orderNbr| A| 0023223| | 01000|   | 000|       | 000000|               | 0023223| PY|
 
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
@@ -140,7 +140,7 @@
          AND ACCTNBR =  :donorAcctNbr
                                  -!|
 | ACCTNBR| TRANSNBR?| OPERID| TRANSTYPE| ORDNBR| AMT| TRNSNBR| RSN| HOWCRTD| INVOICE| SEQNBR| RFNDCHRGSW| PRESETTYPE|
-| <<donorAcctNbr| | 811| 34| <<orderNbr| 0023223| <<orderNbr|  |  | 00000| 000| C| PY|
+| <<donorAcctNbr| | | 34| <<orderNbr| 0023223| <<orderNbr|  |  | 00000| 000| C| PY|
 
 !|Ordered Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,   
        SUBSTR(HEX(ACTMISC),1,15) AS ORDERNBR,  

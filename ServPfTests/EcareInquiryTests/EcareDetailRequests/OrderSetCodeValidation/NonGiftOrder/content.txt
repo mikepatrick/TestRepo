@@ -1,0 +1,41 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Non-Gift Order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113135095707049?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=135343| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |135343|
+| let | orderNbr| body |//order/orderNumber/text() |113135095707049|
+| let | name | body |//customer/name/text() |BEVERLY G FOLTZ|
+| let | addrLine01 | body |//customer/address1/text() |1527 13TH AVE|
+| let | addrLine02 | body |//customer/address2/text() |null|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |FOX ISLAND|
+| let | state | body |//customer/state/text() |WA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |98333|
+| let | phone1| body |//customer/phoneNumber/text() |2535497777|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |JCC|
+| let | ordVal| body |//order/totalOrderValue/text() |$182.00|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |JCXREFERENCE|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 05-17-2013|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |182.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |null|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |null|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |null|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |null|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |null|
+| let | rcptCntry1 | body |//orderItem[1]/recipient/country/text() |null|

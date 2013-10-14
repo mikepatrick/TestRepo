@@ -1,0 +1,87 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 One plan has pickem items, the other does not. 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=376543351|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PBZ|
+| let | freq01| body |//series[1]/frequency/text() |25|
+| let | planDesc01| body |//series[1]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |1|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |4.00|
+| let | shipDt01| body |//series[1]/shipDate/text() |0000-00-00|
+| let | paidDt01| body |//series[1]/paidDate/text() |0000-00-00|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |0000-00-00|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2013-04-16|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | pickemNbr01| body |//series[1]/pickem/pickemEntries[1]/pickemNbr/text() |1|
+| let | pickemProdNbr01| body |//series[1]/pickem/pickemEntries[1]/productNbr/text() |PB003|
+| let | pickemNbr01| body |//series[1]/pickem/pickemEntries[2]/pickemNbr/text() |2|
+| let | pickemProdNbr01| body |//series[1]/pickem/pickemEntries[2]/productNbr/text() |PB004|
+| let | pickemNbr01| body |//series[1]/pickem/pickemEntries[3]/pickemNbr/text() |3|
+| let | pickemProdNbr01| body |//series[1]/pickem/pickemEntries[3]/productNbr/text() |PB005|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |376543351|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |0000-00-00|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|
+| let | recipientName01| body |//series[1]/recipient/name/text() |null|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |null|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |null|
+| let | recipientState01| body |//series[1]/recipient/state/text() |null|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |null|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |null|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|
+| let | ordTyp02| body |//series[2]/orderType/text() |C|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |MAT|
+| let | freq02| body |//series[2]/frequency/text() |1|
+| let | planDesc02| body |//series[2]/planDescription/text() |MATHMANIA|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | intCd02| body |//series[2]/interest/text() |null|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |0|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |0.00|
+| let | shipDt02| body |//series[2]/shipDate/text() |2013-06-05|
+| let | paidDt02| body |//series[2]/paidDate/text() |2013-06-05|
+| let | cycleDt02| body |//series[2]/cycleDate/text() |0000-00-00|
+| let | suspendDt02| body |//series[2]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series[2]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt02| body |//series[2]/planCodeDate/text() |2013-04-16|
+| let | chgIntSw02| body |//series[2]/changeInterestSwitch/text() |null|
+| let | pickemNbr02| body |//series[2]/pickem/pickemEntries[1]/pickemNbr/text() |null|
+| let | pickemProdNbr02| body |//series[2]/pickem/pickemEntries[1]/productNbr/text() |null|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |376543351|
+| let | lastPymtDt02| body |//series[2]/customer/lastPaymentDate/text() |2013-06-05|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |376543369|
+| let | recipientName02| body |//series[2]/recipient/name/text() |WENDY PRESETCC ORDER|
+| let | recipientAddr102| body |//series[2]/recipient/address1/text() |1012 MAIN ST|
+| let | recipientAddr202| body |//series[2]/recipient/address2/text() |SHORT PAY|
+| let | recipientAddr302| body |//series[2]/recipient/address3/text() |null|
+| let | recipientCity02| body |//series[2]/recipient/city/text() |WINTERSET|
+| let | recipientState02| body |//series[2]/recipient/state/text() |IA|
+| let | recipientZip02| body |//series[2]/recipient/zipCode/text() |50273|
+| let | recipientCntry02| body |//series[2]/recipient/country/text() |UNITED STATES|
+| let | recipientCntryCd02| body |//series[2]/recipient/countryCode/text() |null|
+| let | recipientExpCountry02| body |//series[2]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity02| body |//series[2]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd02| body |//series[2]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType02| body |//series[2]/payment/creditCardType/text() |MC|
+| let | pymtCcNbr02| body |//series[2]/payment/creditCardNumber/text() |5541|
+| let | pymtCcExpireMm02| body |//series[2]/payment/creditCardExpireMonth/text() |09|
+| let | pymtCcExpireYy02| body |//series[2]/payment/creditCardExpireYear/text() |15|

@@ -1,0 +1,18 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = F (finished)
+!4 Plan HPP, acct 280634296, dacct 340804657 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/HPP?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=280634296&shipToAccountNumber=340804657|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp02| body |//series/orderType/text() |B|
+| let | qty02| body |//series/quantity/text() |1|
+| let | planCd02| body |//series/planCode/text() |HPP|
+| let | freq02| body |//series/frequency/text() |24|
+| let | planDesc02| body |//series/planDescription/text() |LET'S PLAY|
+| let | planSts02| body |//series/planStatus/text() |F|
+| let | donorAcct02| body |//series/customer/accountNumber/text() |280634296|
+| let | recipientAcct02| body |//series/recipient/accountNumber/text() |340804657|

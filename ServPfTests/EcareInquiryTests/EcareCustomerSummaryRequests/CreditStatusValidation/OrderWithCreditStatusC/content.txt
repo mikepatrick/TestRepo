@@ -1,0 +1,10 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate credit status of 'C' paid card (invoice 1019)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/135343?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |135343|
+| let | creditSts12| body |//orderSummary[12]/creditStatus/text() |C|
+| let | invoiceNbr12| body |//orderSummary[12]/invoiceNumber/text() |1009|

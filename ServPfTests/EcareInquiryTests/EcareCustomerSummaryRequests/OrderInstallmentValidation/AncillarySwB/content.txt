@@ -1,0 +1,16 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Ancillary Sw of 'B' 
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/376543583?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543583|
+| let | invoiceNbr01 | body |//orderSummary[2]/invoiceNumber/text() |1001|
+| let | amountDue01  | body |//orderSummary[2]/amountDue/text() |129.94|
+| let | creditStatus01 | body |//orderSummary[2]/creditStatus/text() |A|
+| let | installAlw01 | body |//orderSummary[2]/installmentAllowed/text() |03|
+| let | installSnt01 | body |//orderSummary[2]/installmentSent/text() |01|
+| let | installDue01 | body |//orderSummary[2]/installmentDue/text() |0.00|
+| let | installAmount01 | body |//orderSummary[2]/installmentAmount/text() |43.31|
+| let | billEffort01 | body |//orderSummary[2]/billEffort/text() |XD|

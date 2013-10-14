@@ -1,0 +1,15 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum  ORDER ENTRY TYPE = A (cash) invoice 1032 (donor/recipient gift order)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/339946832?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |339946832|
+| let | lastPymtDate| body |//lastPaymentDate/text() |2012-09-24|
+| let | lastPymtAmt| body |//lastPaymentAmount/text() |78.84|
+| let | lastRtnDate| body |//lastReturnDate/text() |null|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1032|
+| let | amountDue01  | body |//orderSummary[1]/amountDue/text() |0.00|
+| let | orderVal01  | body |//orderSummary[1]/orderValue/text() |7.94|
+| let | creditStatus01 | body |//orderSummary[1]/creditStatus/text() |D|

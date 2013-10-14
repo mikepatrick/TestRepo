@@ -1,0 +1,20 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan CQF, acct 88112, dsacctnbr 88146 has an interest code of RR.  
+!4 Plan CQF has RR, RD, and RF as valid interest codes. 
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=88112|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp04| body |//series[4]/orderType/text() |B|
+| let | qty04| body |//series[4]/quantity/text() |55|
+| let | planCd04| body |//series[4]/planCode/text() |CQF|
+| let | freq04| body |//series[4]/frequency/text() |75|
+| let | planDesc04| body |//series[4]/planDescription/text() |FRENCH CITATION EDITION QRTLY|
+| let | planSts04| body |//series[4]/planStatus/text() |A|
+| let | interestCd04| body |//series[4]/interest/text() |RR|
+| let | chginterestSw04| body |//series[4]/changeInterestSwitch/text() |Y|
+| let | donorAcct04| body |//series[4]/customer/accountNumber/text() |88112|
+| let | recipientAcct04| body |//series[4]/recipient/accountNumber/text() |88146|

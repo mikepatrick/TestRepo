@@ -1,0 +1,44 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Order with items that are out-of-stock
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DIXHF1/|
+|GET|/113247075509001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=376543591 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |376543591 |
+| let | orderNbr| body |//order/orderNumber/text() |113247075509001 |
+| let | name | body |//name/text() |KEV MORRISON|
+| let | addrLine01 | body |//address1/text() |6134 L ROAD|
+| let | addrLine02 | body |//address2/text() |APT #5E|
+| let | addrLine03 | body |//address3/text() |ATTN: KEVIN|
+| let | city | body |//city/text() |ARACAJU|
+| let | state | body |//state/text() |null|
+| let | country | body |//country/text() |BRAZIL|
+| let | zipCode | body |//zipCode/text() |null|
+| let | phone1| body |//phoneNumber/text() |0|
+| let | expndcountry | body |//expandedCountry/text() |BRAZIL|
+| let | expndcity | body |//expandedCity/text() |49039-100 ARACAJU SE|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |49039100|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$129.98|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |100.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |A3851|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In Process|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |29.98|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |N|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |A4014|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Out of Stock|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |0.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |null|
+

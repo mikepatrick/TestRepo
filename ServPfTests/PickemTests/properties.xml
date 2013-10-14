@@ -11,5 +11,6 @@
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.PickemTests</Source>
 		<LastRemoteModification>20130124163453</LastRemoteModification>
+		<AutoUpdate/>
 	</WikiImport>
 </properties>

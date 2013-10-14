@@ -3,10 +3,10 @@
 !define client {MSP}
 !define mylib {MPATRICK}
 
-!4 ActionFixture can be used for this, but not does not return a value.
-!|ActionFixture|
-|start|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
-|enter|runcmd|DLTLIB TESTFF|
+##!4 ActionFixture can be used for this, but not does not return a value.
+##!|ActionFixture|
+##|start|com.cds.fitnesse.fixture.CmdCallSequenceFixture|
+##|enter|runcmd|DLTLIB TESTFF|
 
 ##!define COMMAND_PATTERN {java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=1044 -cp %p %m}
 

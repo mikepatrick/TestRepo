@@ -1,0 +1,7 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/tigger_darlin18@yahoo.com?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375612066|
+| let | email | body |//email/text() |tigger_darlin18@yahoo.com|

@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
 <properties>
-	<Files>true</Files>
-	<Properties>true</Properties>
-	<RecentChanges>true</RecentChanges>
-	<Refactor>true</Refactor>
-	<Search>true</Search>
+	<Files/>
+	<Help/>
+	<Properties/>
+	<RecentChanges/>
+	<Refactor/>
+	<Search/>
+	<Suites/>
 	<Test/>
-	<Versions>true</Versions>
-	<WhereUsed>true</WhereUsed>
+	<Versions/>
+	<WhereUsed/>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.ChangeOrderDetailTests</Source>
-		<LastRemoteModification>20130124160431</LastRemoteModification>
+		<LastRemoteModification>20131003172805</LastRemoteModification>
 		<AutoUpdate/>
 	</WikiImport>
 </properties>

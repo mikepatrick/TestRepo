@@ -1,0 +1,7 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Acct number is invalid
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DEXFCR/|
+|GET|/762099?pwd=cds1001&appId=AutomatedTesting&method=GET| 404 |Content-Type : text/xml|//isSuccess[text()='false'] and //message[contains(text(),'0405-Customer not found on name file')]|

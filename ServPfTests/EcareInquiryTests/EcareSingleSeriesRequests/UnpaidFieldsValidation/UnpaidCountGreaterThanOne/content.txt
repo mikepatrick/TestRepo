@@ -1,0 +1,17 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Unpaid count greater than one
+!4 Plan TSA, acct 283930485, dsacct 335662599 has UNPCRDFILE = 3 and UNPDOLLARS = 52.20
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/TSA?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=283930485&shipToAccountNumber=335662599|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp05| body |//series/orderType/text() |B|
+| let | qty05| body |//series/quantity/text() |1|
+| let | planCd05| body |//series/planCode/text() |TSA|
+| let | planSts05| body |//series/planStatus/text() |L|
+| let | unpdCnt05| body |//series/unpaids/text() |3|
+| let | unpdDollars05| body |//series/unpaidDollars/text() |52.20|
+| let | donorAcct05| body |//series/customer/accountNumber/text() |283930485|
+| let | recipientAcct05| body |//series/recipient/accountNumber/text() |335662599|

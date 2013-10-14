@@ -1,6 +1,10 @@
 !lastmodified -----
-!contents
+!contents -R2 -g -p -f -h
 !include .ServPfTests.DefaultSettings
+!define client {RDM}
+!define acctNbr {59436}
+!define appid {iCare}
+!define password {got2know}
 
-!|smartrics.rest.fitnesse.fixture.CdsRestFixture|http://qa-service.mycdsglobal.com/ws/service/customer/AMSCKI|
-|GET|/410084/?stopPosition=10&numberOfActivities=500&pwd=got2know&appId=iCare&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()='410084']|
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/${client}|
+|GET|/${acctNbr}/?stopPosition=2&numberOfActivities=300&pwd=${password}&appId=${appid}&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] and //accountNumber[text()=${acctNbr}]|

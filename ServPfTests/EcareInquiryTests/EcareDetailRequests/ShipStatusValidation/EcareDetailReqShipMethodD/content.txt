@@ -1,0 +1,32 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = D)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/110011123041001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=68734| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |68734|
+| let | orderNbr| body |//order/orderNumber/text() |110011123041001|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$99.23|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |30.63|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |HCS1001|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 01-13-2010   via UPS Next Day Air|
+| let | qty01| body |//orderItem[1]/quantity/text() |10|
+| let | prodVal01| body |//orderItem[1]/value/text() |3.50|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690101061733|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |D|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |N|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |CSJ1001|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Shipped 01-13-2010   via UPS Next Day Air|
+| let | qty02| body |//orderItem[2]/quantity/text() |6|
+| let | prodVal02| body |//orderItem[2]/value/text() |5.60|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |1Z0434690101061733|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |D|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |null |

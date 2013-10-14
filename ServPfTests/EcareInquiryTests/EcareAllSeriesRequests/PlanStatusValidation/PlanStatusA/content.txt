@@ -1,0 +1,117 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan Status = A (active)
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=135343|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |JCA|
+| let | freq01| body |//series[1]/frequency/text() |360|
+| let | planDesc01| body |//series[1]/planDescription/text() |ANNUAL JOURNAL CARD FEE 252|
+| let | planSts01| body |//series[1]/planStatus/text() |A|
+| let | planStsDesc01| body |//series[1]/planStatusDescription/text() |Active|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |0|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |0.00|
+| let | shipDt01| body |//series[1]/shipDate/text() |2013-05-17|
+| let | paidDt01| body |//series[1]/paidDate/text() |2013-06-27|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |2013-05-15|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2008-04-10|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |135343|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |2013-06-27|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|
+| let | recipientName01| body |//series[1]/recipient/name/text() |null|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |null|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |null|
+| let | recipientState01| body |//series[1]/recipient/state/text() |null|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |null|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |null|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |null|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |00|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |JCC|
+| let | freq02| body |//series[2]/frequency/text() |360|
+| let | planDesc02| body |//series[2]/planDescription/text() |ANNUAL CROSS REFERENCE FEE 126|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | planStsDesc02| body |//series[2]/planStatusDescription/text() |Active|
+| let | intCd02| body |//series[2]/interest/text() |null|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |0|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |0.00|
+| let | shipDt02| body |//series[2]/shipDate/text() |2013-05-17|
+| let | paidDt02| body |//series[2]/paidDate/text() |2013-06-27|
+| let | cycleDt02| body |//series[2]/cycleDate/text() |2013-05-15|
+| let | suspendDt02| body |//series[2]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series[2]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt02| body |//series[2]/planCodeDate/text() |2008-04-10|
+| let | chgIntSw02| body |//series[2]/changeInterestSwitch/text() |null|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |135343|
+| let | lastPymtDt02| body |//series[2]/customer/lastPaymentDate/text() |2013-06-27|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |0|
+| let | recipientName02| body |//series[2]/recipient/name/text() |null|
+| let | recipientAddr102| body |//series[2]/recipient/address1/text() |null|
+| let | recipientAddr202| body |//series[2]/recipient/address2/text() |null|
+| let | recipientAddr302| body |//series[2]/recipient/address3/text() |null|
+| let | recipientCity02| body |//series[2]/recipient/city/text() |null|
+| let | recipientState02| body |//series[2]/recipient/state/text() |null|
+| let | recipientZip02| body |//series[2]/recipient/zipCode/text() |null|
+| let | recipientCntry02| body |//series[2]/recipient/country/text() |null|
+| let | recipientCntryCd02| body |//series[2]/recipient/countryCode/text() |null|
+| let | recipientExpCountry02| body |//series[2]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity02| body |//series[2]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd02| body |//series[2]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType02| body |//series[2]/payment/creditCardType/text() |null|
+| let | pymtCcNbr02| body |//series[2]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm02| body |//series[2]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy02| body |//series[2]/payment/creditCardExpireYear/text() |00|
+| let | ordTyp03| body |//series[3]/orderType/text() |B|
+| let | qty03| body |//series[3]/quantity/text() |1|
+| let | planCd03| body |//series[3]/planCode/text() |JCW|
+| let | freq03| body |//series[3]/frequency/text() |0|
+| let | planDesc03| body |//series[3]/planDescription/text() |ADDITIONAL ANNUAL JOURNAL AD|
+| let | planSts03| body |//series[3]/planStatus/text() |D|
+| let | planStsDesc03| body |//series[3]/planStatusDescription/text() |Discontinued|
+| let | intCd03| body |//series[3]/interest/text() |null|
+| let | unpdCnt03| body |//series[3]/unpaids/text() |0|
+| let | unpdDollars03| body |//series[3]/unpaidDollars/text() |0.00|
+| let | shipDt03| body |//series[3]/shipDate/text() |2009-05-15|
+| let | paidDt03| body |//series[3]/paidDate/text() |2009-06-19|
+| let | cycleDt03| body |//series[3]/cycleDate/text() |2009-05-13|
+| let | suspendDt03| body |//series[3]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt03| body |//series[3]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt03| body |//series[3]/planCodeDate/text() |2008-04-10|
+| let | chgIntSw03| body |//series[3]/changeInterestSwitch/text() |null|
+| let | donorAcct03| body |//series[3]/customer/accountNumber/text() |135343|
+| let | lastPymtDt03| body |//series[3]/customer/lastPaymentDate/text() |2009-06-19|
+| let | recipientAcct03| body |//series[3]/recipient/accountNumber/text() |0|
+| let | recipientName03| body |//series[3]/recipient/name/text() |null|
+| let | recipientAddr103| body |//series[3]/recipient/address1/text() |null|
+| let | recipientAddr203| body |//series[3]/recipient/address2/text() |null|
+| let | recipientAddr303| body |//series[3]/recipient/address3/text() |null|
+| let | recipientCity03| body |//series[3]/recipient/city/text() |null|
+| let | recipientState03| body |//series[3]/recipient/state/text() |null|
+| let | recipientZip03| body |//series[3]/recipient/zipCode/text() |null|
+| let | recipientCntry03| body |//series[3]/recipient/country/text() |null|
+| let | recipientCntryCd03| body |//series[3]/recipient/countryCode/text() |null|
+| let | recipientExpCntry03| body |//series[3]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity03| body |//series[3]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd03| body |//series[3]/recipient/foreignpostalCode/text() |null|
+| let | pymtCcType03| body |//series[3]/payment/creditCardType/text() |null|
+| let | pymtCcNbr03| body |//series[3]/payment/creditCardNumber/text() |0000|
+| let | pymtCcExpireMm03| body |//series[3]/payment/creditCardExpireMonth/text() |00|
+| let | pymtCcExpireYy03| body |//series[3]/payment/creditCardExpireYear/text() |00|

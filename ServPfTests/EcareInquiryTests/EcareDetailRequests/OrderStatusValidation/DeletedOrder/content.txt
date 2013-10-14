@@ -1,0 +1,43 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate A Deleted Order (invoice 1478 for acct 72322 was deleted)
+!4 eCare request for Cust Sum info won't return this order, so this detail request should never happen in live production.
+!4  But if it does it will return the order information and nothing says it's deleted in this request
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112180125234001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=72322| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |72322|
+| let | orderNbr| body |//order/orderNumber/text() |112180125234001|
+| let | name | body |//customer/name/text() |FIRST CHURCH OF CHRIST,|
+| let | addrLine01 | body |//customer/address1/text() |SCIENTIST|
+| let | addrLine02 | body |//customer/address2/text() |PO BOX 216|
+| let | addrLine03 | body |//customer/address3/text() |null|
+| let | city | body |//customer/city/text() |GIG HARBOR|
+| let | state | body |//customer/state/text() |WA|
+| let | country | body |//customer/country/text() |UNITED STATES|
+| let | zipCode | body |//customer/zipCode/text() |98335|
+| let | phone1| body |//customer/phoneNumber/text() |2535497777|
+| let | expndcountry | body |//customer/expandedCountry/text() |null|
+| let | expndcity | body |//customer/expandedCity/text() |null|
+| let | foreignPostalCode | body |//customer/foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$79.72|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |15.63|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |G750B50816EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In Process|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |21.00|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |249706|
+| let | rcptName01 | body |//orderItem[1]/recipient/name/text() |B FOLTZ|
+| let | rcptAddrLine101 | body |//orderItem[1]/recipient/address1/text() |1527 13TH AVE|
+| let | rcptAddrLine201 | body |//orderItem[1]/recipient/address2/text() |null|
+| let | rcptCity01 | body |//orderItem[1]/recipient/city/text() |FOX ISLAND|
+| let | rcptstate01 | body |//orderItem[1]/recipient/state/text() |WA|
+| let | rcptzipCode01 | body |//orderItem[1]/recipient/zipCode/text() |98333|
+| let | rcptCntry01 | body |//orderItem[1]/recipient/country/text() |UNITED STATES|

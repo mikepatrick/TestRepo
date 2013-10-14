@@ -1,0 +1,11 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Order sum with CONTSW = N for a single sales order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/375624160?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |375624160|
+| let | invoiceNbr01 | body |//orderSummary[1]/invoiceNumber/text() |1000|
+| let | orderEntry01 | body |//orderSummary[1]/orderEntry/text() |INTERNET|
+| let | planCode01 | body |//orderSummary[1]/planCode/text() |null|

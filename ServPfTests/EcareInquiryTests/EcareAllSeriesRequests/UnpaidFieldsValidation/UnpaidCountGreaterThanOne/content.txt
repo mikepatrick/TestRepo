@@ -1,0 +1,50 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Unpaid count greater than one
+!4 Plan TSA, acct 283930485, dsacct 335662599 has UNPCRDFILE = 3 and UNPDOLLARS = 52.20
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=283930485|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |B|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |MAT|
+| let | planSts01| body |//series[1]/planStatus/text() |D|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |0|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |0.00|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |283930485|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|
+| let | ordTyp02| body |//series[2]/orderType/text() |B|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |PBZ|
+| let | planSts02| body |//series[2]/planStatus/text() |F|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |0|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |0.00|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |283930485|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |335662599|
+| let | ordTyp03| body |//series[3]/orderType/text() |B|
+| let | qty03| body |//series[3]/quantity/text() |1|
+| let | planCd03| body |//series[3]/planCode/text() |PZU|
+| let | planSts03| body |//series[3]/planStatus/text() |F|
+| let | unpdCnt03| body |//series[3]/unpaids/text() |0|
+| let | unpdDollars03| body |//series[3]/unpaidDollars/text() |0.00|
+| let | donorAcct03| body |//series[3]/customer/accountNumber/text() |283930485|
+| let | recipientAcct03| body |//series[3]/recipient/accountNumber/text() |335662599|
+| let | ordTyp04| body |//series[4]/orderType/text() |B|
+| let | qty04| body |//series[4]/quantity/text() |1|
+| let | planCd04| body |//series[4]/planCode/text() |MAT|
+| let | planSts04| body |//series[4]/planStatus/text() |F|
+| let | unpdCnt04| body |//series[4]/unpaids/text() |0|
+| let | unpdDollars04| body |//series[4]/unpaidDollars/text() |0.00|
+| let | donorAcct04| body |//series[4]/customer/accountNumber/text() |283930485|
+| let | recipientAcct04| body |//series[4]/recipient/accountNumber/text() |335662599|
+| let | ordTyp05| body |//series[5]/orderType/text() |B|
+| let | qty05| body |//series[5]/quantity/text() |1|
+| let | planCd05| body |//series[5]/planCode/text() |TSA|
+| let | planSts05| body |//series[5]/planStatus/text() |L|
+| let | unpdCnt05| body |//series[5]/unpaids/text() |3|
+| let | unpdDollars05| body |//series[5]/unpaidDollars/text() |52.20|
+| let | donorAcct05| body |//series[5]/customer/accountNumber/text() |283930485|
+| let | recipientAcct05| body |//series[5]/recipient/accountNumber/text() |335662599|

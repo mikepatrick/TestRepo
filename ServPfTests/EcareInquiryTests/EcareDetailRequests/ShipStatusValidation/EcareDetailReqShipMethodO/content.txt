@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = O)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112027015252008?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=41269| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |41269|
+| let | orderNbr| body |//order/orderNumber/text() |112027015252008|
+| let | planCode| body |//order/planCode/text() |CLP|
+| let | ordVal| body |//order/totalOrderValue/text() |$38.45|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |CLP1204C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 01-30-2012   via FEDEX Priority Overnight|
+| let | qty01| body |//orderItem[1]/quantity/text() |5|
+| let | prodVal01| body |//orderItem[1]/value/text() |7.69|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |O|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|

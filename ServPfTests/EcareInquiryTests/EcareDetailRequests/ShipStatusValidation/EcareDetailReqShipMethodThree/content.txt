@@ -1,0 +1,50 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = 3) 
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/113184134456001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=72322| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |72322|
+| let | orderNbr| body |//order/orderNumber/text() |113184134456001|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$94.25|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |16.25|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |G600G50634EN|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 07-08-2013   via UPS Ground|
+| let | qty01| body |//orderItem[1]/quantity/text() |1|
+| let | prodVal01| body |//orderItem[1]/value/text() |8.00|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |1Z0434690305872785|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |3|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |135343 |
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |N|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |G925B50620EN|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |Shipped 07-08-2013   via UPS Ground|
+| let | qty02| body |//orderItem[2]/quantity/text() |1|
+| let | prodVal02| body |//orderItem[2]/value/text() |38.00|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |1Z0434690305872785|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |3|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |135343 |
+| let | orderType03| body |//orderItem[3]/orderTypeCode/text() |N|
+| let | prodNbr03| body |//orderItem[3]/productNumber/text() |P025B34090SP|
+| let | orderSts03| body |//orderItem[3]/orderStatus/text() |Shipped 07-08-2013   via UPS Ground|
+| let | qty03| body |//orderItem[3]/quantity/text() |1|
+| let | prodVal03| body |//orderItem[3]/value/text() |16.00|
+| let | seqNbr03| body |//orderItem[3]/sequenceNumber/text() |3|
+| let | trkNbr01| body |//orderItem[3]/trackingNumber/text() |1Z0434690305872785|
+| let | carrierCd03| body |//orderItem[3]/carrier/text() |3|
+| let | rcptAcctNbr03| body |//orderItem[3]/recipient/accountNumber/text() |135343 |
+| let | orderType04| body |//orderItem[4]/orderTypeCode/text() |N|
+| let | prodNbr04| body |//orderItem[4]/productNumber/text() |CLP1307|
+| let | orderSts04| body |//orderItem[4]/orderStatus/text() |Shipped 07-08-2013   via UPS Ground|
+| let | qty04| body |//orderItem[4]/quantity/text() |2|
+| let | prodVal04| body |//orderItem[4]/value/text() |8.00|
+| let | seqNbr04| body |//orderItem[4]/sequenceNumber/text() |4|
+| let | trkNbr04| body |//orderItem[4]/trackingNumber/text() |1Z0434690305872785|
+| let | carrierCd04| body |//orderItem[4]/carrier/text() |3|
+| let | rcptAcctNbr04| body |//orderItem[4]/recipient/accountNumber/text() |135343 |

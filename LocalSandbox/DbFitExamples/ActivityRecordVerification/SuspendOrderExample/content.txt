@@ -1,0 +1,11 @@
+!lastmodified ----
+
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+
+!|Inspect Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,   
+       SUBSTR(HEX(ACTMISC),1,15) AS ORDERNBR,  
+       SUBSTR(ACTMISC,9,2) AS REASON,          
+       SUBSTR(HEX(ACTMISC),21,5) AS INVOICE    
+FROM CLTLIBMSP.XACTIVITY0 WHERE TRANSTYPE = 17         -!|
+| ACCTNBR| TRANSNBR| OPERID| TRANSTYPE| ORDERNBR| REASON| INVOICE|

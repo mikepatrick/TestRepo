@@ -1,0 +1,124 @@
+!contents
+!include .ServPfTestDevelopment.DbFitExamples.GetConnection
+!|set option|fixed length string parsing|true|
+!include .ServPfTests.DefaultSettings
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order|
+|PUT|/D8X_CPP2/113280075818001?pwd=cds1001&appId=AutomatedTesting&method=PUT&xml=<transaction><transactionSource><emplId>302</emplId></transactionSource><order><invoiceNumber>1000</invoiceNumber><return>Y</return><customer><accountNumber>38049383</accountNumber></customer><orderItem><sequenceNumber>1</sequenceNumber><quantity>1</quantity><reasonCode>AB</reasonCode><moneyInd>R</moneyInd><errorSwitch>O</errorSwitch></orderItem><orderItem><sequenceNumber>2</sequenceNumber><quantity>1</quantity><reasonCode>AB</reasonCode><moneyInd>R</moneyInd><errorSwitch>O</errorSwitch></orderItem></order></transaction>| 201 |Content-Type : text/xml|//isSuccess[text()='true']||
+
+!4 Test #57 Pay Pal - Non-gift, short presettled, paid cash, with another credit order, cash refund
+
+
+!3 Now verify the 04 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(ACTMISC,9,2) AS RSN,                 
+    SUBSTR(ACTMISC,11,12) AS PRODNBR,                   
+    SUBSTR(HEX(ACTMISC),57,3) AS QTY,               
+    SUBSTR(HEX(ACTMISC),61,7) AS PRODVL,                   
+    SUBSTR(HEX(ACTMISC),69,7) AS TAX,                
+    SUBSTR(HEX(ACTMISC),77,5) AS SH,                
+    SUBSTR(HEX(ACTMISC),83,5) AS DISC,                   
+    SUBSTR(HEX(ACTMISC),89,5) AS COUP,
+    SUBSTR(HEX(ACTMISC),95,5) AS MISC,               
+    SUBSTR(HEX(ACTMISC),101,5) AS INVOICE,
+    SUBSTR(ACTMISC,54,1) AS STOCKSW,  
+    SUBSTR(ACTMISC,55,1) AS HOWAPPL,  
+    SUBSTR(ACTMISC,56,1) AS GIFTKITSW,
+    SUBSTR(HEX(ACTMISC),113,3) AS ITMSEQ, 
+    SUBSTR(ACTMISC,59,2) AS CLMRTN
+        FROM CLTLIBd8x.XACTIVITY0 WHERE TRANSTYPE = 04
+         AND ACCTNBR = 38049383
+         AND TRANSNBR > 113280000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|RSN|PRODNBR|QTY|PRODVL|TAX|SH|DISC|COUP|MISC|INVOICE|STOCKSW|HOWAPPL|GIFTKITSW|ITMSEQ|CLMRTN|
+|38049383||302|4|113280075818001|AB|'P-CH16      '|001|0001197|0000000|00162|00000|00000|00000|01000|N|N|N|001|'  '|
+|38049383||302|4|113280075818001|AB|'CH17        '|001|0002450|0000000|00333|00000|00000|00000|01000|N|N|N|002|'  '|
+
+
+
+!3 Now verify the 03 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                 
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                   
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                  
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,               
+    SUBSTR((ACTMISC),27,1) AS APPIND,                   
+    SUBSTR(HEX(ACTMISC),55,7) AS DEPDAT,                
+    SUBSTR(HEX(ACTMISC),63,5) AS BATNBR,                
+    SUBSTR(ACTMISC,35,1) AS HOWCRTD,
+    SUBSTR((ACTMISC),39,9) AS CHKNBR,                   
+    SUBSTR((ACTMISC),48,2) AS PRETYP                    
+         FROM CLTLIBD8X.XACTIVITY0 WHERE TRANSTYPE = 3  
+         AND ACCTNBR = 38049383  
+         AND TRANSNBR > 113283000000001                -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMTPD|PAYMTD|BILKEY|INVOICE|APPIND|DEPDAT?|BATNBR?|HOWCRTD|CHKNBR|PRETYP|
+|38049383||302|3|000000000000000|0000552|E|'          '|01001|B|||A|'         '|'  '|
+
+
+!3 Now verify the 15 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1 ,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMTPD,                 
+    SUBSTR((ACTMISC),13,1) AS PAYMTD,                   
+    SUBSTR((ACTMISC),14,10) AS BILKEY,                  
+    SUBSTR(HEX(ACTMISC),47,5) AS INVOICE,               
+    SUBSTR((ACTMISC),27,1) AS APPIND,                   
+    SUBSTR((ACTMISC),28,1) AS HOWCRTD                     
+    FROM CLTLIBD8X.XACTIVITY0 WHERE TRANSTYPE = 15
+         AND ACCTNBR = 38049383
+         AND TRANSNBR > 113127000000001                          -!|
+|ACCTNBR| TRANSNBR?|OPERID|TRANSTYPE|ORDNBR         |AMTPD  |PAYMTD|BILKEY|INVOICE|APPIND|HOWCRTD|
+|38049383||302|15|113280080344001|0000495|E|'          '|01001|C|A|
+|38049383||302|15|000000000000000|0000057|E|'          '|01000|A|A|
+
+
+!3 Now verify the 05 activities that relate to this order. We don't verify transaction number this time, since we don't know it.
+!|Query|!- SELECT ACCTNBR, TRANSNBR, OPERID, TRANSTYPE,            
+    SUBSTR(HEX(ACTMISC),1,15) AS ORDNBR,               
+    SUBSTR(HEX(ACTMISC),17,7) AS AMT,
+    SUBSTR(ACTMISC,13,1) AS MTHD,                 
+    SUBSTR(ACTMISC,14,1) AS RSN,                 
+    SUBSTR(ACTMISC,15,1) AS HOWCRTD,
+    SUBSTR(HEX(ACTMISC),31,7) AS RPTDATE,                   
+    SUBSTR(ACTMISC,20,1) AS RPTUNDELV,               
+    SUBSTR(ACTMISC,21,1) AS REAPPLIED,                   
+    SUBSTR(ACTMISC,22,3) AS MIGPRODABBR,                
+    SUBSTR(ACTMISC,25,1) AS REFUNDSTS 
+         FROM CLTLIBd8x.XACTIVITY0 WHERE TRANSTYPE = 05
+         AND ACCTNBR = 38049383
+         AND TRANSNBR > 113280000000001                        -!|
+|ACCTNBR|TRANSNBR?|OPERID|TRANSTYPE|ORDNBR|AMT|MTHD|RSN|HOWCRTD|RPTDATE|RPTUNDELV|REAPPLIED|MIGPRODABBR|REFUNDSTS|
+|38049383||302|5|113280075818001|0003590|A|A|A|0000000|' '| ' '| '   '| ' '|
+
+
+!3 Now verify the XCUSTSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, BALANCE, TOTPDVALUE, CREDCARDAR,
+          MAXSSEFF, MX2SSEFF, MAXFPPEFF, MX2FPPEFF, MAX2PPEFF, MX22PPEFF, MAXSEREFF, MX2SEREFF
+         FROM CLTLIBd8x.XCUSTSUM0 
+        WHERE ACCTNBR = 38049383
+          AND PRODABBR = 'CPP'                     -!|
+|ACCTNBR|PRODABBR|BALANCE| TOTPDVALUE|CREDCARDAR|MAXSSEFF|MX2SSEFF|MAXFPPEFF|MX2FPPEFF|MAX2PPEFF|MX22PPEFF|MAXSEREFF|MX2SEREFF|
+|38049383|CPP|0.57|5.52|0.00|0|0|0|0|0|0|0|0|
+
+
+!3 Now verify the XORDERSUM0 file
+!|Query|!- SELECT ACCTNBR, PRODABBR, ORDERNBR, INVOICENBR, AMTDUE, CREDITSTS, ORDSTATUS, LASTBILLDT,
+                  INSTALLSW, ANCLLRYSW, INSTALLALW, INSTALLSNT, INSTALLAMT, INSTALLAMD, LFOUTSTAND
+         FROM CLTLIBd8x.XORDERSUM0 
+        WHERE ACCTNBR = 38049383
+          AND ORDERNBR = 113280075818001                                   -!|
+|ACCTNBR|PRODABBR|ORDERNBR|INVOICENBR |AMTDUE|CREDITSTS |ORDSTATUS |LASTBILLDT|INSTALLSW |ANCLLRYSW |INSTALLALW |INSTALLSNT  |INSTALLAMT |INSTALLAMD |LFOUTSTAND|
+|38049383|CPP|113280075818001|1000|0.00|N|F|0|Y|A|02|01|41.42|0.00|0.00|
+
+!3 Now verify the XORDERDTL0 file
+!|Query|!- SELECT ACCTNBR, DSACCTNBR, PRODABBR, ORDERNBR, ITMSEQNUM, PRODNBR, ORDERTYPE, QTYORDERED, 
+                  ORDDETSTAT, SERVICECDE, SHIPIND, ITMQTYRET, ITMQTYCAN, QTYTORSHP
+         FROM CLTLIBd8x.XORDERDTL0 
+        WHERE ACCTNBR = 38049383
+          AND ORDERNBR = 113280075818001                                 -!|
+|ACCTNBR| DSACCTNBR| PRODABBR| ORDERNBR|ITMSEQNUM| PRODNBR|ORDERTYPE|QTYORDERED|ORDDETSTAT|SERVICECDE?|SHIPIND| ITMQTYRET| ITMQTYCAN|QTYTORSHP|
+|38049383|0|CPP|113280075818001|1|'P-CH16      '|N|1|C|'I '|Y|1|0|0|
+|38049383|0|CPP|113280075818001|2|'CH17        '|N|1|C|'I '|Y|1|0|0|

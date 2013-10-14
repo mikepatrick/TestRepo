@@ -1,0 +1,80 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Address for Canadian Recipient
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=348847567|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |C|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |PZC|
+| let | freq01| body |//series[1]/frequency/text() |1|
+| let | planDesc01| body |//series[1]/planDescription/text() |PUZZLEMANIA CANADA|
+| let | planSts01| body |//series[1]/planStatus/text() |F|
+| let | intCd01| body |//series[1]/interest/text() |null|
+| let | unpdCnt01| body |//series[1]/unpaids/text() |0|
+| let | unpdDollars01| body |//series[1]/unpaidDollars/text() |0.00|
+| let | shipDt01| body |//series[1]/shipDate/text() |2012-09-24|
+| let | paidDt01| body |//series[1]/paidDate/text() |2012-09-24|
+| let | cycleDt01| body |//series[1]/cycleDate/text() |2012-09-21|
+| let | suspendDt01| body |//series[1]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt01| body |//series[1]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt01| body |//series[1]/planCodeDate/text() |2010-10-14|
+| let | chgIntSw01| body |//series[1]/changeInterestSwitch/text() |null|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |348847567|
+| let | lastPymtDt01| body |//series[1]/customer/lastPaymentDate/text() |2012-09-24|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |348847575|
+| let | recipientName01| body |//series[1]/recipient/name/text() |A-C- S-BRAMWELL|
+| let | recipientAddr101| body |//series[1]/recipient/address1/text() |2 CASSINO PL|
+| let | recipientAddr201| body |//series[1]/recipient/address2/text() |null|
+| let | recipientAddr301| body |//series[1]/recipient/address3/text() |null|
+| let | recipientCity01| body |//series[1]/recipient/city/text() |ST. JOHN'S|
+| let | recipientState01| body |//series[1]/recipient/state/text() |NL|
+| let | recipientZip01| body |//series[1]/recipient/zipCode/text() |A1A3X3|
+| let | recipientCntry01| body |//series[1]/recipient/country/text() |CANADA|
+| let | recipientCntryCd01| body |//series[1]/recipient/countryCode/text() |null|
+| let | recipientExpCntry01| body |//series[1]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity01| body |//series[1]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd01| body |//series[1]/recipient/foreignPostalCode/text() |null|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |VI|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |6877|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |02|
+| let | pymtCcEpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |14|
+| let | ordTyp02| body |//series[2]/orderType/text() |C|
+| let | qty02| body |//series[2]/quantity/text() |1|
+| let | planCd02| body |//series[2]/planCode/text() |PBC|
+| let | freq02| body |//series[2]/frequency/text() |25|
+| let | planDesc02| body |//series[2]/planDescription/text() |HIGHLIGHTS PUZZLE CLUB CANADA|
+| let | planSts02| body |//series[2]/planStatus/text() |A|
+| let | intCd02| body |//series[2]/interest/text() |null|
+| let | unpdCnt02| body |//series[2]/unpaids/text() |0|
+| let | unpdDollars02| body |//series[2]/unpaidDollars/text() |0.00|
+| let | shipDt02| body |//series[2]/shipDate/text() |2012-09-23|
+| let | paidDt02| body |//series[2]/paidDate/text() |2012-09-23|
+| let | cycleDt02| body |//series[2]/cycleDate/text() |2012-09-21|
+| let | suspendDt02| body |//series[2]/suspendDate/text() |0000-00-00|
+| let | resumeServiceDt02| body |//series[2]/resumeServiceDate/text() |0000-00-00|
+| let | planCdDt02| body |//series[2]/planCodeDate/text() |2011-04-25|
+| let | chgIntSw02| body |//series[2]/changeInterestSwitch/text() |null|
+| let | donorAcct02| body |//series[2]/customer/accountNumber/text() |348847567|
+| let | lastPymtDt02| body |//series[2]/customer/lastPaymentDate/text() |2012-09-23|
+| let | recipientAcct02| body |//series[2]/recipient/accountNumber/text() |356289595|
+| let | recipientName02| body |//series[2]/recipient/name/text() |THE DOMINIC FAMILY|
+| let | recipientAddr102| body |//series[2]/recipient/address1/text() |2 CASSINO PL|
+| let | recipientAddr202| body |//series[2]/recipient/address2/text() |null|
+| let | recipientAddr302| body |//series[2]/recipient/address3/text() |null|
+| let | recipientCity02| body |//series[2]/recipient/city/text() |ST. JOHN'S|
+| let | recipientState02| body |//series[2]/recipient/state/text() |NL|
+| let | recipientZip02| body |//series[2]/recipient/zipCode/text() |A1A3X3|
+| let | recipientCntry02| body |//series[2]/recipient/country/text() |CANADA|
+| let | recipientCntryCd02| body |//series[2]/recipient/countryCode/text() |null|
+| let | recipientExpCountry02| body |//series[2]/recipient/expandedCountry/text() |null|
+| let | recipientExpCity02| body |//series[2]/recipient/expandedCity/text() |null|
+| let | recipientForgnPostalCd02| body |//series[2]/recipient/foreignPostalCode/text() |null|
+| let | pymtCcType02| body |//series[2]/payment/creditCardType/text() |VI|
+| let | pymtCcNbr02| body |//series[2]/payment/creditCardNumber/text() |6877|
+| let | pymtCcExpireMm02| body |//series[2]/payment/creditCardExpireMonth/text() |02|
+| let | pymtCcExpireYy02| body |//series[2]/payment/creditCardExpireYear/text() |14|
+
+

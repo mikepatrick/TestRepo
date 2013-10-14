@@ -8,11 +8,12 @@
 	<Refactor/>
 	<Search/>
 	<Suites/>
+	<Test/>
 	<Versions/>
 	<WhereUsed/>
 	<WikiImport>
 		<Source>http://test-mag3.buysub.com:8090/ServPfTests.HardshipBillingTests</Source>
-		<LastRemoteModification>20130129093502</LastRemoteModification>
+		<LastRemoteModification>20130822123545</LastRemoteModification>
 		<AutoUpdate/>
 	</WikiImport>
 </properties>

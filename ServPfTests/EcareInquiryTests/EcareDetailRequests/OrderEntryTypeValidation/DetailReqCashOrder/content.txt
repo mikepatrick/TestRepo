@@ -1,0 +1,43 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Cash order
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112031131709001?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=155515 | 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//accountNumber/text() |155515  |
+| let | orderNbr| body |//order/orderNumber/text() |112031131709001|
+| let | name | body |//name/text() |CHICAGO SUN-TIMES|
+| let | addrLine01 | body |//address1/text() |ATTN:JENNY FLEISHMAN|
+| let | addrLine02 | body |//address2/text() |350 NORTH ORLEANS ST STE 9-N|
+| let | addrLine03 | body |//address3/text() |null|
+| let | city | body |//city/text() |CHICAGO|
+| let | state | body |//state/text() |IL|
+| let | country | body |//country/text() |UNITED STATES|
+| let | zipCode | body |//zipCode/text() |60654|
+| let | phone1| body |//phoneNumber/text() |3123212522|
+| let | expndcountry | body |//expandedCountry/text() |null|
+| let | expndcity | body |//expandedCity/text() |null|
+| let | foreignPostalCode | body |//foreignPostalCode/text() |null|
+| let | planCode| body |//order/planCode/text() |null|
+| let | ordVal| body |//order/totalOrderValue/text() |$141.79|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |19.39|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |P025B11075RU|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |In the warehouse to ship|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |14.40|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |null|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |null|
+| let | orderType02| body |//orderItem[2]/orderTypeCode/text() |N|
+| let | prodNbr02| body |//orderItem[2]/productNumber/text() |P025B11299PG|
+| let | orderSts02| body |//orderItem[2]/orderStatus/text() |In the warehouse to ship|
+| let | qty02| body |//orderItem[2]/quantity/text() |2|
+| let | prodVal02| body |//orderItem[2]/value/text() |18.00|
+| let | trkNbr02| body |//orderItem[2]/trackingNumber/text() |null|
+| let | seqNbr02| body |//orderItem[2]/sequenceNumber/text() |2|
+| let | carrierCd02| body |//orderItem[2]/carrier/text() |null|
+| let | rcptAcctNbr02| body |//orderItem[2]/recipient/accountNumber/text() |null|

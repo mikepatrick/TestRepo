@@ -1,0 +1,23 @@
+!lastmodified -----
+
+!include .ServPfTests.DefaultSettings
+
+!3 Validate Ship method (ODASHPMTD = 7)
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/order/DEXFCR/|
+|GET|/112006030018016?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=37531| 200 |Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | accountNumber| body |//customer/accountNumber/text() |37531|
+| let | orderNbr| body |//order/orderNumber/text() |112006030018016|
+| let | planCode| body |//order/planCode/text() |STL|
+| let | ordVal| body |//order/totalOrderValue/text() |$3.40|
+| let | ordTax| body |//order/totalOrderTax/text() |0.00|
+| let | ordSh| body |//order/totalOrderPostageHandling/text() |0.00|
+| let | orderType01| body |//orderItem[1]/orderTypeCode/text() |N|
+| let | prodNbr01| body |//orderItem[1]/productNumber/text() |STL1207C|
+| let | orderSts01| body |//orderItem[1]/orderStatus/text() |Shipped 01-10-2012   via USPS Media Mail Standard A Enclosure|
+| let | qty01| body |//orderItem[1]/quantity/text() |2|
+| let | prodVal01| body |//orderItem[1]/value/text() |1.70|
+| let | seqNbr01| body |//orderItem[1]/sequenceNumber/text() |1|
+| let | trkNbr01| body |//orderItem[1]/trackingNumber/text() |null|
+| let | carrierCd01| body |//orderItem[1]/carrier/text() |7|
+| let | rcptAcctNbr01| body |//orderItem[1]/recipient/accountNumber/text() |37556|

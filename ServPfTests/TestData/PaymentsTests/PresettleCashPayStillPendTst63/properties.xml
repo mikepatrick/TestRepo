@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<properties>
+	<Files>true</Files>
+	<Help/>
+	<Properties>true</Properties>
+	<RecentChanges>true</RecentChanges>
+	<Refactor>true</Refactor>
+	<Search>true</Search>
+	<Suites/>
+	<Versions>true</Versions>
+	<WhereUsed>true</WhereUsed>
+	<WikiImport>
+		<Source>http://test-mag3.buysub.com:8090/ServPfTests.TestData.PaymentsTests.PresettleCashPayStillPendTst63</Source>
+		<LastRemoteModification>20130718125117</LastRemoteModification>
+		<AutoUpdate/>
+	</WikiImport>
+</properties>

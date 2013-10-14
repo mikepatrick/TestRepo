@@ -1,0 +1,22 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Credit Card Plan
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DIXHF1|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=267215051|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp01| body |//series[1]/orderType/text() |C|
+| let | qty01| body |//series[1]/quantity/text() |1|
+| let | planCd01| body |//series[1]/planCode/text() |TSA|
+| let | freq01| body |//series[1]/frequency/text() |24|
+| let | planDesc01| body |//series[1]/planDescription/text() |TOP SECRET ADVENTURES|
+| let | planSts01| body |//series[1]/planStatus/text() |F|
+| let | planStsDesc01| body |//series[1]/planStatusDescription/text() |Finished|
+| let | donorAcct01| body |//series[1]/customer/accountNumber/text() |267215051|
+| let | recipientAcct01| body |//series[1]/recipient/accountNumber/text() |0|
+| let | pymtCcType01| body |//series[1]/payment/creditCardType/text() |DS|
+| let | pymtCcNbr01| body |//series[1]/payment/creditCardNumber/text() |6177|
+| let | pymtCcExpireMm01| body |//series[1]/payment/creditCardExpireMonth/text() |11|
+| let | pymtCcExpireYy01| body |//series[1]/payment/creditCardExpireYear/text() |13|

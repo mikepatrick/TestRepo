@@ -1,0 +1,9 @@
+!lastmodified -----
+!include .ServPfTests.DefaultSettings
+
+!3 The old email address clarkpat1979@verizon.net is used for the search, but the current email is returned.
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/customer/DIXHF1/|
+|GET|/clarkpat1979@verizon.net?pwd=cds1001&appId=AutomatedTesting&method=GET| 200 |Content-Type : text/xml|//isSuccess[text()='true']|
+| let | accountNumber| body |//accountNumber/text() |3331964|
+| let | email | body |//email/text() |pat111658@gmail.com|

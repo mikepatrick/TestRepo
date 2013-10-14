@@ -1,0 +1,20 @@
+!lastmodified -----
+!contents
+!include .ServPfTests.DefaultSettings
+
+!3 Plan CQF, acct 82347, dsacct 82354 have LDUPNOPROD = 15 and LDUPINSTLL = Y
+!4 Load Up information is not returned back for eCare/Stores inquiries
+
+
+!|smartrics.rest.fitnesse.fixture.CdsRestFixture|https://qa-service.mycdsglobal.com/ws/service/series/DEXFCR|
+|GET|/?pwd=cds1001&appId=AutomatedTesting&method=GET&accountNumber=82347|200|Content-Type : text/xml|//isSuccess[text()='true'] |
+| let | ordTyp05| body |//series[5]/orderType/text() |B|
+| let | qty05| body |//series[5]/quantity/text() |1|
+| let | planCd05| body |//series[5]/planCode/text() |CQF|
+| let | freq05| body |//series[5]/frequency/text() |75|
+| let | planDesc05| body |//series[5]/planDescription/text() |FRENCH CITATION EDITION QRTLY|
+| let | planSts05| body |//series[5]/planStatus/text() |A|
+| let | interest05| body |//series[5]/interest/text() |null|
+| let | chginterestSw05| body |//series[5]/changeInterestSwitch/text() |Y|
+| let | donorAcct05| body |//series[5]/customer/accountNumber/text() |82347|
+| let | recipientAcct05| body |//series[5]/recipient/accountNumber/text() |82354|
